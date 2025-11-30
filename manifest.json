@@ -1,0 +1,40 @@
+{
+  "manifest_version": 3,
+  "name": "AWS Favorites Quickbar",
+  "version": "1.0.0",
+  "description": "Automatically populate AWS Console favorites bar with your favorite services and recently visited services",
+  "permissions": ["storage"],
+  "host_permissions": ["https://*.console.aws.amazon.com/*"],
+  "content_scripts": [
+    {
+      "matches": ["https://*.console.aws.amazon.com/*"],
+      "js": [
+        "src/utils/dom.js",
+        "src/utils/storage.js",
+        "src/utils/region.js",
+        "src/services/icon-extractor.js",
+        "src/services/icon-validator.js",
+        "src/services/recently-visited-parser.js",
+        "src/services/service-merger.js",
+        "src/quickbar/css-extractor.js",
+        "src/quickbar/dom-builder.js",
+        "src/quickbar/injector.js",
+        "src/content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

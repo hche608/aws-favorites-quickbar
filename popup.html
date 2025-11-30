@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AWS Favorites Quickbar</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>AWS Favorites</h1>
+      <p class="subtitle">Configure your favorite AWS services</p>
+    </header>
+
+    <div class="search-container">
+      <input 
+        type="text" 
+        id="searchInput" 
+        placeholder="Search services..." 
+        autocomplete="off"
+      >
+    </div>
+
+    <div class="settings-container">
+      <label for="maxServicesInput">Max services in quickbar:</label>
+      <input 
+        type="number" 
+        id="maxServicesInput" 
+        min="1" 
+        max="50" 
+        value="10"
+      >
+    </div>
+
+    <div id="serviceList" class="service-list">
+      <!-- Services will be dynamically loaded here -->
+    </div>
+
+    <div id="emptyState" class="empty-state" style="display: none;">
+      <p>No favorites pinned yet.</p>
+      <p class="hint">Search and click services above to pin them to your favorites.</p>
+    </div>
+
+    <div id="errorState" class="error-state" style="display: none;">
+      <p>Failed to load services.</p>
+      <button id="retryButton">Retry</button>
+    </div>
+  </div>
+
+  <script type="module" src="src/popup.js"></script>
+</body>
+</html>

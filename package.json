@@ -1,0 +1,19 @@
+{
+  "name": "aws-favorites-quickbar",
+  "version": "1.0.0",
+  "description": "Chrome extension to populate AWS Console favorites bar",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:verbose": "jest --verbose"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.0.254",
+    "@types/jest": "^29.5.11",
+    "canvas": "^2.11.2",
+    "fast-check": "^3.15.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0"
+  }
+}
