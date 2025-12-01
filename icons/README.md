@@ -9,5 +9,3 @@ This directory contains the extension icons in various sizes:
 ## Design
 
 The icons feature a white star (representing favorites) on an AWS orange gradient background. The larger icons (48px and 128px) also include three horizontal lines below the star, representing the quickbar/list functionality.
-
-The icons were generated using the `generate-icons.js` script in the root directory.

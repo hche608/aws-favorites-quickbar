@@ -8,20 +8,7 @@
   "content_scripts": [
     {
       "matches": ["https://*.console.aws.amazon.com/*"],
-      "js": [
-        "node_modules/webextension-polyfill/dist/browser-polyfill.min.js",
-        "src/utils/dom.js",
-        "src/utils/storage.js",
-        "src/utils/region.js",
-        "src/services/icon-extractor.js",
-        "src/services/icon-validator.js",
-        "src/services/recently-visited-parser.js",
-        "src/services/service-merger.js",
-        "src/quickbar/css-extractor.js",
-        "src/quickbar/dom-builder.js",
-        "src/quickbar/injector.js",
-        "src/content.js"
-      ],
+      "js": ["content.js"],
       "run_at": "document_idle"
     }
   ],
@@ -37,8 +24,5 @@
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
-  },
-  "data_collection_permissions": {
-    "collects_data": false
   }
 }
