@@ -4,32 +4,35 @@ import * as esbuild from 'esbuild';
 import * as path from 'path';
 
 async function bundle(): Promise<void> {
+  const isProduction = process.env.NODE_ENV === 'production';
+
+  const buildOptions: esbuild.BuildOptions = {
+    bundle: true,
+    format: 'iife',
+    platform: 'browser',
+    target: 'es2020',
+    minify: isProduction,
+    sourcemap: !isProduction,
+    treeShaking: true,
+    external: []
+  };
+
   try {
     // Bundle content script
     await esbuild.build({
+      ...buildOptions,
       entryPoints: ['src/content.ts'],
-      bundle: true,
-      outfile: 'dist/content.js',
-      format: 'iife',
-      platform: 'browser',
-      target: 'es2020',
-      sourcemap: true,
-      external: []
+      outfile: 'dist/content.js'
     });
 
     // Bundle popup script
     await esbuild.build({
+      ...buildOptions,
       entryPoints: ['src/popup.ts'],
-      bundle: true,
-      outfile: 'dist/popup.js',
-      format: 'iife',
-      platform: 'browser',
-      target: 'es2020',
-      sourcemap: true,
-      external: []
+      outfile: 'dist/popup.js'
     });
 
-    console.log('✓ Bundling complete');
+    console.log(`✓ Bundling complete (${isProduction ? 'production' : 'development'} mode)`);
   } catch (error) {
     console.error('Bundling failed:', error);
     process.exit(1);

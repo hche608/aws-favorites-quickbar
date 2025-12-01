@@ -7,6 +7,7 @@
     "clean": "make clean",
     "compile": "tsc",
     "bundle": "tsx scripts/bundle.ts",
+    "bundle:prod": "NODE_ENV=production tsx scripts/bundle.ts",
     "build:chrome": "make build-chrome",
     "build:firefox": "make build-firefox",
     "build:all": "make build-all",
