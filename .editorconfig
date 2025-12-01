@@ -1,0 +1,67 @@
+# Bash scripts
+[*.sh]
+indent_style = space
+indent_size = 2
+end_of_line = lf
+
+# PowerShell scripts
+[*.ps1]
+indent_style = space
+indent_size = 4
+end_of_line = crlf
+
+# Terraform files
+[*.tf]
+indent_style = space
+indent_size = 2
+end_of_line = lf
+
+[*.tfvars]
+indent_style = space
+indent_size = 2
+end_of_line = lf
+
+# Ansible YAML files
+[*.yml]
+indent_style = space
+indent_size = 2
+end_of_line = lf
+
+[*.yaml]
+indent_style = space
+indent_size = 2
+end_of_line = lf
+
+# Python files
+[*.py]
+indent_style = space
+indent_size = 4
+end_of_line = lf
+trim_trailing_whitespace = true
+
+# JavaScript & TypeScript
+[*.js]
+indent_style = space
+indent_size = 2
+end_of_line = lf
+trim_trailing_whitespace = true
+
+[*.ts]
+indent_style = space
+indent_size = 2
+end_of_line = lf
+trim_trailing_whitespace = true
+
+# JSON files
+[*.json]
+indent_style = space
+indent_size = 2
+end_of_line = lf
+trim_trailing_whitespace = false
+
+# Markdown files
+[*.md]
+indent_style = space
+indent_size = 2
+end_of_line = lf
+trim_trailing_whitespace = false

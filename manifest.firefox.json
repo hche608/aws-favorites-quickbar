@@ -5,6 +5,14 @@
   "description": "Automatically populate AWS Console favorites bar with your favorite services and recently visited services",
   "permissions": ["storage"],
   "host_permissions": ["https://*.console.aws.amazon.com/*"],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "aws-favorites-quickbar@8its.pixel",
+      "data_collection_permissions": {
+        "required": ["none"]
+      }
+    }
+  },
   "content_scripts": [
     {
       "matches": ["https://*.console.aws.amazon.com/*"],
@@ -37,8 +45,5 @@
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
-  },
-  "data_collection_permissions": {
-    "collects_data": false
   }
 }

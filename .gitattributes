@@ -1,0 +1,87 @@
+*.gitattributes text=auto eol=lf
+.gitignore text=auto eol=lf
+.editorconfig text=auto eol=lf
+.terraform-version text=auto eol=lf
+
+# Ensure consistent line endings for scripts
+*.sh      eol=lf
+*.bash    eol=lf
+*.ps1     eol=crlf
+*.psm1    eol=crlf
+*.psd1    eol=crlf
+*.py      eol=lf
+*.js      eol=lf
+*.ts      eol=lf
+*.md      eol=lf
+*.tf      eol=lf
+*.tfvars  eol=lf
+*.yml     eol=lf
+*.yaml    eol=lf
+*.json    eol=lf
+*.bat     eol=crlf
+
+# Mark binary files as binary (prevents Git from modifying them)
+*.jpg     binary
+*.png     binary
+*.gif     binary
+*.ico     binary
+*.pdf     binary
+*.zip     binary
+*.tar.gz  binary
+*.mp4     binary
+*.gz      binary
+*.bz2     binary
+*.tgz     binary
+
+# Prevent large files from being diffed
+*.bin     -diff
+*.exe     -diff
+*.dll     -diff
+*.iso     -diff
+
+# Handle text files correctly (avoid merge conflicts)
+*.json    text diff=json
+*.yaml    text diff=yaml
+*.yml     text diff=yaml
+*.csv     text diff=csv
+
+# Terraform-specific settings
+*.tf      text diff=terraform
+*.tfvars  text diff=terraform
+*.hcl     text diff=terraform
+
+# Ansible playbooks, roles, and vars
+ansible.cfg text
+*.yml      text diff=yaml
+*.yaml     text diff=yaml
+group_vars/* text diff=yaml
+host_vars/* text diff=yaml
+roles/**/tasks/*.yml text diff=yaml
+roles/**/handlers/*.yml text diff=yaml
+
+# Bash Scripts
+*.sh      text eol=lf diff=bash
+
+# PowerShell Scripts
+*.ps1     text eol=crlf diff=powershell
+*.psm1    text eol=crlf diff=powershell
+*.psd1    text eol=crlf diff=powershell
+
+# Ignore generated files when exporting via `git archive`
+*.log     export-ignore
+*.tmp     export-ignore
+node_modules/* export-ignore
+.env      export-ignore
+__pycache__/* export-ignore
+dist/*    export-ignore
+build/*   export-ignore
+.DS_Store export-ignore
+Thumbs.db export-ignore
+*.tfstate  export-ignore
+*.tfstate.backup export-ignore
+.terraform/* export-ignore
+
+# Enforce specific linguistics settings
+README.md linguist-documentation
+docs/*    linguist-documentation
+*.svg     linguist-generated

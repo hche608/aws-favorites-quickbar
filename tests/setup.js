@@ -3,6 +3,11 @@
  * This file runs before all tests to configure the test environment
  */
 
+// Polyfill TextEncoder/TextDecoder for jsdom
+const { TextEncoder, TextDecoder } = require('util');
+global.TextEncoder = TextEncoder;
+global.TextDecoder = TextDecoder;
+
 // Extend Jest matchers with custom matchers for service elements
 expect.extend({
   toBeValidServiceElement(received) {

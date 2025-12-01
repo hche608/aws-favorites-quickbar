@@ -39,7 +39,7 @@ async function init() {
     
     let maxServices = 10;
     try {
-      const result = await chrome.storage.sync.get(['maxServices']);
+      const result = await browser.storage.sync.get(['maxServices']);
       if (result.maxServices && typeof result.maxServices === 'number') {
         maxServices = result.maxServices;
       }
@@ -154,7 +154,7 @@ async function init() {
   }
   }
 
-  chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
+  browser.runtime.onMessage.addListener((request, _sender, sendResponse) => {
     if (request.action === 'updateQuickbar') {
       init().then(() => {
         sendResponse({ success: true });

@@ -19,6 +19,8 @@ function mockChromeStorage() {
         let result;
         if (!keys) {
           result = { ...storage.sync.data };
+        } else if (typeof keys === 'string') {
+          result = keys in storage.sync.data ? { [keys]: storage.sync.data[keys] } : {};
         } else if (Array.isArray(keys)) {
           result = keys.reduce((acc, key) => {
             if (key in storage.sync.data) {
@@ -26,7 +28,7 @@ function mockChromeStorage() {
             }
             return acc;
           }, {});
-        } else {
+        } else if (typeof keys === 'object') {
           result = Object.keys(keys).reduce((acc, key) => {
             acc[key] = storage.sync.data[key] ?? keys[key];
             return acc;
@@ -64,6 +66,8 @@ function mockChromeStorage() {
         let result;
         if (!keys) {
           result = { ...storage.local.data };
+        } else if (typeof keys === 'string') {
+          result = keys in storage.local.data ? { [keys]: storage.local.data[keys] } : {};
         } else if (Array.isArray(keys)) {
           result = keys.reduce((acc, key) => {
             if (key in storage.local.data) {
@@ -71,7 +75,7 @@ function mockChromeStorage() {
             }
             return acc;
           }, {});
-        } else {
+        } else if (typeof keys === 'object') {
           result = Object.keys(keys).reduce((acc, key) => {
             acc[key] = storage.local.data[key] ?? keys[key];
             return acc;
@@ -216,12 +220,189 @@ function mockFetch() {
 }
 
 /**
+ * Creates a mock browser.storage API (Firefox-style, Promise-based)
+ * @returns {Object} Mock browser.storage object
+ */
+function mockBrowserStorage() {
+  const storage = {
+    sync: {
+      data: {},
+      get: jest.fn((keys) => {
+        let result;
+        if (!keys) {
+          result = { ...storage.sync.data };
+        } else if (Array.isArray(keys)) {
+          result = keys.reduce((acc, key) => {
+            if (key in storage.sync.data) {
+              acc[key] = storage.sync.data[key];
+            }
+            return acc;
+          }, {});
+        } else if (typeof keys === 'object') {
+          result = Object.keys(keys).reduce((acc, key) => {
+            acc[key] = storage.sync.data[key] ?? keys[key];
+            return acc;
+          }, {});
+        } else if (typeof keys === 'string') {
+          result = keys in storage.sync.data ? { [keys]: storage.sync.data[keys] } : {};
+        }
+        return Promise.resolve(result);
+      }),
+      set: jest.fn((items) => {
+        Object.assign(storage.sync.data, items);
+        return Promise.resolve();
+      }),
+      clear: jest.fn(() => {
+        storage.sync.data = {};
+        return Promise.resolve();
+      })
+    },
+    local: {
+      data: {},
+      get: jest.fn((keys) => {
+        let result;
+        if (!keys) {
+          result = { ...storage.local.data };
+        } else if (Array.isArray(keys)) {
+          result = keys.reduce((acc, key) => {
+            if (key in storage.local.data) {
+              acc[key] = storage.local.data[key];
+            }
+            return acc;
+          }, {});
+        } else if (typeof keys === 'object') {
+          result = Object.keys(keys).reduce((acc, key) => {
+            acc[key] = storage.local.data[key] ?? keys[key];
+            return acc;
+          }, {});
+        } else if (typeof keys === 'string') {
+          result = keys in storage.local.data ? { [keys]: storage.local.data[keys] } : {};
+        }
+        return Promise.resolve(result);
+      }),
+      set: jest.fn((items) => {
+        Object.assign(storage.local.data, items);
+        return Promise.resolve();
+      }),
+      clear: jest.fn(() => {
+        storage.local.data = {};
+        return Promise.resolve();
+      })
+    }
+  };
+
+  return storage;
+}
+
+/**
+ * Creates a mock browser.runtime API (Firefox-style, Promise-based)
+ * @returns {Object} Mock browser.runtime object
+ */
+function mockBrowserRuntime() {
+  return {
+    sendMessage: jest.fn((message) => {
+      return Promise.resolve({ success: true });
+    }),
+    onMessage: {
+      addListener: jest.fn(),
+      removeListener: jest.fn()
+    },
+    getURL: jest.fn((path) => `moz-extension://mock-id/${path}`),
+    id: 'mock-extension-id@firefox'
+  };
+}
+
+/**
+ * Creates a mock browser.tabs API (Firefox-style, Promise-based)
+ * @returns {Object} Mock browser.tabs object
+ */
+function mockBrowserTabs() {
+  return {
+    query: jest.fn((queryInfo) => {
+      return Promise.resolve([
+        {
+          id: 1,
+          url: 'https://console.aws.amazon.com/',
+          active: true,
+          windowId: 1
+        }
+      ]);
+    }),
+    sendMessage: jest.fn((tabId, message) => {
+      return Promise.resolve({ success: true });
+    }),
+    get: jest.fn((tabId) => {
+      return Promise.resolve({
+        id: tabId,
+        url: 'https://console.aws.amazon.com/',
+        active: true,
+        windowId: 1
+      });
+    })
+  };
+}
+
+/**
+ * Creates a mock chrome.tabs API (Chrome-style, callback-based)
+ * @returns {Object} Mock chrome.tabs object
+ */
+function mockChromeTabs() {
+  return {
+    query: jest.fn((queryInfo, callback) => {
+      const result = [
+        {
+          id: 1,
+          url: 'https://console.aws.amazon.com/',
+          active: true,
+          windowId: 1
+        }
+      ];
+      if (callback) {
+        callback(result);
+      }
+      return Promise.resolve(result);
+    }),
+    sendMessage: jest.fn((tabId, message, callback) => {
+      const result = { success: true };
+      if (callback) {
+        callback(result);
+      }
+      return Promise.resolve(result);
+    }),
+    get: jest.fn((tabId, callback) => {
+      const result = {
+        id: tabId,
+        url: 'https://console.aws.amazon.com/',
+        active: true,
+        windowId: 1
+      };
+      if (callback) {
+        callback(result);
+      }
+      return Promise.resolve(result);
+    })
+  };
+}
+
+/**
  * Sets up all Chrome API mocks on the global object
  */
 function setupChromeMocks() {
   global.chrome = {
     storage: mockChromeStorage(),
-    runtime: mockChromeRuntime()
+    runtime: mockChromeRuntime(),
+    tabs: mockChromeTabs()
+  };
+}
+
+/**
+ * Sets up all Firefox (browser) API mocks on the global object
+ */
+function setupFirefoxMocks() {
+  global.browser = {
+    storage: mockBrowserStorage(),
+    runtime: mockBrowserRuntime(),
+    tabs: mockBrowserTabs()
   };
 }
 
@@ -238,13 +419,43 @@ function clearChromeMocks() {
   }
 }
 
+/**
+ * Clears all Firefox (browser) API mocks
+ */
+function clearFirefoxMocks() {
+  if (global.browser) {
+    if (global.browser.storage) {
+      global.browser.storage.sync.clear();
+      global.browser.storage.local.clear();
+    }
+    jest.clearAllMocks();
+  }
+}
+
+/**
+ * Clears all browser API mocks (both Chrome and Firefox)
+ */
+function clearAllBrowserMocks() {
+  clearChromeMocks();
+  clearFirefoxMocks();
+  delete global.chrome;
+  delete global.browser;
+}
+
 module.exports = {
   mockChromeStorage,
   mockChromeRuntime,
+  mockChromeTabs,
+  mockBrowserStorage,
+  mockBrowserRuntime,
+  mockBrowserTabs,
   mockLocalStorage,
   mockMutationObserver,
   mockImage,
   mockFetch,
   setupChromeMocks,
-  clearChromeMocks
+  setupFirefoxMocks,
+  clearChromeMocks,
+  clearFirefoxMocks,
+  clearAllBrowserMocks
 };

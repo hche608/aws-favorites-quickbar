@@ -72,9 +72,9 @@ export function createDropHandler(currentFavorites, saveCallback, renderCallback
           renderCallback();
           
           // Notify tabs
-          const tabs = await chrome.tabs.query({ url: 'https://*.console.aws.amazon.com/*' });
+          const tabs = await browser.tabs.query({ url: 'https://*.console.aws.amazon.com/*' });
           for (const tab of tabs) {
-            chrome.tabs.sendMessage(tab.id, { action: 'updateQuickbar' }).catch(() => {});
+            browser.tabs.sendMessage(tab.id, { action: 'updateQuickbar' }).catch(() => {});
           }
         } catch (error) {
           console.error('AWS Favorites Quickbar: Error saving reordered favorites', error);

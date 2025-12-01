@@ -3,12 +3,13 @@
  * Requirements: 1.2
  */
 
-const { setupChromeMocks, clearChromeMocks, mockLocalStorage } = require('../../helpers/mocks');
+const { setupChromeMocks, setupFirefoxMocks, clearAllBrowserMocks, mockLocalStorage } = require('../../helpers/mocks');
 
 describe('Storage Utilities', () => {
   beforeEach(() => {
-    // Setup Chrome API mocks
+    // Setup both Chrome and Firefox API mocks (source code uses browser.*)
     setupChromeMocks();
+    setupFirefoxMocks();
     
     // Clear localStorage
     localStorage.clear();
@@ -26,7 +27,7 @@ describe('Storage Utilities', () => {
   });
 
   afterEach(() => {
-    clearChromeMocks();
+    clearAllBrowserMocks();
     localStorage.clear();
     jest.clearAllMocks();
     delete window.AWSFavoritesQuickbar;
@@ -50,14 +51,14 @@ describe('Storage Utilities', () => {
       expect(typeof savedData.timestamp).toBe('number');
     });
 
-    it('should save services to chrome.storage.local', () => {
+    it('should save services to browser.storage.local', () => {
       const services = [
         { id: 's3', name: 'S3', iconUrl: 'https://example.com/s3.png', consoleUrl: 'https://console.aws.amazon.com/s3' }
       ];
 
       window.AWSFavoritesQuickbar.saveServicesToStorage(services);
 
-      expect(chrome.storage.local.set).toHaveBeenCalledWith(
+      expect(browser.storage.local.set).toHaveBeenCalledWith(
         expect.objectContaining({
           cachedServices: expect.objectContaining({
             services: services,
@@ -99,8 +100,8 @@ describe('Storage Utilities', () => {
       jest.restoreAllMocks();
     });
 
-    it('should handle chrome.storage errors gracefully', () => {
-      chrome.storage.local.set.mockRejectedValue(new Error('Chrome storage error'));
+    it('should handle browser.storage errors gracefully', () => {
+      browser.storage.local.set.mockRejectedValue(new Error('Browser storage error'));
 
       const services = [{ id: 's3', name: 'S3' }];
       
@@ -193,18 +194,18 @@ describe('Storage Utilities', () => {
   });
 
   describe('loadUserFavorites', () => {
-    it('should load user favorites from chrome.storage.sync', async () => {
+    it('should load user favorites from browser.storage.sync', async () => {
       const favorites = [
         { id: 'dynamodb', name: 'DynamoDB', iconUrl: 'https://example.com/dynamodb.png', consoleUrl: 'https://console.aws.amazon.com/dynamodb' },
         { id: 'rds', name: 'RDS', iconUrl: 'https://example.com/rds.png', consoleUrl: 'https://console.aws.amazon.com/rds' }
       ];
 
-      // Mock chrome.storage.sync.get to return the favorites
-      chrome.storage.sync.get.mockResolvedValue({ userFavorites: favorites });
+      // Mock browser.storage.sync.get to return the favorites
+      browser.storage.sync.get.mockResolvedValue({ userFavorites: favorites });
 
       const result = await window.AWSFavoritesQuickbar.loadUserFavorites();
 
-      expect(chrome.storage.sync.get).toHaveBeenCalledWith(['userFavorites']);
+      expect(browser.storage.sync.get).toHaveBeenCalledWith(['userFavorites']);
       expect(result).toEqual(favorites);
     });
 
@@ -214,8 +215,8 @@ describe('Storage Utilities', () => {
       expect(result).toEqual([]);
     });
 
-    it('should handle chrome.storage errors gracefully', async () => {
-      chrome.storage.sync.get.mockRejectedValue(new Error('Storage error'));
+    it('should handle browser.storage errors gracefully', async () => {
+      browser.storage.sync.get.mockRejectedValue(new Error('Storage error'));
 
       const result = await window.AWSFavoritesQuickbar.loadUserFavorites();
 
@@ -227,7 +228,7 @@ describe('Storage Utilities', () => {
     });
 
     it('should handle undefined userFavorites', async () => {
-      chrome.storage.sync.data = {};
+      browser.storage.sync.data = {};
 
       const result = await window.AWSFavoritesQuickbar.loadUserFavorites();
 
@@ -235,7 +236,7 @@ describe('Storage Utilities', () => {
     });
 
     it('should handle null userFavorites', async () => {
-      chrome.storage.sync.data.userFavorites = null;
+      browser.storage.sync.data.userFavorites = null;
 
       const result = await window.AWSFavoritesQuickbar.loadUserFavorites();
 

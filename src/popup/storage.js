@@ -2,7 +2,7 @@
 
 export async function loadUserFavorites() {
   try {
-    const result = await chrome.storage.sync.get(['userFavorites']);
+    const result = await browser.storage.sync.get(['userFavorites']);
     return result.userFavorites || [];
   } catch (error) {
     console.error('AWS Favorites Quickbar: Error loading favorites', error);
@@ -12,7 +12,7 @@ export async function loadUserFavorites() {
 
 export async function saveUserFavorites(favorites) {
   try {
-    await chrome.storage.sync.set({ userFavorites: favorites });
+    await browser.storage.sync.set({ userFavorites: favorites });
     console.log('AWS Favorites Quickbar: Favorites saved', favorites);
   } catch (error) {
     console.error('AWS Favorites Quickbar: Error saving favorites', error);
@@ -58,7 +58,7 @@ export async function removeFavorite(serviceId) {
 
 export async function loadCachedServices() {
   try {
-    const result = await chrome.storage.local.get(['cachedServices']);
+    const result = await browser.storage.local.get(['cachedServices']);
     
     if (!result.cachedServices) {
       console.log('AWS Favorites Quickbar: No cached services found');
@@ -83,7 +83,7 @@ export async function loadCachedServices() {
 
 export async function loadMaxServices() {
   try {
-    const result = await chrome.storage.sync.get(['maxServices']);
+    const result = await browser.storage.sync.get(['maxServices']);
     return result.maxServices || 10;
   } catch (error) {
     console.error('AWS Favorites Quickbar: Error loading maxServices', error);
@@ -93,7 +93,7 @@ export async function loadMaxServices() {
 
 export async function saveMaxServices(value) {
   try {
-    await chrome.storage.sync.set({ maxServices: value });
+    await browser.storage.sync.set({ maxServices: value });
     console.log('AWS Favorites Quickbar: Saved maxServices:', value);
   } catch (error) {
     console.error('AWS Favorites Quickbar: Error saving maxServices', error);

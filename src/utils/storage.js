@@ -1,4 +1,4 @@
-// Storage utilities - localStorage + chrome.storage sync
+// Storage utilities - localStorage + browser.storage sync
 
 window.AWSFavoritesQuickbar = window.AWSFavoritesQuickbar || {};
 
@@ -10,8 +10,8 @@ window.AWSFavoritesQuickbar.saveServicesToStorage = function(services) {
     };
     localStorage.setItem('awsFavoritesQuickbar_services', JSON.stringify(data));
     
-    chrome.storage.local.set({ cachedServices: data }).catch(err => {
-      console.warn('AWS Favorites Quickbar: Error saving to chrome.storage', err);
+    browser.storage.local.set({ cachedServices: data }).catch(err => {
+      console.warn('AWS Favorites Quickbar: Error saving to browser.storage', err);
     });
   } catch (error) {
     console.warn('AWS Favorites Quickbar: Error saving to localStorage', error);
@@ -32,7 +32,7 @@ window.AWSFavoritesQuickbar.loadServicesFromStorage = function() {
 
 window.AWSFavoritesQuickbar.loadUserFavorites = async function() {
   try {
-    const result = await chrome.storage.sync.get(['userFavorites']);
+    const result = await browser.storage.sync.get(['userFavorites']);
     return result.userFavorites || [];
   } catch (error) {
     console.error('AWS Favorites Quickbar: Error loading favorites', error);
