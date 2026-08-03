@@ -3,6 +3,12 @@
  *
  * This module provides utilities for saving and loading services from both
  * localStorage and browser.storage APIs.
+ *
+ * Used by the content script for caching service data across page navigations.
+ *
+ * Storage pattern: explicit conditionals, no fallback logic.
+ * - If data is absent: return undefined (caller decides what to do)
+ * - If data is present: return it as-is
  */
 
 import { Service } from '../types';
@@ -19,51 +25,60 @@ interface StorageDataWithTimestamp {
 /**
  * Saves services to both localStorage and browser.storage.local
  * @param services - Array of services to save
+ * @throws Error if localStorage write fails
  */
 export function saveServicesToStorage(services: Service[]): void {
-  try {
-    const data: StorageDataWithTimestamp = {
-      services: services,
-      timestamp: Date.now()
-    };
-    localStorage.setItem('awsFavoritesQuickbar_services', JSON.stringify(data));
+  const data: StorageDataWithTimestamp = {
+    services: services,
+    timestamp: Date.now()
+  };
+  localStorage.setItem('awsFavoritesQuickbar_services', JSON.stringify(data));
 
-    storage.local.set({ cachedServices: data }).catch((err: Error) => {
-      console.warn('AWS Favorites Quickbar: Error saving to browser.storage', err);
-    });
-  } catch (error) {
-    console.warn('AWS Favorites Quickbar: Error saving to localStorage', error);
-  }
+  storage.local.set({ cachedServices: data }).catch((err: Error) => {
+    console.error('AWS Favorites Quickbar: Error saving to browser.storage', err);
+  });
 }
 
 /**
- * Loads services from localStorage
- * @returns Array of services, or empty array if none found or error occurs
+ * Loads services from localStorage.
+ *
+ * Returns undefined if no cached services exist (first visit or cleared storage).
+ * Returns the service array if cached data exists.
+ *
+ * @returns Array of services, or undefined if no cached data exists
+ * @throws Error if stored data is malformed JSON
  */
-export function loadServicesFromStorage(): Service[] {
-  try {
-    const stored = localStorage.getItem('awsFavoritesQuickbar_services');
-    if (!stored) {
-      return [];
-    }
+export function loadServicesFromStorage(): Service[] | undefined {
+  const stored = localStorage.getItem('awsFavoritesQuickbar_services');
 
-    const data = JSON.parse(stored) as StorageDataWithTimestamp;
-    return data.services || [];
-  } catch (_error) {
-    return [];
+  if (stored === null) {
+    return undefined;
   }
+
+  const data = JSON.parse(stored) as StorageDataWithTimestamp;
+
+  if (!data.services || !Array.isArray(data.services)) {
+    return undefined;
+  }
+
+  return data.services;
 }
 
 /**
- * Loads user-configured favorites from browser.storage.sync
- * @returns Promise resolving to array of service IDs, or empty array if none found or error occurs
+ * Loads user-configured favorites from browser.storage.sync.
+ *
+ * Returns undefined if no favorites have been saved yet (first launch).
+ * Returns the stored array if favorites exist (returning user).
+ *
+ * @returns Promise resolving to array of service IDs, or undefined if not yet initialized
+ * @throws Error if storage access fails
  */
-export async function loadUserFavorites(): Promise<string[]> {
-  try {
-    const result = await storage.sync.get(['userFavorites']);
-    return result.userFavorites || [];
-  } catch (error) {
-    console.error('AWS Favorites Quickbar: Error loading favorites', error);
-    return [];
+export async function loadUserFavorites(): Promise<string[] | undefined> {
+  const result = await storage.sync.get(['userFavorites']);
+
+  if (result.userFavorites === undefined) {
+    return undefined;
   }
+
+  return result.userFavorites as string[];
 }

@@ -101,6 +101,41 @@ describe('CSS Extractor', () => {
       const result = extractAWSFavoriteClasses();
       expect(result).toBeNull();
     });
+
+    it('should return null when anchor exists but has no div inside', () => {
+      const quickbar = document.createElement('ol');
+      quickbar.setAttribute('data-rbd-droppable-id', 'global-nav-favorites-bar-list-edit-mode');
+
+      const li = createMockElement('li', { className: 'globalNav-1283' });
+      const anchor = createMockElement('a', { className: 'globalNav-1215' });
+      li.appendChild(anchor);
+      quickbar.appendChild(li);
+      document.body.appendChild(quickbar);
+
+      const result = extractAWSFavoriteClasses();
+      expect(result).toBeNull();
+    });
+
+    it('should return null when label span is missing', () => {
+      const quickbar = document.createElement('ol');
+      quickbar.setAttribute('data-rbd-droppable-id', 'global-nav-favorites-bar-list-edit-mode');
+
+      const li = createMockElement('li', { className: 'globalNav-1283' });
+      const anchor = createMockElement('a', { className: 'globalNav-1215' });
+      const mainContainer = createMockElement('div', { className: 'globalNav-1286' });
+      const iconWrapper = createMockElement('div', { className: 'globalNav-1290' });
+      const icon = createMockElement('img', { className: 'globalNav-1291' });
+
+      iconWrapper.appendChild(icon);
+      mainContainer.appendChild(iconWrapper);
+      anchor.appendChild(mainContainer);
+      li.appendChild(anchor);
+      quickbar.appendChild(li);
+      document.body.appendChild(quickbar);
+
+      const result = extractAWSFavoriteClasses();
+      expect(result).toBeNull();
+    });
   });
 
   describe('waitForNativeFavorites', () => {

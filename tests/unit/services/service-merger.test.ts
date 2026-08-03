@@ -99,10 +99,7 @@ describe('service-merger', () => {
     describe('Property 2: Service merging deduplication', () => {
       // Create an arbitrary for service objects
       const serviceArbitrary = fc.record({
-        id: fc.stringOf(
-          fc.char().filter((c) => /[a-z0-9-]/.test(c)),
-          { minLength: 2, maxLength: 20 }
-        ),
+        id: fc.stringMatching(/^[a-z0-9-]{2,20}$/),
         name: fc.string({ minLength: 1, maxLength: 50 }),
         iconUrl: fc.webUrl(),
         consoleUrl: fc.webUrl()
@@ -164,10 +161,7 @@ describe('service-merger', () => {
      */
     describe('Property 3: Service merging order preservation', () => {
       const serviceArbitrary = fc.record({
-        id: fc.stringOf(
-          fc.char().filter((c) => /[a-z0-9-]/.test(c)),
-          { minLength: 2, maxLength: 20 }
-        ),
+        id: fc.stringMatching(/^[a-z0-9-]{2,20}$/),
         name: fc.string({ minLength: 1, maxLength: 50 }),
         iconUrl: fc.webUrl(),
         consoleUrl: fc.webUrl()

@@ -169,3 +169,29 @@ h1 {
   border-color: #FF9900;
   box-shadow: 0 0 0 2px rgba(255, 153, 0, 0.1);
 }
+
+.settings-container select {
+  padding: 6px 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 13px;
+  background: white;
+  cursor: pointer;
+}
+
+.settings-container select:focus {
+  outline: none;
+  border-color: #FF9900;
+  box-shadow: 0 0 0 2px rgba(255, 153, 0, 0.1);
+}
+
+.info-banner {
+  margin: 0 16px 0 16px;
+  padding: 10px 12px;
+  background-color: #e8f4fd;
+  border-left: 3px solid #0073bb;
+  border-radius: 4px;
+  font-size: 13px;
+  color: #0073bb;
+  text-align: left;
+}

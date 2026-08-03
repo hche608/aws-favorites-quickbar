@@ -13,16 +13,16 @@ import {
   loadUserFavorites,
   loadCachedServices,
   loadMaxServices,
-  saveMaxServices
+  saveMaxServices,
+  loadVisualMode,
+  saveVisualMode
 } from './popup/storage';
 import { searchServices } from './popup/search';
 import { showErrorState, updateEmptyState, showStorageWarning } from './popup/ui-state';
 import { renderServiceList, isServiceSelected } from './popup/service-list-renderer';
 import { createServiceClickHandler } from './popup/service-click-handler';
-import { tabs } from './browser-api';
-import { Service } from './types';
-
-console.log('AWS Favorites Quickbar: Popup script loaded');
+import { tabs, storage } from './browser-api';
+import { Service, VisualMode, STORAGE_DEFAULTS } from './types';
 
 /**
  * All available services loaded from cache
@@ -48,27 +48,29 @@ let emptyStateElement: HTMLElement;
 let errorStateElement: HTMLElement;
 let retryButtonElement: HTMLElement;
 let maxServicesInputElement: HTMLInputElement;
+let visualModeSelectElement: HTMLSelectElement;
+let pinningNoteElement: HTMLElement;
 
 /**
  * Initializes the popup UI
  *
  * This function:
  * 1. Gets references to DOM elements
- * 2. Loads the max services setting
+ * 2. Loads settings (maxServices, visualMode)
  * 3. Sets up event listeners
  * 4. Loads and renders the service list
  */
 async function initializePopup(): Promise<void> {
-  console.log('AWS Favorites Quickbar: Initializing popup');
-
   serviceListElement = document.getElementById('serviceList')!;
   searchInputElement = document.getElementById('searchInput') as HTMLInputElement;
   emptyStateElement = document.getElementById('emptyState')!;
   errorStateElement = document.getElementById('errorState')!;
   retryButtonElement = document.getElementById('retryButton')!;
   maxServicesInputElement = document.getElementById('maxServicesInput') as HTMLInputElement;
+  visualModeSelectElement = document.getElementById('visualModeSelect') as HTMLSelectElement;
+  pinningNoteElement = document.getElementById('pinningNote')!;
 
-  await loadMaxServicesSetting();
+  await loadSettingsIntoUI();
 
   // Initialize service click handler with DOM element references
   handleServiceClick = createServiceClickHandler(
@@ -79,7 +81,7 @@ async function initializePopup(): Promise<void> {
     },
     emptyStateElement,
     () => searchInputElement.value,
-    () => renderServices() // Re-render when favorites change
+    () => renderServices()
   );
 
   setupEventListeners();
@@ -87,16 +89,25 @@ async function initializePopup(): Promise<void> {
 }
 
 /**
- * Loads the max services setting from storage and updates the input field
+ * Loads settings from storage and populates UI elements.
+ *
+ * Uses explicit first-launch vs returning-user logic:
+ * - If undefined: use default, display default in UI
+ * - If stored value exists: use it, display it in UI
  */
-async function loadMaxServicesSetting(): Promise<void> {
-  try {
-    const maxServices = await loadMaxServices();
-    if (maxServicesInputElement) {
-      maxServicesInputElement.value = maxServices.toString();
-    }
-  } catch (error) {
-    console.error('AWS Favorites Quickbar: Error loading maxServices setting', error);
+async function loadSettingsIntoUI(): Promise<void> {
+  // Max services
+  const storedMax = await loadMaxServices();
+  const maxServices = storedMax === undefined ? STORAGE_DEFAULTS.maxServices : storedMax;
+  if (maxServicesInputElement) {
+    maxServicesInputElement.value = maxServices.toString();
+  }
+
+  // Visual mode
+  const storedMode = await loadVisualMode();
+  const visualMode = storedMode === undefined ? STORAGE_DEFAULTS.visualMode : storedMode;
+  if (visualModeSelectElement) {
+    visualModeSelectElement.value = visualMode;
   }
 }
 
@@ -106,20 +117,31 @@ async function loadMaxServicesSetting(): Promise<void> {
  * @param value - The maximum number of services to display
  */
 async function saveMaxServicesSetting(value: number): Promise<void> {
-  try {
-    await saveMaxServices(value);
+  await saveMaxServices(value);
+  await notifyContentScripts();
+}
 
-    // Notify all AWS Console tabs to update their quickbars
-    const awsTabs = await tabs.query({ url: 'https://*.console.aws.amazon.com/*' });
-    for (const tab of awsTabs) {
-      if (tab.id) {
-        tabs.sendMessage(tab.id, { action: 'updateQuickbar' }).catch(() => {
-          // Ignore errors from tabs that don't have content script loaded
-        });
-      }
+/**
+ * Saves the visual mode setting to storage and notifies content scripts
+ *
+ * @param mode - The visual mode to apply ('light' or 'dark')
+ */
+async function saveVisualModeSetting(mode: VisualMode): Promise<void> {
+  await saveVisualMode(mode);
+  await notifyContentScripts();
+}
+
+/**
+ * Notifies all AWS Console tabs to update their quickbars
+ */
+async function notifyContentScripts(): Promise<void> {
+  const awsTabs = await tabs.query({ url: 'https://*.console.aws.amazon.com/*' });
+  for (const tab of awsTabs) {
+    if (tab.id) {
+      tabs.sendMessage(tab.id, { action: 'updateQuickbar' }).catch(() => {
+        // Tab may not have content script loaded — this is expected
+      });
     }
-  } catch (error) {
-    console.error('AWS Favorites Quickbar: Error saving maxServices setting', error);
   }
 }
 
@@ -139,56 +161,80 @@ function setupEventListeners(): void {
     });
   }
 
+  if (visualModeSelectElement) {
+    visualModeSelectElement.addEventListener('change', (e) => {
+      const target = e.target as HTMLSelectElement;
+      const mode = target.value as VisualMode;
+      if (mode === 'light' || mode === 'dark') {
+        saveVisualModeSetting(mode);
+      }
+    });
+  }
+
   if (retryButtonElement) {
     retryButtonElement.addEventListener('click', loadAndRenderServices);
   }
 }
 
 /**
- * Loads services from storage and renders the service list
+ * Loads services from storage and renders the service list.
  *
- * This function:
- * 1. Loads cached services from storage
- * 2. Loads user favorites
- * 3. Handles errors and displays appropriate UI states
- * 4. Renders the service list
+ * Handles both first-launch (no cached services) and returning-user paths.
  */
 async function loadAndRenderServices(): Promise<void> {
-  try {
-    showErrorState(errorStateElement, serviceListElement, false);
+  showErrorState(errorStateElement, serviceListElement, false);
 
-    const cachedServiceMap = await loadCachedServices();
+  const cachedServiceMap = await loadCachedServices();
 
-    try {
-      currentFavorites = await loadUserFavorites();
-      console.log('AWS Favorites Quickbar: Loaded favorites', currentFavorites);
-    } catch (error) {
-      console.error('AWS Favorites Quickbar: Error loading favorites from storage', error);
-      currentFavorites = [];
-      showStorageWarning('Could not load your saved favorites. Using empty list.');
-    }
+  // Load user favorites
+  const storedFavorites = await loadUserFavorites();
+  if (storedFavorites === undefined) {
+    // First launch — no favorites yet
+    currentFavorites = [];
+  } else {
+    currentFavorites = storedFavorites;
+  }
 
-    const cachedServices = Object.values(cachedServiceMap);
-
-    if (cachedServices.length === 0) {
-      allServices = [];
-      filteredServices = [];
-      renderServices();
-      showStorageWarning('No services found. Visit the AWS Console homepage to populate the list.');
-      return;
-    }
-
-    allServices = cachedServices;
-    filteredServices = allServices;
+  // Handle cached services
+  if (cachedServiceMap === undefined) {
+    // No cached services — user hasn't visited AWS Console homepage yet
+    allServices = [];
+    filteredServices = [];
     renderServices();
-  } catch (error) {
-    console.error('AWS Favorites Quickbar: Unexpected error loading services', error);
-    showErrorState(
-      errorStateElement,
-      serviceListElement,
-      true,
-      'An unexpected error occurred. Please try again.'
-    );
+    showStorageWarning('No services found. Visit the AWS Console homepage to populate the list.');
+    return;
+  }
+
+  const cachedServices = Object.values(cachedServiceMap);
+
+  if (cachedServices.length === 0) {
+    allServices = [];
+    filteredServices = [];
+    renderServices();
+    showStorageWarning('No services found. Visit the AWS Console homepage to populate the list.');
+    return;
+  }
+
+  allServices = cachedServices;
+  filteredServices = allServices;
+  renderServices();
+}
+
+/**
+ * Shows or hides the pinning note based on injection status from the content script.
+ * Reads injectionStatus from storage — written by the content script on each page load.
+ */
+async function updatePinningNote(): Promise<void> {
+  if (!pinningNoteElement) {
+    return;
+  }
+
+  const result = await storage.local.get(['injectionStatus']);
+
+  if (result.injectionStatus === 'success') {
+    pinningNoteElement.style.display = 'none';
+  } else {
+    pinningNoteElement.style.display = 'block';
   }
 }
 
@@ -196,6 +242,7 @@ async function loadAndRenderServices(): Promise<void> {
  * Renders the service list using the renderer module
  */
 function renderServices(): void {
+  updatePinningNote();
   renderServiceList(
     serviceListElement,
     filteredServices,
@@ -209,11 +256,8 @@ function renderServices(): void {
 }
 
 /**
- * Handles search input changes
- *
- * Filters the service list based on the search query and re-renders
- *
- * @param event - The input event
+ * Handles search input changes.
+ * Filters the service list based on the search query and re-renders.
  */
 function handleSearch(event: Event): void {
   const target = event.target as HTMLInputElement;
@@ -223,7 +267,7 @@ function handleSearch(event: Event): void {
 }
 
 /**
- * Service click handler - will be initialized after DOM elements are ready
+ * Service click handler - initialized after DOM elements are ready
  */
 let handleServiceClick: (event: Event, serviceId: string) => Promise<void>;
 

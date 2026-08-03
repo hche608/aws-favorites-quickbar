@@ -10,6 +10,19 @@ const { TextEncoder, TextDecoder } = require('util');
 (global as any).TextEncoder = TextEncoder;
 (global as any).TextDecoder = TextDecoder;
 
+// Suppress jsdom "Not implemented: navigation" errors
+// These fire when tests assign to window.location in Jest 30 jsdom
+const originalConsoleError = console.error;
+console.error = (...args: any[]) => {
+  const firstArg = args[0];
+  if (firstArg instanceof Error && firstArg.message.includes('Not implemented')) return;
+  if (typeof firstArg === 'string' && firstArg.includes('Not implemented')) return;
+  // Check if any arg is an Error with "Not implemented"
+  if (args.some((a) => a instanceof Error && a.message?.includes('Not implemented'))) return;
+  if (args.some((a) => typeof a === 'object' && a?.type === 'not implemented')) return;
+  originalConsoleError(...args);
+};
+
 // Custom matcher types
 declare global {
   namespace jest {

@@ -72,11 +72,25 @@ export async function waitForElement(
 }
 
 /**
+ * Location accessors — exported individually for testability.
+ * In Jest 30 jsdom, window.location is locked and cannot be redefined.
+ * Tests mock these functions via jest.spyOn on the module.
+ */
+export const location = {
+  getHostname(): string {
+    return window.location.hostname;
+  },
+  getPathname(): string {
+    return window.location.pathname;
+  }
+};
+
+/**
  * Checks if the current page is an AWS Console page
  * @returns true if on AWS Console page
  */
 export function isAWSConsolePage(): boolean {
-  return window.location.hostname.includes('console.aws.amazon.com');
+  return location.getHostname().includes('console.aws.amazon.com');
 }
 
 /**
@@ -84,6 +98,6 @@ export function isAWSConsolePage(): boolean {
  * @returns true if on AWS Console homepage
  */
 export function isAWSConsoleHomepage(): boolean {
-  const pathname = window.location.pathname;
+  const pathname = location.getPathname();
   return pathname === '/' || pathname === '/console/home';
 }

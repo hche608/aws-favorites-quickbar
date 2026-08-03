@@ -1,6 +1,10 @@
 /**
  * Unit tests for popup storage utilities
- * Requirements: 4.1
+ *
+ * Tests verify explicit first-launch vs returning-user paths:
+ * - undefined means "not initialized" (first launch)
+ * - stored value means "use as-is" (returning user)
+ * - errors propagate (no silent swallowing)
  */
 
 import { setupChromeMocks, setupFirefoxMocks, clearAllBrowserMocks } from '../../helpers/mocks';
@@ -11,7 +15,9 @@ import {
   removeFavorite,
   loadCachedServices,
   loadMaxServices,
-  saveMaxServices
+  saveMaxServices,
+  loadVisualMode,
+  saveVisualMode
 } from '../../../src/popup/storage';
 import { Service } from '../../../src/types';
 
@@ -26,9 +32,8 @@ describe('Popup Storage', () => {
   });
 
   describe('loadUserFavorites', () => {
-    it('should load favorites from browser.storage.sync', async () => {
+    it('should return stored favorites when they exist (returning user)', async () => {
       const favorites = ['s3', 'ec2', 'lambda'];
-      // Set the data in the mock storage
       (browser.storage.sync as any).data = { userFavorites: favorites };
 
       const result = await loadUserFavorites();
@@ -37,10 +42,10 @@ describe('Popup Storage', () => {
       expect(browser.storage.sync.get).toHaveBeenCalledWith(['userFavorites']);
     });
 
-    it('should return empty array when no favorites exist', async () => {
+    it('should return undefined when no favorites exist (first launch)', async () => {
       const result = await loadUserFavorites();
 
-      expect(result).toEqual([]);
+      expect(result).toBeUndefined();
     });
 
     it('should throw error when storage fails', async () => {
@@ -86,7 +91,8 @@ describe('Popup Storage', () => {
       expect((browser.storage.sync as any).data.userFavorites).toEqual(['s3', 'ec2']);
     });
 
-    it('should add favorite to empty list', async () => {
+    it('should add favorite when storage is empty (first launch)', async () => {
+      // No userFavorites in storage — first launch
       const result = await addFavorite('s3');
 
       expect(result).toEqual(['s3']);
@@ -160,31 +166,29 @@ describe('Popup Storage', () => {
       });
     });
 
-    it('should return empty object when no cached services exist', async () => {
+    it('should return undefined when no cached services exist (first launch)', async () => {
       const result = await loadCachedServices();
 
-      expect(result).toEqual({});
+      expect(result).toBeUndefined();
     });
 
-    it('should handle missing services array', async () => {
+    it('should return undefined when services array is missing', async () => {
       (browser.storage.local as any).data = { cachedServices: {} };
 
       const result = await loadCachedServices();
 
-      expect(result).toEqual({});
+      expect(result).toBeUndefined();
     });
 
-    it('should return empty object when storage fails', async () => {
+    it('should throw error when storage fails', async () => {
       (browser.storage.local.get as jest.Mock).mockRejectedValueOnce(new Error('Storage error'));
 
-      const result = await loadCachedServices();
-
-      expect(result).toEqual({});
+      await expect(loadCachedServices()).rejects.toThrow('Storage error');
     });
   });
 
   describe('loadMaxServices', () => {
-    it('should load maxServices from browser.storage.sync', async () => {
+    it('should return stored value when it exists (returning user)', async () => {
       (browser.storage.sync as any).data = { maxServices: 15 };
 
       const result = await loadMaxServices();
@@ -193,18 +197,24 @@ describe('Popup Storage', () => {
       expect(browser.storage.sync.get).toHaveBeenCalledWith(['maxServices']);
     });
 
-    it('should return default value of 10 when not set', async () => {
+    it('should return undefined when not set (first launch)', async () => {
       const result = await loadMaxServices();
 
-      expect(result).toBe(10);
+      expect(result).toBeUndefined();
     });
 
-    it('should return default value when storage fails', async () => {
-      (browser.storage.sync.get as jest.Mock).mockRejectedValueOnce(new Error('Storage error'));
+    it('should return undefined when stored value is not a number', async () => {
+      (browser.storage.sync as any).data = { maxServices: 'invalid' };
 
       const result = await loadMaxServices();
 
-      expect(result).toBe(10);
+      expect(result).toBeUndefined();
+    });
+
+    it('should throw error when storage fails', async () => {
+      (browser.storage.sync.get as jest.Mock).mockRejectedValueOnce(new Error('Storage error'));
+
+      await expect(loadMaxServices()).rejects.toThrow('Storage error');
     });
   });
 
@@ -220,6 +230,59 @@ describe('Popup Storage', () => {
       (browser.storage.sync.set as jest.Mock).mockRejectedValueOnce(new Error('Storage error'));
 
       await expect(saveMaxServices(20)).rejects.toThrow('Storage error');
+    });
+  });
+
+  describe('loadVisualMode', () => {
+    it('should return stored value when it exists (returning user)', async () => {
+      (browser.storage.sync as any).data = { visualMode: 'dark' };
+
+      const result = await loadVisualMode();
+
+      expect(result).toBe('dark');
+    });
+
+    it('should return undefined when not set (first launch)', async () => {
+      const result = await loadVisualMode();
+
+      expect(result).toBeUndefined();
+    });
+
+    it('should return undefined when stored value is invalid', async () => {
+      (browser.storage.sync as any).data = { visualMode: 'invalid-mode' };
+
+      const result = await loadVisualMode();
+
+      expect(result).toBeUndefined();
+    });
+
+    it('should return light when stored as light', async () => {
+      (browser.storage.sync as any).data = { visualMode: 'light' };
+
+      const result = await loadVisualMode();
+
+      expect(result).toBe('light');
+    });
+
+    it('should throw error when storage fails', async () => {
+      (browser.storage.sync.get as jest.Mock).mockRejectedValueOnce(new Error('Storage error'));
+
+      await expect(loadVisualMode()).rejects.toThrow('Storage error');
+    });
+  });
+
+  describe('saveVisualMode', () => {
+    it('should save visualMode to browser.storage.sync', async () => {
+      await saveVisualMode('dark');
+
+      expect(browser.storage.sync.set).toHaveBeenCalledWith({ visualMode: 'dark' });
+      expect((browser.storage.sync as any).data.visualMode).toBe('dark');
+    });
+
+    it('should throw error when storage fails', async () => {
+      (browser.storage.sync.set as jest.Mock).mockRejectedValueOnce(new Error('Storage error'));
+
+      await expect(saveVisualMode('light')).rejects.toThrow('Storage error');
     });
   });
 });

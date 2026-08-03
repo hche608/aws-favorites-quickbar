@@ -1,26 +1,34 @@
 /**
  * Popup storage utilities
  *
- * This module provides functions for managing user favorites and cached services
- * in browser storage (both sync and local storage).
+ * This module provides functions for managing user favorites, cached services,
+ * max services configuration, and visual mode in browser storage.
+ *
+ * Storage pattern: explicit first-launch vs returning-user paths.
+ * - If storage value is undefined: this is first launch for that key
+ * - If storage value exists: use it as-is, never override with defaults
  */
 
-import { Service } from '../types';
+import { Service, VisualMode, STORAGE_DEFAULTS } from '../types';
 import { storage } from '../browser-api';
 
 /**
- * Loads user favorites from sync storage
- * @returns Promise resolving to array of service IDs
+ * Loads user favorites from sync storage.
+ *
+ * Returns undefined if no favorites have been saved yet (first launch).
+ * Returns the stored array if favorites exist (returning user).
+ *
+ * @returns Promise resolving to array of service IDs, or undefined if not yet initialized
  * @throws Error if storage access fails
  */
-export async function loadUserFavorites(): Promise<string[]> {
-  try {
-    const result = await storage.sync.get(['userFavorites']);
-    return result.userFavorites || [];
-  } catch (error) {
-    console.error('AWS Favorites Quickbar: Error loading favorites', error);
-    throw error;
+export async function loadUserFavorites(): Promise<string[] | undefined> {
+  const result = await storage.sync.get(['userFavorites']);
+
+  if (result.userFavorites === undefined) {
+    return undefined;
   }
+
+  return result.userFavorites as string[];
 }
 
 /**
@@ -29,13 +37,7 @@ export async function loadUserFavorites(): Promise<string[]> {
  * @throws Error if storage write fails
  */
 export async function saveUserFavorites(favorites: string[]): Promise<void> {
-  try {
-    await storage.sync.set({ userFavorites: favorites });
-    console.log('AWS Favorites Quickbar: Favorites saved', favorites);
-  } catch (error) {
-    console.error('AWS Favorites Quickbar: Error saving favorites', error);
-    throw error;
-  }
+  await storage.sync.set({ userFavorites: favorites });
 }
 
 /**
@@ -45,21 +47,17 @@ export async function saveUserFavorites(favorites: string[]): Promise<void> {
  * @throws Error if storage operations fail
  */
 export async function addFavorite(serviceId: string): Promise<string[]> {
-  try {
-    const favorites = await loadUserFavorites();
+  const stored = await loadUserFavorites();
+  const favorites = stored === undefined ? [...STORAGE_DEFAULTS.userFavorites] : stored;
 
-    const exists = favorites.some((id) => id.toLowerCase() === serviceId.toLowerCase());
+  const exists = favorites.some((id) => id.toLowerCase() === serviceId.toLowerCase());
 
-    if (!exists) {
-      favorites.push(serviceId);
-      await saveUserFavorites(favorites);
-    }
-
-    return favorites;
-  } catch (error) {
-    console.error('AWS Favorites Quickbar: Error adding favorite', error);
-    throw error;
+  if (!exists) {
+    favorites.push(serviceId);
+    await saveUserFavorites(favorites);
   }
+
+  return favorites;
 }
 
 /**
@@ -69,60 +67,68 @@ export async function addFavorite(serviceId: string): Promise<string[]> {
  * @throws Error if storage operations fail
  */
 export async function removeFavorite(serviceId: string): Promise<string[]> {
-  try {
-    const favorites = await loadUserFavorites();
+  const stored = await loadUserFavorites();
+  const favorites = stored === undefined ? [...STORAGE_DEFAULTS.userFavorites] : stored;
 
-    const updated = favorites.filter((id) => id.toLowerCase() !== serviceId.toLowerCase());
+  const updated = favorites.filter((id) => id.toLowerCase() !== serviceId.toLowerCase());
 
-    await saveUserFavorites(updated);
-    return updated;
-  } catch (error) {
-    console.error('AWS Favorites Quickbar: Error removing favorite', error);
-    throw error;
-  }
+  await saveUserFavorites(updated);
+  return updated;
 }
 
 /**
- * Loads cached services from local storage
- * @returns Promise resolving to map of service IDs to Service objects
+ * Loads cached services from local storage.
+ *
+ * Returns undefined if no cached services exist yet.
+ * Returns the service map if cached data exists.
+ *
+ * @returns Promise resolving to map of service IDs to Service objects, or undefined if not cached
+ * @throws Error if storage access fails
  */
-export async function loadCachedServices(): Promise<Record<string, Service>> {
-  try {
-    const result = await storage.local.get(['cachedServices']);
+export async function loadCachedServices(): Promise<Record<string, Service> | undefined> {
+  const result = await storage.local.get(['cachedServices']);
 
-    if (!result.cachedServices) {
-      console.log('AWS Favorites Quickbar: No cached services found');
-      return {};
-    }
-
-    const data = result.cachedServices;
-    const services: Service[] = data.services || [];
-
-    const serviceMap: Record<string, Service> = {};
-    services.forEach((service) => {
-      serviceMap[service.id.toLowerCase()] = service;
-    });
-
-    console.log('AWS Favorites Quickbar: Loaded cached services:', Object.keys(serviceMap).length);
-    return serviceMap;
-  } catch (error) {
-    console.warn('AWS Favorites Quickbar: Error loading cached services', error);
-    return {};
+  if (result.cachedServices === undefined) {
+    return undefined;
   }
+
+  const data = result.cachedServices;
+
+  if (!data.services || !Array.isArray(data.services)) {
+    return undefined;
+  }
+
+  const services: Service[] = data.services;
+  const serviceMap: Record<string, Service> = {};
+
+  for (const service of services) {
+    serviceMap[service.id.toLowerCase()] = service;
+  }
+
+  return serviceMap;
 }
 
 /**
- * Loads maximum services configuration from sync storage
- * @returns Promise resolving to maximum services value (defaults to 10)
+ * Loads maximum services configuration from sync storage.
+ *
+ * Returns undefined if not yet configured (first launch).
+ * Returns the stored number if configured (returning user).
+ *
+ * @returns Promise resolving to max services value, or undefined if not yet initialized
+ * @throws Error if storage access fails
  */
-export async function loadMaxServices(): Promise<number> {
-  try {
-    const result = await storage.sync.get(['maxServices']);
-    return result.maxServices || 10;
-  } catch (error) {
-    console.error('AWS Favorites Quickbar: Error loading maxServices', error);
-    return 10;
+export async function loadMaxServices(): Promise<number | undefined> {
+  const result = await storage.sync.get(['maxServices']);
+
+  if (result.maxServices === undefined) {
+    return undefined;
   }
+
+  if (typeof result.maxServices !== 'number') {
+    return undefined;
+  }
+
+  return result.maxServices;
 }
 
 /**
@@ -131,11 +137,38 @@ export async function loadMaxServices(): Promise<number> {
  * @throws Error if storage write fails
  */
 export async function saveMaxServices(value: number): Promise<void> {
-  try {
-    await storage.sync.set({ maxServices: value });
-    console.log('AWS Favorites Quickbar: Saved maxServices:', value);
-  } catch (error) {
-    console.error('AWS Favorites Quickbar: Error saving maxServices', error);
-    throw error;
+  await storage.sync.set({ maxServices: value });
+}
+
+/**
+ * Loads visual mode preference from sync storage.
+ *
+ * Returns undefined if not yet configured (first launch).
+ * Returns the stored mode if configured (returning user).
+ *
+ * @returns Promise resolving to visual mode, or undefined if not yet initialized
+ * @throws Error if storage access fails
+ */
+export async function loadVisualMode(): Promise<VisualMode | undefined> {
+  const result = await storage.sync.get(['visualMode']);
+
+  if (result.visualMode === undefined) {
+    return undefined;
   }
+
+  const mode = result.visualMode as string;
+  if (mode !== 'light' && mode !== 'dark') {
+    return undefined;
+  }
+
+  return mode as VisualMode;
+}
+
+/**
+ * Saves visual mode preference to sync storage
+ * @param mode - Visual mode to save ('light' or 'dark')
+ * @throws Error if storage write fails
+ */
+export async function saveVisualMode(mode: VisualMode): Promise<void> {
+  await storage.sync.set({ visualMode: mode });
 }

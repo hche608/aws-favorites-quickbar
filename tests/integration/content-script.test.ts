@@ -52,9 +52,31 @@ describe('Content Script Integration', () => {
         includeNativeFavorites: false
       });
 
-      // Add quickbar with proper selector
+      // Add quickbar with proper selector and a native pinned service (for CSS extraction)
       const quickbar = document.createElement('ol');
-      quickbar.setAttribute('data-testid', 'favorites-bar-list');
+      quickbar.setAttribute('data-rbd-droppable-id', 'global-nav-favorites-bar-list-edit-mode');
+
+      // Native pinned service provides CSS template
+      const nativeLi = document.createElement('li');
+      nativeLi.className = 'native-li';
+      const nativeAnchor = document.createElement('a');
+      nativeAnchor.className = 'native-anchor';
+      nativeAnchor.setAttribute('data-testid', 'awsc-nav-favorites-bar-cloudformation');
+      const nativeContainer = document.createElement('div');
+      nativeContainer.className = 'native-container';
+      const nativeIconWrapper = document.createElement('div');
+      nativeIconWrapper.className = 'native-icon-wrapper';
+      const nativeIcon = document.createElement('img');
+      nativeIcon.className = 'native-icon';
+      const nativeLabel = document.createElement('span');
+      nativeLabel.className = 'native-label';
+      nativeIconWrapper.appendChild(nativeIcon);
+      nativeContainer.appendChild(nativeIconWrapper);
+      nativeContainer.appendChild(nativeLabel);
+      nativeAnchor.appendChild(nativeContainer);
+      nativeLi.appendChild(nativeAnchor);
+      quickbar.appendChild(nativeLi);
+
       document.body.appendChild(quickbar);
 
       // Setup user favorites in storage
@@ -165,7 +187,29 @@ describe('Content Script Integration', () => {
       });
 
       const quickbar = document.createElement('ol');
-      quickbar.setAttribute('data-testid', 'favorites-bar-list');
+      quickbar.setAttribute('data-rbd-droppable-id', 'global-nav-favorites-bar-list-edit-mode');
+
+      // Native pinned service for CSS extraction
+      const nativeLi = document.createElement('li');
+      nativeLi.className = 'native-li';
+      const nativeAnchor = document.createElement('a');
+      nativeAnchor.className = 'native-anchor';
+      nativeAnchor.setAttribute('data-testid', 'awsc-nav-favorites-bar-cloudformation');
+      const nativeContainer = document.createElement('div');
+      nativeContainer.className = 'native-container';
+      const nativeIconWrapper = document.createElement('div');
+      nativeIconWrapper.className = 'native-icon-wrapper';
+      const nativeIcon = document.createElement('img');
+      nativeIcon.className = 'native-icon';
+      const nativeLabel = document.createElement('span');
+      nativeLabel.className = 'native-label';
+      nativeIconWrapper.appendChild(nativeIcon);
+      nativeContainer.appendChild(nativeIconWrapper);
+      nativeContainer.appendChild(nativeLabel);
+      nativeAnchor.appendChild(nativeContainer);
+      nativeLi.appendChild(nativeAnchor);
+      quickbar.appendChild(nativeLi);
+
       document.body.appendChild(quickbar);
 
       (global as any).chrome.storage.sync.data.userFavorites = [];
@@ -211,9 +255,30 @@ describe('Content Script Integration', () => {
 
   describe('Background icon update workflow', () => {
     it('should update icons without disrupting quickbar', async () => {
-      // Arrange
+      // Arrange: quickbar with native pinned service for CSS extraction
       const quickbar = document.createElement('ol');
-      quickbar.setAttribute('data-testid', 'favorites-bar-list');
+      quickbar.setAttribute('data-rbd-droppable-id', 'global-nav-favorites-bar-list-edit-mode');
+
+      const nativeLi = document.createElement('li');
+      nativeLi.className = 'native-li';
+      const nativeAnchor = document.createElement('a');
+      nativeAnchor.className = 'native-anchor';
+      nativeAnchor.setAttribute('data-testid', 'awsc-nav-favorites-bar-cloudformation');
+      const nativeContainer = document.createElement('div');
+      nativeContainer.className = 'native-container';
+      const nativeIconWrapper = document.createElement('div');
+      nativeIconWrapper.className = 'native-icon-wrapper';
+      const nativeIcon = document.createElement('img');
+      nativeIcon.className = 'native-icon';
+      const nativeLabel = document.createElement('span');
+      nativeLabel.className = 'native-label';
+      nativeIconWrapper.appendChild(nativeIcon);
+      nativeContainer.appendChild(nativeIconWrapper);
+      nativeContainer.appendChild(nativeLabel);
+      nativeAnchor.appendChild(nativeContainer);
+      nativeLi.appendChild(nativeAnchor);
+      quickbar.appendChild(nativeLi);
+
       document.body.appendChild(quickbar);
 
       const initialServices = [
