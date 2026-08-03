@@ -1,6 +1,12 @@
 /**
  * Unit tests for storage utilities (src/utils/storage.ts)
- * Requirements: 1.2
+ *
+ * Tests verify:
+ * - saveServicesToStorage saves to both localStorage and browser.storage
+ * - loadServicesFromStorage returns undefined when no data (not empty array)
+ * - loadServicesFromStorage returns service array when data exists
+ * - loadServicesFromStorage throws on malformed JSON (not silent fallback)
+ * - loadUserFavorites returns undefined when not initialized
  */
 
 import {
@@ -37,19 +43,13 @@ import { storage as mockBrowserStorage } from '../../../src/browser-api';
 
 describe('Storage Utilities', () => {
   beforeEach(() => {
-    // Setup both Chrome and Firefox API mocks (for compatibility)
     setupChromeMocks();
     setupFirefoxMocks();
-
-    // Clear localStorage
     localStorage.clear();
-
-    // Reset all mocks
     jest.clearAllMocks();
-
-    // Mock console methods
-    global.console.warn = jest.fn();
-    global.console.error = jest.fn();
+    // Reset the mock to return a proper Promise
+    (mockBrowserStorage.local.set as jest.Mock).mockResolvedValue(undefined);
+    (mockBrowserStorage.sync.get as jest.Mock).mockResolvedValue({});
   });
 
   afterEach(() => {
@@ -109,17 +109,14 @@ describe('Storage Utilities', () => {
     });
 
     it('should handle empty services array', () => {
-      const services: Service[] = [];
-
-      saveServicesToStorage(services);
+      saveServicesToStorage([]);
 
       const stored = localStorage.getItem('awsFavoritesQuickbar_services');
       const savedData = JSON.parse(stored!);
       expect(savedData.services).toEqual([]);
     });
 
-    it('should handle localStorage errors gracefully', () => {
-      // Spy on localStorage.setItem and make it throw
+    it('should throw when localStorage write fails', () => {
       jest.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
         throw new Error('Storage quota exceeded');
       });
@@ -133,49 +130,9 @@ describe('Storage Utilities', () => {
         }
       ];
 
-      // Should not throw
-      expect(() => {
-        saveServicesToStorage(services);
-      }).not.toThrow();
+      expect(() => saveServicesToStorage(services)).toThrow('Storage quota exceeded');
 
-      expect(console.warn).toHaveBeenCalledWith(
-        'AWS Favorites Quickbar: Error saving to localStorage',
-        expect.any(Error)
-      );
-
-      // Restore
       jest.restoreAllMocks();
-    });
-
-    it('should handle browser.storage errors gracefully', () => {
-      (mockBrowserStorage.local.set as jest.Mock).mockRejectedValue(
-        new Error('Browser storage error')
-      );
-
-      const services: Service[] = [
-        {
-          id: 's3',
-          name: 'S3',
-          iconUrl: 'https://example.com/s3.png',
-          consoleUrl: 'https://console.aws.amazon.com/s3'
-        }
-      ];
-
-      saveServicesToStorage(services);
-
-      // Should still save to localStorage
-      const stored = localStorage.getItem('awsFavoritesQuickbar_services');
-      expect(stored).toBeTruthy();
-    });
-
-    it('should handle invalid data gracefully', () => {
-      const circularRef: any = {};
-      circularRef.self = circularRef;
-
-      // Should not throw even with circular reference
-      expect(() => {
-        saveServicesToStorage([circularRef]);
-      }).not.toThrow();
     });
   });
 
@@ -195,11 +152,7 @@ describe('Storage Utilities', () => {
           consoleUrl: 'https://console.aws.amazon.com/ec2'
         }
       ];
-      const data = {
-        services: services,
-        timestamp: Date.now()
-      };
-
+      const data = { services, timestamp: Date.now() };
       localStorage.setItem('awsFavoritesQuickbar_services', JSON.stringify(data));
 
       const result = loadServicesFromStorage();
@@ -207,76 +160,49 @@ describe('Storage Utilities', () => {
       expect(result).toEqual(services);
     });
 
-    it('should return empty array when no data exists', () => {
+    it('should return undefined when no data exists', () => {
       const result = loadServicesFromStorage();
 
-      expect(result).toEqual([]);
+      expect(result).toBeUndefined();
     });
 
-    it('should return empty array when data is invalid JSON', () => {
+    it('should throw when data is invalid JSON', () => {
       localStorage.setItem('awsFavoritesQuickbar_services', 'invalid json {');
 
-      const result = loadServicesFromStorage();
-
-      expect(result).toEqual([]);
+      expect(() => loadServicesFromStorage()).toThrow();
     });
 
-    it('should return empty array when services property is missing', () => {
-      const data = {
-        timestamp: Date.now()
-      };
+    it('should return undefined when services property is missing', () => {
+      const data = { timestamp: Date.now() };
       localStorage.setItem('awsFavoritesQuickbar_services', JSON.stringify(data));
 
       const result = loadServicesFromStorage();
 
-      expect(result).toEqual([]);
+      expect(result).toBeUndefined();
     });
 
-    it('should handle localStorage errors gracefully', () => {
-      const originalGetItem = localStorage.getItem;
-      localStorage.getItem = jest.fn(() => {
-        throw new Error('Storage access denied');
-      });
-
-      const result = loadServicesFromStorage();
-
-      expect(result).toEqual([]);
-
-      // Restore
-      localStorage.getItem = originalGetItem;
-    });
-
-    it('should return empty array when data.services is null', () => {
-      const data = {
-        services: null,
-        timestamp: Date.now()
-      };
+    it('should return undefined when services is not an array', () => {
+      const data = { services: 'not-an-array', timestamp: Date.now() };
       localStorage.setItem('awsFavoritesQuickbar_services', JSON.stringify(data));
 
       const result = loadServicesFromStorage();
 
-      expect(result).toEqual([]);
+      expect(result).toBeUndefined();
+    });
+
+    it('should return undefined when services is null', () => {
+      const data = { services: null, timestamp: Date.now() };
+      localStorage.setItem('awsFavoritesQuickbar_services', JSON.stringify(data));
+
+      const result = loadServicesFromStorage();
+
+      expect(result).toBeUndefined();
     });
   });
 
   describe('loadUserFavorites', () => {
-    it('should load user favorites from browser.storage.sync', async () => {
-      const favorites: Service[] = [
-        {
-          id: 'dynamodb',
-          name: 'DynamoDB',
-          iconUrl: 'https://example.com/dynamodb.png',
-          consoleUrl: 'https://console.aws.amazon.com/dynamodb'
-        },
-        {
-          id: 'rds',
-          name: 'RDS',
-          iconUrl: 'https://example.com/rds.png',
-          consoleUrl: 'https://console.aws.amazon.com/rds'
-        }
-      ];
-
-      // Mock browser.storage.sync.get to return the favorites
+    it('should return stored favorites when they exist', async () => {
+      const favorites = ['dynamodb', 'rds'];
       (mockBrowserStorage.sync.get as jest.Mock).mockResolvedValue({ userFavorites: favorites });
 
       const result = await loadUserFavorites();
@@ -285,40 +211,18 @@ describe('Storage Utilities', () => {
       expect(result).toEqual(favorites);
     });
 
-    it('should return empty array when no favorites exist', async () => {
+    it('should return undefined when no favorites exist (first launch)', async () => {
       (mockBrowserStorage.sync.get as jest.Mock).mockResolvedValue({});
 
       const result = await loadUserFavorites();
 
-      expect(result).toEqual([]);
+      expect(result).toBeUndefined();
     });
 
-    it('should handle browser.storage errors gracefully', async () => {
+    it('should throw when storage fails', async () => {
       (mockBrowserStorage.sync.get as jest.Mock).mockRejectedValue(new Error('Storage error'));
 
-      const result = await loadUserFavorites();
-
-      expect(result).toEqual([]);
-      expect(console.error).toHaveBeenCalledWith(
-        'AWS Favorites Quickbar: Error loading favorites',
-        expect.any(Error)
-      );
-    });
-
-    it('should handle undefined userFavorites', async () => {
-      (mockBrowserStorage.sync.get as jest.Mock).mockResolvedValue({});
-
-      const result = await loadUserFavorites();
-
-      expect(result).toEqual([]);
-    });
-
-    it('should handle null userFavorites', async () => {
-      (mockBrowserStorage.sync.get as jest.Mock).mockResolvedValue({ userFavorites: null });
-
-      const result = await loadUserFavorites();
-
-      expect(result).toEqual([]);
+      await expect(loadUserFavorites()).rejects.toThrow('Storage error');
     });
   });
 });

@@ -1,18 +1,58 @@
 /**
  * Integration tests for error scenarios
- * Tests graceful degradation when components fail
+ *
+ * Tests verify that:
+ * - Errors are surfaced (not silently swallowed)
+ * - Each condition is handled explicitly
+ * - No fallback patterns hide broken behavior
  */
 
 import { setupChromeMocks, clearChromeMocks } from '../helpers/mocks';
-import { teardownDOM } from '../helpers/dom-helpers';
+import { teardownDOM, createMockElement } from '../helpers/dom-helpers';
 import { setupGlobalNamespace, clearGlobalNamespace } from '../helpers/global-namespace';
+import { AWSFavoriteClasses } from '../../src/types';
 
-// Extend window interface
 declare global {
   interface Window {
     AWSFavoritesQuickbar: any;
   }
 }
+
+/**
+ * Helper: creates a quickbar with a native pinned service for CSS extraction
+ */
+function createQuickbarWithNative(serviceId: string = 'cloudformation'): HTMLOListElement {
+  const quickbar = document.createElement('ol');
+  quickbar.setAttribute('data-rbd-droppable-id', 'global-nav-favorites-bar-list-edit-mode');
+
+  const li = createMockElement('li', { className: 'native-li' });
+  const anchor = createMockElement('a', {
+    className: 'native-anchor',
+    'data-testid': `awsc-nav-favorites-bar-${serviceId}`
+  });
+  const mainContainer = createMockElement('div', { className: 'native-container' });
+  const iconWrapper = createMockElement('div', { className: 'native-icon-wrapper' });
+  const icon = createMockElement('img', { className: 'native-icon' });
+  const label = createMockElement('span', { className: 'native-label' });
+
+  iconWrapper.appendChild(icon);
+  mainContainer.appendChild(iconWrapper);
+  mainContainer.appendChild(label);
+  anchor.appendChild(mainContainer);
+  li.appendChild(anchor);
+  quickbar.appendChild(li);
+
+  return quickbar;
+}
+
+const testClasses: AWSFavoriteClasses = {
+  li: 'test-li',
+  anchor: 'test-anchor',
+  mainContainer: 'test-container',
+  iconWrapper: 'test-icon-wrapper',
+  icon: 'test-icon',
+  label: 'test-label'
+};
 
 describe('Error Scenarios Integration Tests', () => {
   beforeEach(() => {
@@ -28,9 +68,8 @@ describe('Error Scenarios Integration Tests', () => {
     jest.clearAllMocks();
   });
 
-  describe('Graceful degradation', () => {
-    it('should handle missing quickbar element gracefully', async () => {
-      // Arrange: No quickbar in DOM
+  describe('Explicit error handling', () => {
+    it('should return false when quickbar element is not found', async () => {
       const services = [
         {
           id: 's3',
@@ -41,69 +80,79 @@ describe('Error Scenarios Integration Tests', () => {
         }
       ];
 
-      // Act: Try to inject without quickbar (will try to find one and timeout)
       const result = await window.AWSFavoritesQuickbar.injectServices(services, null);
-
-      // Assert: Should return false but not throw
       expect(result).toBe(false);
     }, 15000);
 
-    it('should handle empty services array gracefully', async () => {
-      // Arrange
-      const quickbar = document.createElement('ol');
-      quickbar.setAttribute('data-testid', 'favorites-bar-list');
+    it('should return true when services array is empty', async () => {
+      const quickbar = createQuickbarWithNative();
       document.body.appendChild(quickbar);
 
-      // Act: Inject empty array
       const result = await window.AWSFavoritesQuickbar.injectServices([], quickbar);
-
-      // Assert: Should return true and not crash
       expect(result).toBe(true);
-      const injectedItems = quickbar.querySelectorAll('li[data-source]');
-      expect(injectedItems.length).toBe(0);
     });
 
-    it('should handle null services gracefully', async () => {
-      // Arrange
-      const quickbar = document.createElement('ol');
-      quickbar.setAttribute('data-testid', 'favorites-bar-list');
+    it('should return true when services is null', async () => {
+      const quickbar = createQuickbarWithNative();
       document.body.appendChild(quickbar);
 
-      // Act: Inject null
       const result = await window.AWSFavoritesQuickbar.injectServices(null, quickbar);
-
-      // Assert: Should return true and not crash
       expect(result).toBe(true);
-      const injectedItems = quickbar.querySelectorAll('li[data-source]');
+    });
+
+    it('should return false when no native pinned service exists (no CSS template)', async () => {
+      // Quickbar without native pinned services
+      const quickbar = document.createElement('ol');
+      quickbar.setAttribute('data-rbd-droppable-id', 'global-nav-favorites-bar-list-edit-mode');
+      document.body.appendChild(quickbar);
+
+      const services = [
+        {
+          id: 's3',
+          name: 'S3',
+          iconUrl: null,
+          consoleUrl: 'https://console.aws.amazon.com/s3/home',
+          source: 'user'
+        }
+      ];
+
+      const result = await window.AWSFavoritesQuickbar.injectServices(services, quickbar);
+      expect(result).toBe(false);
+
+      // Nothing should be injected
+      const injectedItems = quickbar.querySelectorAll('[data-source]');
       expect(injectedItems.length).toBe(0);
     });
 
-    it('should handle storage failures gracefully', async () => {
-      // Arrange: Mock storage to fail and suppress console.error
-      const originalGet = (global as any).chrome.storage.sync.get;
-      const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-
-      // Mock chrome.storage.sync.get to trigger lastError
-      (global as any).chrome.storage.sync.get = jest.fn((keys: any, callback: any) => {
-        (global as any).chrome.runtime.lastError = { message: 'Storage error' };
-        callback({});
-        delete (global as any).chrome.runtime.lastError;
+    it('should throw when localStorage write fails in saveServicesToStorage', () => {
+      const originalSetItem = Storage.prototype.setItem;
+      Storage.prototype.setItem = jest.fn(() => {
+        throw new Error('QuotaExceededError');
       });
 
-      // Act: Try to load user favorites
-      const favorites = await window.AWSFavoritesQuickbar.loadUserFavorites();
+      const services = [
+        {
+          id: 's3',
+          name: 'S3',
+          iconUrl: null,
+          consoleUrl: 'https://console.aws.amazon.com/s3/home',
+          source: 'user'
+        }
+      ];
 
-      // Assert: Should return empty array instead of throwing
-      expect(favorites).toEqual([]);
-      expect(consoleErrorSpy).toHaveBeenCalled();
+      expect(() => {
+        window.AWSFavoritesQuickbar.saveServicesToStorage(services);
+      }).toThrow('QuotaExceededError');
 
-      // Cleanup
-      (global as any).chrome.storage.sync.get = originalGet;
-      consoleErrorSpy.mockRestore();
+      Storage.prototype.setItem = originalSetItem;
     });
 
-    it('should handle malformed service objects gracefully', () => {
-      // Arrange: Test createServiceLink directly with malformed objects
+    it('should return undefined from loadUserFavorites when storage is empty', async () => {
+      const result = await window.AWSFavoritesQuickbar.loadUserFavorites();
+      expect(result).toBeUndefined();
+    });
+
+    it('should handle malformed service objects in createServiceLink', () => {
       const validService = {
         id: 's3',
         name: 'S3',
@@ -125,79 +174,41 @@ describe('Error Scenarios Integration Tests', () => {
         source: 'user'
       };
 
-      // Act: Create service links
-      const validLink = window.AWSFavoritesQuickbar.createServiceLink(validService);
-      const nullIdLink = window.AWSFavoritesQuickbar.createServiceLink(nullIdService);
-      const missingIdLink = window.AWSFavoritesQuickbar.createServiceLink(missingIdService);
+      const validLink = window.AWSFavoritesQuickbar.createServiceLink(validService, testClasses);
+      const nullIdLink = window.AWSFavoritesQuickbar.createServiceLink(nullIdService, testClasses);
+      const missingIdLink = window.AWSFavoritesQuickbar.createServiceLink(missingIdService, testClasses);
 
-      // Assert: Valid service should create a link, invalid ones should return null
       expect(validLink).not.toBeNull();
       expect(validLink.getAttribute('data-service-id')).toBe('s3');
-
-      // Malformed services should be filtered out (return null)
       expect(nullIdLink).toBeNull();
       expect(missingIdLink).toBeNull();
     });
 
-    it('should handle parsing failures gracefully', async () => {
-      // Arrange: Create a malformed recently visited widget
+    it('should handle parsing failures in recently visited', async () => {
       const widget = document.createElement('div');
       widget.setAttribute('data-widget-type', 'recently-visited');
-      // No proper structure inside
       document.body.appendChild(widget);
 
-      // Act: Try to parse
       const services = await window.AWSFavoritesQuickbar.parseRecentlyVisited();
 
-      // Assert: Should return empty array instead of throwing
       expect(Array.isArray(services)).toBe(true);
       expect(services.length).toBe(0);
     });
 
-    it('should handle localStorage failures gracefully', () => {
-      // Arrange: Mock localStorage to fail
-      const originalSetItem = Storage.prototype.setItem;
-      Storage.prototype.setItem = jest.fn(() => {
-        throw new Error('QuotaExceededError');
-      });
-
-      const services = [
-        {
-          id: 's3',
-          name: 'S3',
-          iconUrl: null,
-          consoleUrl: 'https://console.aws.amazon.com/s3/home',
-          source: 'user'
-        }
-      ];
-
-      // Act: Try to save to storage (should not throw)
-      expect(() => {
-        window.AWSFavoritesQuickbar.saveServicesToStorage(services);
-      }).not.toThrow();
-
-      // Cleanup
-      Storage.prototype.setItem = originalSetItem;
-    });
-
     it('should handle missing DOM elements during parsing', async () => {
-      // Arrange: Create widget with missing elements
       const widget = document.createElement('div');
       widget.setAttribute('data-widget-type', 'recently-visited');
 
       const ariaLabel = document.createElement('div');
       ariaLabel.setAttribute('aria-label', 'Recently visited');
 
-      // Add items with missing links
       const listItem1 = document.createElement('div');
       listItem1.className = 'listItem-123';
-      // No link inside
       ariaLabel.appendChild(listItem1);
 
       const listItem2 = document.createElement('div');
       listItem2.className = 'listItem-123';
       const link = document.createElement('a');
-      // No href
       link.textContent = 'Test Service';
       listItem2.appendChild(link);
       ariaLabel.appendChild(listItem2);
@@ -205,18 +216,12 @@ describe('Error Scenarios Integration Tests', () => {
       widget.appendChild(ariaLabel);
       document.body.appendChild(widget);
 
-      // Act
       const services = await window.AWSFavoritesQuickbar.parseRecentlyVisited();
-
-      // Assert: Should handle gracefully
       expect(Array.isArray(services)).toBe(true);
-      // May be empty or have partial results, but should not throw
     });
 
-    it('should handle icon loading failures gracefully', async () => {
-      // Arrange
-      const quickbar = document.createElement('ol');
-      quickbar.setAttribute('data-testid', 'favorites-bar-list');
+    it('should handle icon loading with placeholder', async () => {
+      const quickbar = createQuickbarWithNative();
       document.body.appendChild(quickbar);
 
       const services = [
@@ -229,22 +234,18 @@ describe('Error Scenarios Integration Tests', () => {
         }
       ];
 
-      // Act: Inject service with invalid icon URL
       const result = await window.AWSFavoritesQuickbar.injectServices(services, quickbar);
-
-      // Assert: Should inject successfully with fallback icon
       expect(result).toBe(true);
+
       const injectedItems = quickbar.querySelectorAll('li[data-source]');
       expect(injectedItems.length).toBe(1);
 
       const img = injectedItems[0].querySelector('img');
       expect(img).not.toBeNull();
-      // Icon should have onerror handler to fallback
       expect(img?.onerror).not.toBeNull();
     });
 
     it('should handle merging with empty arrays', () => {
-      // Test all combinations of empty arrays
       const result1 = window.AWSFavoritesQuickbar.mergeServices([], []);
       expect(result1).toEqual([]);
 
@@ -275,11 +276,11 @@ describe('Error Scenarios Integration Tests', () => {
       expect(result3).toEqual(recentServices);
     });
 
-    it('should handle quickbar removal during injection', async () => {
-      // Arrange
+    it('should return false when quickbar is removed and has no native service', async () => {
       const quickbar = document.createElement('ol');
-      quickbar.setAttribute('data-testid', 'favorites-bar-list');
+      quickbar.setAttribute('data-rbd-droppable-id', 'global-nav-favorites-bar-list-edit-mode');
       document.body.appendChild(quickbar);
+      quickbar.remove();
 
       const services = [
         {
@@ -291,14 +292,8 @@ describe('Error Scenarios Integration Tests', () => {
         }
       ];
 
-      // Remove quickbar from DOM
-      quickbar.remove();
-
-      // Act: Try to inject after removal
       const result = await window.AWSFavoritesQuickbar.injectServices(services, quickbar);
-
-      // Assert: Should handle gracefully (quickbar is detached but still exists)
-      expect(result).toBe(true);
+      expect(result).toBe(false);
     });
   });
 });

@@ -22,6 +22,10 @@
       >
     </div>
 
+    <div id="pinningNote" class="info-banner" style="display: none;">
+      <strong>Note:</strong> You must pin at least one service manually in the AWS Console for the quickbar injection to work.
+    </div>
+
     <div class="settings-container">
       <label for="maxServicesInput">Max services in quickbar:</label>
       <input 
@@ -31,6 +35,14 @@
         max="50" 
         value="10"
       >
+    </div>
+
+    <div class="settings-container">
+      <label for="visualModeSelect">Visual mode:</label>
+      <select id="visualModeSelect">
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+      </select>
     </div>
 
     <div id="serviceList" class="service-list">

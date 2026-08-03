@@ -1,4 +1,4 @@
-.PHONY: clean compile bundle bundle-prod build-chrome build-firefox build-all dev test test-watch test-coverage test-verbose watch type-check lint lint-fix format format-check audit check-unused check-circular check-all security-check help
+.PHONY: clean compile bundle bundle-prod build-chrome build-firefox build-all dev test test-watch test-coverage test-verbose watch type-check lint lint-fix format format-check audit check-unused check-circular check-all security-check update help
 
 # Clean build artifacts
 clean:
@@ -32,35 +32,35 @@ build-all: clean build-chrome build-firefox
 dev: clean bundle
 
 # Run tests
-test:
+test: clean
 	npx jest
 
 # Run tests in watch mode
-test-watch:
+test-watch: clean
 	npx jest --watch
 
 # Run tests with coverage
-test-coverage:
+test-coverage: clean
 	npx jest --coverage
 
 # Run tests with verbose output
-test-verbose:
+test-verbose: clean
 	npx jest --verbose
 
 # Watch mode for TypeScript compilation
-watch:
+watch: clean
 	npx tsc --watch
 
 # Type check without emitting files
-type-check:
+type-check: clean
 	npx tsc --noEmit
 
 # Run ESLint
-lint:
+lint: clean
 	npx eslint src/**/*.ts
 
 # Auto-fix ESLint issues
-lint-fix:
+lint-fix: clean
 	npx eslint src/**/*.ts --fix
 
 # Format code with Prettier
@@ -89,6 +89,12 @@ check-all: type-check lint format-check test
 # Run comprehensive security check
 security-check:
 	npx tsx scripts/security-check.ts
+
+# Update all node dependencies to latest
+update:
+	npx npm-check-updates -u
+	npm install --legacy-peer-deps
+	npm audit fix --legacy-peer-deps
 
 # Display help
 help:
@@ -126,6 +132,9 @@ help:
 	@echo "  make check-circular     - Check for circular dependencies"
 	@echo "  make check-all          - Run all checks (type + lint + format + test)"
 	@echo "  make security-check     - Run comprehensive security check"
+	@echo ""
+	@echo "Maintenance Commands:"
+	@echo "  make update             - Update all node dependencies to latest"
 	@echo ""
 	@echo "Help:"
 	@echo "  make help               - Display this help message"

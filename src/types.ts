@@ -21,6 +21,12 @@ export interface Service {
 }
 
 /**
+ * Visual mode controls light/dark theme across all AWS accounts.
+ * User preference overrides per-account AWS Console theme setting.
+ */
+export type VisualMode = 'light' | 'dark';
+
+/**
  * Storage structure for user-configured favorite services
  */
 export interface UserFavorites {
@@ -44,7 +50,20 @@ export interface StorageData {
   userFavorites?: UserFavorites;
   /** Maximum services configuration */
   maxServicesConfig?: MaxServicesConfig;
+  /** Visual mode preference (light/dark) */
+  visualMode?: VisualMode;
 }
+
+/**
+ * Default values for first-launch initialization.
+ * These are used ONLY when storage is empty (first launch).
+ * They are NEVER used to override existing stored values.
+ */
+export const STORAGE_DEFAULTS = {
+  userFavorites: [] as string[],
+  maxServices: 10,
+  visualMode: 'light' as VisualMode
+} as const;
 
 /**
  * AWS region identifier (e.g., 'us-east-1', 'eu-west-1')
@@ -52,7 +71,8 @@ export interface StorageData {
 export type AWSRegion = string;
 
 /**
- * CSS class names extracted from AWS Console for styling favorite items
+ * CSS class names extracted from AWS Console for styling favorite items.
+ * These are dynamically extracted from the first native pinned service — never hardcoded.
  */
 export interface AWSFavoriteClasses {
   /** Class for the list item container */

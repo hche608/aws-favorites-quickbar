@@ -1,11 +1,45 @@
 /**
- * Unit tests for quickbar injector - injects services with duplicate filtering
+ * Unit tests for quickbar injector
+ *
+ * Key changes:
+ * - Injection returns false when no CSS template available (no native pinned service)
+ * - No hardcoded fallback CSS classes — requires native pinned service
+ * - Tests provide native pinned service structure for CSS extraction
  */
 
 import { injectServices } from '../../../src/quickbar/injector';
 import { Service } from '../../../src/types';
 import { teardownDOM, createMockElement } from '../../helpers/dom-helpers';
 import { createSampleServices } from '../../helpers/fixtures';
+
+/**
+ * Helper: creates a quickbar with a native pinned service for CSS extraction
+ */
+function createQuickbarWithNativeFavorite(
+  serviceId: string = 'cloudformation'
+): HTMLOListElement {
+  const quickbar = document.createElement('ol');
+  quickbar.setAttribute('data-rbd-droppable-id', 'global-nav-favorites-bar-list-edit-mode');
+
+  const li = createMockElement('li', { className: 'native-li-class' });
+  const anchor = createMockElement('a', {
+    className: 'native-anchor-class',
+    'data-testid': `awsc-nav-favorites-bar-${serviceId}`
+  });
+  const mainContainer = createMockElement('div', { className: 'native-container-class' });
+  const iconWrapper = createMockElement('div', { className: 'native-icon-wrapper-class' });
+  const icon = createMockElement('img', { className: 'native-icon-class' });
+  const label = createMockElement('span', { className: 'native-label-class' });
+
+  iconWrapper.appendChild(icon);
+  mainContainer.appendChild(iconWrapper);
+  mainContainer.appendChild(label);
+  anchor.appendChild(mainContainer);
+  li.appendChild(anchor);
+  quickbar.appendChild(li);
+
+  return quickbar;
+}
 
 describe('Quickbar Injector', () => {
   beforeEach(() => {
@@ -17,10 +51,8 @@ describe('Quickbar Injector', () => {
   });
 
   describe('injectServices', () => {
-    it('should inject services into the quickbar', async () => {
-      // Create quickbar
-      const quickbar = document.createElement('ol');
-      quickbar.setAttribute('data-rbd-droppable-id', 'global-nav-favorites-bar-list-edit-mode');
+    it('should inject services when a native pinned service exists for CSS extraction', async () => {
+      const quickbar = createQuickbarWithNativeFavorite();
       document.body.appendChild(quickbar);
 
       const services = createSampleServices(3);
@@ -33,8 +65,7 @@ describe('Quickbar Injector', () => {
     });
 
     it('should return true when services array is empty', async () => {
-      const quickbar = document.createElement('ol');
-      quickbar.setAttribute('data-rbd-droppable-id', 'global-nav-favorites-bar-list-edit-mode');
+      const quickbar = createQuickbarWithNativeFavorite();
       document.body.appendChild(quickbar);
 
       const result = await injectServices([], quickbar);
@@ -42,86 +73,55 @@ describe('Quickbar Injector', () => {
     });
 
     it('should return true when services is null', async () => {
-      const quickbar = document.createElement('ol');
-      quickbar.setAttribute('data-rbd-droppable-id', 'global-nav-favorites-bar-list-edit-mode');
+      const quickbar = createQuickbarWithNativeFavorite();
       document.body.appendChild(quickbar);
 
       const result = await injectServices(null as any, quickbar);
       expect(result).toBe(true);
     });
 
-    it('should filter out duplicates of native AWS favorites', async () => {
-      // Create quickbar with native favorite
+    it('should return false when no native pinned service exists (no CSS template)', async () => {
+      // Quickbar without any native pinned services
       const quickbar = document.createElement('ol');
       quickbar.setAttribute('data-rbd-droppable-id', 'global-nav-favorites-bar-list-edit-mode');
+      document.body.appendChild(quickbar);
 
-      // Add native favorite with proper structure
-      const li = createMockElement('li', { className: 'globalNav-1283' });
-      const anchor = createMockElement('a', {
-        className: 'globalNav-1215',
-        'data-testid': 'awsc-nav-favorites-bar-s3'
-      });
-      const mainContainer = createMockElement('div', { className: 'globalNav-1286' });
-      const iconWrapper = createMockElement('div', { className: 'globalNav-1290' });
-      const icon = createMockElement('img', { className: 'globalNav-1291' });
-      const label = createMockElement('span', { className: 'globalNav-12107' });
+      const services = createSampleServices(2);
+      const result = await injectServices(services, quickbar);
 
-      iconWrapper.appendChild(icon);
-      mainContainer.appendChild(iconWrapper);
-      mainContainer.appendChild(label);
-      anchor.appendChild(mainContainer);
-      li.appendChild(anchor);
-      quickbar.appendChild(li);
+      expect(result).toBe(false);
+
+      // No items should be injected
+      const injectedItems = quickbar.querySelectorAll('[data-source]');
+      expect(injectedItems.length).toBe(0);
+    });
+
+    it('should filter out duplicates of native AWS favorites', async () => {
+      const quickbar = createQuickbarWithNativeFavorite('s3');
       document.body.appendChild(quickbar);
 
       // Try to inject services including S3 (which is already native)
       const services: Service[] = [
         { id: 's3', name: 'S3', iconUrl: '', consoleUrl: 'https://console.aws.amazon.com/s3/home' },
-        {
-          id: 'ec2',
-          name: 'EC2',
-          iconUrl: '',
-          consoleUrl: 'https://console.aws.amazon.com/ec2/home'
-        }
+        { id: 'ec2', name: 'EC2', iconUrl: '', consoleUrl: 'https://console.aws.amazon.com/ec2/home' }
       ];
 
       const result = await injectServices(services, quickbar);
 
       expect(result).toBe(true);
 
-      // Should only inject EC2, not S3
+      // Should only inject EC2, not S3 (S3 is already native)
       const injectedItems = quickbar.querySelectorAll('[data-source]');
       expect(injectedItems.length).toBe(1);
       expect(injectedItems[0].getAttribute('data-service-id')).toBe('ec2');
     });
 
-    it('should apply CSS classes from native favorites when available', async () => {
-      // Create quickbar with native favorite
-      const quickbar = document.createElement('ol');
-      quickbar.setAttribute('data-rbd-droppable-id', 'global-nav-favorites-bar-list-edit-mode');
-
-      const li = createMockElement('li', { className: 'custom-li-class' });
-      const anchor = createMockElement('a', { className: 'custom-anchor-class' });
-      const mainContainer = createMockElement('div', { className: 'custom-container-class' });
-      const iconWrapper = createMockElement('div', { className: 'custom-icon-wrapper-class' });
-      const icon = createMockElement('img', { className: 'custom-icon-class' });
-      const label = createMockElement('span', { className: 'custom-label-class' });
-
-      iconWrapper.appendChild(icon);
-      mainContainer.appendChild(iconWrapper);
-      mainContainer.appendChild(label);
-      anchor.appendChild(mainContainer);
-      li.appendChild(anchor);
-      quickbar.appendChild(li);
+    it('should apply CSS classes extracted from native favorites', async () => {
+      const quickbar = createQuickbarWithNativeFavorite('cloudformation');
       document.body.appendChild(quickbar);
 
       const services: Service[] = [
-        {
-          id: 'lambda',
-          name: 'Lambda',
-          iconUrl: '',
-          consoleUrl: 'https://console.aws.amazon.com/lambda/home'
-        }
+        { id: 'lambda', name: 'Lambda', iconUrl: '', consoleUrl: 'https://console.aws.amazon.com/lambda/home' }
       ];
 
       const result = await injectServices(services, quickbar);
@@ -130,36 +130,24 @@ describe('Quickbar Injector', () => {
 
       const injectedItem = quickbar.querySelector('[data-service-id="lambda"]');
       expect(injectedItem).not.toBeNull();
-      expect(injectedItem?.className).toBe('custom-li-class');
+      expect(injectedItem?.className).toBe('native-li-class');
     });
 
     it('should remove previously injected services before adding new ones', async () => {
-      const quickbar = document.createElement('ol');
-      quickbar.setAttribute('data-rbd-droppable-id', 'global-nav-favorites-bar-list-edit-mode');
+      const quickbar = createQuickbarWithNativeFavorite();
       document.body.appendChild(quickbar);
 
-      // First injection - pass quickbar directly to avoid waitForElement
+      // First injection
       const services1: Service[] = [
         { id: 's3', name: 'S3', iconUrl: '', consoleUrl: 'https://console.aws.amazon.com/s3/home' }
       ];
       await injectServices(services1, quickbar);
-
       expect(quickbar.querySelectorAll('[data-source]').length).toBe(1);
 
-      // Second injection with different services - pass quickbar directly
+      // Second injection with different services
       const services2: Service[] = [
-        {
-          id: 'ec2',
-          name: 'EC2',
-          iconUrl: '',
-          consoleUrl: 'https://console.aws.amazon.com/ec2/home'
-        },
-        {
-          id: 'lambda',
-          name: 'Lambda',
-          iconUrl: '',
-          consoleUrl: 'https://console.aws.amazon.com/lambda/home'
-        }
+        { id: 'ec2', name: 'EC2', iconUrl: '', consoleUrl: 'https://console.aws.amazon.com/ec2/home' },
+        { id: 'lambda', name: 'Lambda', iconUrl: '', consoleUrl: 'https://console.aws.amazon.com/lambda/home' }
       ];
       await injectServices(services2, quickbar);
 
@@ -168,53 +156,20 @@ describe('Quickbar Injector', () => {
       expect(quickbar.querySelector('[data-service-id="s3"]')).toBeNull();
       expect(quickbar.querySelector('[data-service-id="ec2"]')).not.toBeNull();
       expect(quickbar.querySelector('[data-service-id="lambda"]')).not.toBeNull();
-    }, 10000);
+    });
 
     it('should return false when quickbar is not found', async () => {
       const services = createSampleServices(2);
 
-      // Don't create a quickbar element - function will timeout waiting
+      // Don't create a quickbar element — function will timeout waiting
       const result = await injectServices(services);
 
       expect(result).toBe(false);
     }, 15000);
 
-    it('should handle errors gracefully', async () => {
-      const quickbar = document.createElement('ol');
-      quickbar.setAttribute('data-rbd-droppable-id', 'global-nav-favorites-bar-list-edit-mode');
-      document.body.appendChild(quickbar);
-
-      // Create a service that will cause an error (null id causes error in toLowerCase())
-      const invalidServices: any[] = [{ id: null, name: 'Invalid' }];
-
-      const result = await injectServices(invalidServices, quickbar);
-
-      // Should return false when an error occurs
-      expect(result).toBe(false);
-      expect(quickbar.querySelectorAll('[data-source]').length).toBe(0);
-    }, 10000);
-
     it('should handle case-insensitive duplicate filtering', async () => {
-      const quickbar = document.createElement('ol');
-      quickbar.setAttribute('data-rbd-droppable-id', 'global-nav-favorites-bar-list-edit-mode');
-
-      // Add native favorite with uppercase ID in testid
-      const li = createMockElement('li', { className: 'globalNav-1283' });
-      const anchor = createMockElement('a', {
-        className: 'globalNav-1215',
-        'data-testid': 'awsc-nav-favorites-bar-S3'
-      });
-      const mainContainer = createMockElement('div', { className: 'globalNav-1286' });
-      const iconWrapper = createMockElement('div', { className: 'globalNav-1290' });
-      const icon = createMockElement('img', { className: 'globalNav-1291' });
-      const label = createMockElement('span', { className: 'globalNav-12107' });
-
-      iconWrapper.appendChild(icon);
-      mainContainer.appendChild(iconWrapper);
-      mainContainer.appendChild(label);
-      anchor.appendChild(mainContainer);
-      li.appendChild(anchor);
-      quickbar.appendChild(li);
+      // Native favorite has uppercase ID in testid
+      const quickbar = createQuickbarWithNativeFavorite('S3');
       document.body.appendChild(quickbar);
 
       // Try to inject service with lowercase id
