@@ -205,14 +205,14 @@ describe('Duplicate Service Filtering Property Tests', () => {
             );
 
             // Check that case variations are treated as duplicates
-            const idCounts: Record<string, number> = {};
+            const idCounts = new Map<string, number>();
             for (const service of mergedServices) {
               const lowerId = service.id.toLowerCase();
-              idCounts[lowerId] = (idCounts[lowerId] || 0) + 1;
+              idCounts.set(lowerId, (idCounts.get(lowerId) ?? 0) + 1);
             }
 
             // Property: No ID should appear more than once (case-insensitive)
-            return Object.values(idCounts).every((count) => count === 1);
+            return [...idCounts.values()].every((count) => count === 1);
           }
         ),
         { numRuns: 100 }
