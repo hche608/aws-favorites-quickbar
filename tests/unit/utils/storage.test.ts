@@ -116,6 +116,32 @@ describe('Storage Utilities', () => {
       expect(savedData.services).toEqual([]);
     });
 
+    it('should log error when browser.storage write fails', async () => {
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+      (mockBrowserStorage.local.set as jest.Mock).mockRejectedValue(new Error('Browser storage error'));
+
+      const services: Service[] = [
+        {
+          id: 's3',
+          name: 'S3',
+          iconUrl: 'https://example.com/s3.png',
+          consoleUrl: 'https://console.aws.amazon.com/s3'
+        }
+      ];
+
+      saveServicesToStorage(services);
+
+      // Wait for the async catch to fire
+      await new Promise((resolve) => setTimeout(resolve, 10));
+
+      expect(consoleSpy).toHaveBeenCalledWith(
+        'AWS Favorites Quickbar: Error saving to browser.storage',
+        expect.any(Error)
+      );
+
+      consoleSpy.mockRestore();
+    });
+
     it('should throw when localStorage write fails', () => {
       jest.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
         throw new Error('Storage quota exceeded');

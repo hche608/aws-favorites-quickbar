@@ -140,6 +140,18 @@ describe('DOM Utilities', () => {
     });
   });
 
+  describe('location accessors', () => {
+    it('should return window.location.hostname', () => {
+      const result = domModule.location.getHostname();
+      expect(typeof result).toBe('string');
+    });
+
+    it('should return window.location.pathname', () => {
+      const result = domModule.location.getPathname();
+      expect(typeof result).toBe('string');
+    });
+  });
+
   describe('isAWSConsolePage', () => {
     afterEach(() => jest.restoreAllMocks());
 
