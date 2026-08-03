@@ -22,31 +22,7 @@ describe('Service Pinning Toggle Property Tests', () => {
 
   describe('Property 9: Service pinning toggle idempotence', () => {
     it('should return to original state after pin then unpin', () => {
-      const serviceIdArbitrary = fc.stringOf(
-        fc.constantFrom(
-          'a',
-          'b',
-          'c',
-          'd',
-          'e',
-          'f',
-          'g',
-          'h',
-          'i',
-          'j',
-          'k',
-          'l',
-          'm',
-          'n',
-          'o',
-          'p',
-          'q',
-          'r',
-          's',
-          't'
-        ),
-        { minLength: 2, maxLength: 15 }
-      );
+      const serviceIdArbitrary = fc.stringMatching(/^[a-z]{2,15}$/);
 
       // Property: For any service and initial favorites list,
       // pinning then unpinning should return to the original state
@@ -100,10 +76,7 @@ describe('Service Pinning Toggle Property Tests', () => {
     });
 
     it('should maintain idempotence for multiple pin/unpin cycles', () => {
-      const serviceIdArbitrary = fc.stringOf(
-        fc.constantFrom('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'),
-        { minLength: 2, maxLength: 10 }
-      );
+      const serviceIdArbitrary = fc.stringMatching(/^[a-z]{2,15}$/);
 
       // Property: Multiple pin/unpin cycles should be idempotent
       fc.assert(
@@ -153,10 +126,7 @@ describe('Service Pinning Toggle Property Tests', () => {
     });
 
     it('should handle case-insensitive pinning operations', () => {
-      const baseIdArbitrary = fc.stringOf(
-        fc.constantFrom('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'),
-        { minLength: 2, maxLength: 10 }
-      );
+      const baseIdArbitrary = fc.stringMatching(/^[a-z]{2,15}$/);
 
       // Property: Pinning with different cases should be treated as the same service
       fc.assert(
@@ -203,10 +173,7 @@ describe('Service Pinning Toggle Property Tests', () => {
     });
 
     it('should preserve other favorites during pin/unpin operations', () => {
-      const serviceIdArbitrary = fc.stringOf(
-        fc.constantFrom('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'),
-        { minLength: 2, maxLength: 10 }
-      );
+      const serviceIdArbitrary = fc.stringMatching(/^[a-z]{2,15}$/);
 
       // Property: Pin/unpin operations should not affect other favorites
       fc.assert(

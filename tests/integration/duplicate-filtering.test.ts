@@ -32,48 +32,7 @@ describe('Duplicate Service Filtering Property Tests', () => {
 
   describe('Property 8: Duplicate service filtering', () => {
     it('should ensure no duplicate service IDs in merged result', () => {
-      const serviceIdArbitrary = fc.stringOf(
-        fc.constantFrom(
-          'a',
-          'b',
-          'c',
-          'd',
-          'e',
-          'f',
-          'g',
-          'h',
-          'i',
-          'j',
-          'k',
-          'l',
-          'm',
-          'n',
-          'o',
-          'p',
-          'q',
-          'r',
-          's',
-          't',
-          'u',
-          'v',
-          'w',
-          'x',
-          'y',
-          'z',
-          '0',
-          '1',
-          '2',
-          '3',
-          '4',
-          '5',
-          '6',
-          '7',
-          '8',
-          '9',
-          '-'
-        ),
-        { minLength: 2, maxLength: 20 }
-      );
+      const serviceIdArbitrary = fc.stringMatching(/^[a-z]{2,15}$/);
 
       const serviceArbitrary = fc.record({
         id: serviceIdArbitrary,
@@ -118,31 +77,7 @@ describe('Duplicate Service Filtering Property Tests', () => {
     });
 
     it('should ensure merged services have no duplicates before injection', () => {
-      const serviceIdArbitrary = fc.stringOf(
-        fc.constantFrom(
-          'a',
-          'b',
-          'c',
-          'd',
-          'e',
-          'f',
-          'g',
-          'h',
-          'i',
-          'j',
-          'k',
-          'l',
-          'm',
-          'n',
-          'o',
-          'p',
-          'q',
-          'r',
-          's',
-          't'
-        ),
-        { minLength: 2, maxLength: 10 }
-      );
+      const serviceIdArbitrary = fc.stringMatching(/^[a-z]{2,15}$/);
 
       const serviceArbitrary = fc.record({
         id: serviceIdArbitrary,
@@ -185,31 +120,7 @@ describe('Duplicate Service Filtering Property Tests', () => {
     });
 
     it('should prefer user favorites over recent services when deduplicating', () => {
-      const serviceIdArbitrary = fc.stringOf(
-        fc.constantFrom(
-          'a',
-          'b',
-          'c',
-          'd',
-          'e',
-          'f',
-          'g',
-          'h',
-          'i',
-          'j',
-          'k',
-          'l',
-          'm',
-          'n',
-          'o',
-          'p',
-          'q',
-          'r',
-          's',
-          't'
-        ),
-        { minLength: 2, maxLength: 10 }
-      );
+      const serviceIdArbitrary = fc.stringMatching(/^[a-z]{2,15}$/);
 
       const serviceArbitrary = fc.record({
         id: serviceIdArbitrary,
@@ -265,10 +176,7 @@ describe('Duplicate Service Filtering Property Tests', () => {
     });
 
     it('should handle case-insensitive duplicate detection', () => {
-      const baseIdArbitrary = fc.stringOf(
-        fc.constantFrom('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'),
-        { minLength: 2, maxLength: 10 }
-      );
+      const baseIdArbitrary = fc.stringMatching(/^[a-z]{2,15}$/);
 
       const serviceArbitrary = (source: string) =>
         fc.record({

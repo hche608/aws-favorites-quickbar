@@ -3,12 +3,13 @@
  * Requirements: 1.1
  */
 
-import {
+import * as domModule from '../../../src/utils/dom';
+const {
   waitForDOMReady,
   waitForElement,
   isAWSConsolePage,
   isAWSConsoleHomepage
-} from '../../../src/utils/dom';
+} = domModule;
 import { teardownDOM } from '../../helpers/dom-helpers';
 import { mockMutationObserver } from '../../helpers/mocks';
 
@@ -140,120 +141,60 @@ describe('DOM Utilities', () => {
   });
 
   describe('isAWSConsolePage', () => {
+    afterEach(() => jest.restoreAllMocks());
+
     it('should return true for console.aws.amazon.com hostname', () => {
-      Object.defineProperty(window, 'location', {
-        configurable: true,
-        writable: true,
-        value: { hostname: 'console.aws.amazon.com' }
-      });
-
-      const result = isAWSConsolePage();
-
-      expect(result).toBe(true);
+      jest.spyOn(domModule.location, 'getHostname').mockReturnValue('console.aws.amazon.com');
+      expect(isAWSConsolePage()).toBe(true);
     });
 
     it('should return true for regional console hostnames', () => {
-      Object.defineProperty(window, 'location', {
-        configurable: true,
-        writable: true,
-        value: { hostname: 'us-west-2.console.aws.amazon.com' }
-      });
-
-      const result = isAWSConsolePage();
-
-      expect(result).toBe(true);
+      jest.spyOn(domModule.location, 'getHostname').mockReturnValue('us-west-2.console.aws.amazon.com');
+      expect(isAWSConsolePage()).toBe(true);
     });
 
     it('should return false for non-AWS hostnames', () => {
-      Object.defineProperty(window, 'location', {
-        configurable: true,
-        writable: true,
-        value: { hostname: 'example.com' }
-      });
-
-      const result = isAWSConsolePage();
-
-      expect(result).toBe(false);
+      jest.spyOn(domModule.location, 'getHostname').mockReturnValue('example.com');
+      expect(isAWSConsolePage()).toBe(false);
     });
 
     it('should return false for AWS but non-console hostnames', () => {
-      Object.defineProperty(window, 'location', {
-        configurable: true,
-        writable: true,
-        value: { hostname: 'aws.amazon.com' }
-      });
-
-      const result = isAWSConsolePage();
-
-      expect(result).toBe(false);
+      jest.spyOn(domModule.location, 'getHostname').mockReturnValue('aws.amazon.com');
+      expect(isAWSConsolePage()).toBe(false);
     });
 
     it('should return false for localhost', () => {
-      Object.defineProperty(window, 'location', {
-        configurable: true,
-        writable: true,
-        value: { hostname: 'localhost' }
-      });
-
-      const result = isAWSConsolePage();
-
-      expect(result).toBe(false);
+      jest.spyOn(domModule.location, 'getHostname').mockReturnValue('localhost');
+      expect(isAWSConsolePage()).toBe(false);
     });
   });
 
   describe('isAWSConsoleHomepage', () => {
+    afterEach(() => jest.restoreAllMocks());
+
     it('should return true for root path', () => {
-      Object.defineProperty(window, 'location', {
-        configurable: true,
-        writable: true,
-        value: { pathname: '/' }
-      });
-
-      const result = isAWSConsoleHomepage();
-
-      expect(result).toBe(true);
+      jest.spyOn(domModule.location, 'getPathname').mockReturnValue('/');
+      expect(isAWSConsoleHomepage()).toBe(true);
     });
 
     it('should return true for /console/home path', () => {
-      Object.defineProperty(window, 'location', {
-        configurable: true,
-        writable: true,
-        value: { pathname: '/console/home' }
-      });
-
-      const result = isAWSConsoleHomepage();
-
-      expect(result).toBe(true);
+      jest.spyOn(domModule.location, 'getPathname').mockReturnValue('/console/home');
+      expect(isAWSConsoleHomepage()).toBe(true);
     });
 
     it('should return false for service-specific paths', () => {
-      Object.defineProperty(window, 'location', {
-        configurable: true,
-        writable: true,
-        value: { pathname: '/s3/home' }
-      });
-
-      const result = isAWSConsoleHomepage();
-
-      expect(result).toBe(false);
+      jest.spyOn(domModule.location, 'getPathname').mockReturnValue('/s3/home');
+      expect(isAWSConsoleHomepage()).toBe(false);
     });
 
     it('should return false for /console path without /home', () => {
-      delete (window as any).location;
-      (window as any).location = { pathname: '/console' };
-
-      const result = isAWSConsoleHomepage();
-
-      expect(result).toBe(false);
+      jest.spyOn(domModule.location, 'getPathname').mockReturnValue('/console');
+      expect(isAWSConsoleHomepage()).toBe(false);
     });
 
     it('should return false for paths with query parameters', () => {
-      delete (window as any).location;
-      (window as any).location = { pathname: '/ec2/v2/home' };
-
-      const result = isAWSConsoleHomepage();
-
-      expect(result).toBe(false);
+      jest.spyOn(domModule.location, 'getPathname').mockReturnValue('/ec2/v2/home');
+      expect(isAWSConsoleHomepage()).toBe(false);
     });
   });
 });

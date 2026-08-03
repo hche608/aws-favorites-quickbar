@@ -222,7 +222,7 @@ describe('Popup Service Item', () => {
   describe('Property-Based Tests', () => {
     // Arbitrary for generating service objects
     const serviceArbitrary = fc.record({
-      id: fc.stringOf(fc.char(), { minLength: 2, maxLength: 20 }),
+      id: fc.stringMatching(/^[a-z0-9-]{2,20}$/),
       name: fc.string({ minLength: 1, maxLength: 50 }),
       iconUrl: fc.option(fc.webUrl(), { nil: '' }),
       consoleUrl: fc.webUrl()

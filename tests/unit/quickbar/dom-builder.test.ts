@@ -147,12 +147,7 @@ describe('DOM Builder', () => {
      */
     it('should maintain consistent structure for any valid service object', () => {
       const serviceArbitrary = fc.record({
-        id: fc.stringOf(
-          fc.constantFrom(
-            ...'abcdefghijklmnopqrstuvwxyz0123456789-'.split('')
-          ),
-          { minLength: 2, maxLength: 20 }
-        ),
+        id: fc.stringMatching(/^[a-z0-9-]{2,20}$/),
         name: fc.string({ minLength: 1, maxLength: 50 }).filter((s) => s.trim().length > 0),
         iconUrl: fc
           .option(fc.webUrl({ validSchemes: ['https'] }), { nil: null })

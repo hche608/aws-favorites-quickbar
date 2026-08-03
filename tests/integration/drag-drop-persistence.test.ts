@@ -22,31 +22,7 @@ describe('Drag-and-Drop Order Persistence Property Tests', () => {
 
   describe('Property 10: Drag-and-drop order persistence', () => {
     it('should persist reordered favorites to storage', () => {
-      const serviceIdArbitrary = fc.stringOf(
-        fc.constantFrom(
-          'a',
-          'b',
-          'c',
-          'd',
-          'e',
-          'f',
-          'g',
-          'h',
-          'i',
-          'j',
-          'k',
-          'l',
-          'm',
-          'n',
-          'o',
-          'p',
-          'q',
-          'r',
-          's',
-          't'
-        ),
-        { minLength: 2, maxLength: 15 }
-      );
+      const serviceIdArbitrary = fc.stringMatching(/^[a-z]{2,10}$/);
 
       // Property: For any list of favorites and any valid reordering,
       // the new order should be persisted to storage
@@ -91,10 +67,7 @@ describe('Drag-and-Drop Order Persistence Property Tests', () => {
     });
 
     it('should maintain all favorites after reordering', () => {
-      const serviceIdArbitrary = fc.stringOf(
-        fc.constantFrom('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'),
-        { minLength: 2, maxLength: 10 }
-      );
+      const serviceIdArbitrary = fc.stringMatching(/^[a-z]{2,10}$/);
 
       // Property: Reordering should not add or remove any favorites
       fc.assert(
@@ -133,10 +106,7 @@ describe('Drag-and-Drop Order Persistence Property Tests', () => {
     });
 
     it('should handle moving first item to last position', () => {
-      const serviceIdArbitrary = fc.stringOf(
-        fc.constantFrom('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'),
-        { minLength: 2, maxLength: 10 }
-      );
+      const serviceIdArbitrary = fc.stringMatching(/^[a-z]{2,10}$/);
 
       // Property: Moving first item to last should preserve all items
       fc.assert(
@@ -163,10 +133,7 @@ describe('Drag-and-Drop Order Persistence Property Tests', () => {
     });
 
     it('should handle moving last item to first position', () => {
-      const serviceIdArbitrary = fc.stringOf(
-        fc.constantFrom('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'),
-        { minLength: 2, maxLength: 10 }
-      );
+      const serviceIdArbitrary = fc.stringMatching(/^[a-z]{2,10}$/);
 
       // Property: Moving last item to first should preserve all items
       fc.assert(
@@ -193,10 +160,7 @@ describe('Drag-and-Drop Order Persistence Property Tests', () => {
     });
 
     it('should handle adjacent item swaps', () => {
-      const serviceIdArbitrary = fc.stringOf(
-        fc.constantFrom('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'),
-        { minLength: 2, maxLength: 10 }
-      );
+      const serviceIdArbitrary = fc.stringMatching(/^[a-z]{2,10}$/);
 
       // Property: Swapping adjacent items should preserve all items
       fc.assert(
@@ -232,10 +196,7 @@ describe('Drag-and-Drop Order Persistence Property Tests', () => {
     });
 
     it('should handle no-op reordering (same position)', () => {
-      const serviceIdArbitrary = fc.stringOf(
-        fc.constantFrom('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'),
-        { minLength: 2, maxLength: 10 }
-      );
+      const serviceIdArbitrary = fc.stringMatching(/^[a-z]{2,10}$/);
 
       // Property: Moving an item to its own position should not change the order
       fc.assert(
@@ -269,10 +230,7 @@ describe('Drag-and-Drop Order Persistence Property Tests', () => {
     });
 
     it('should persist order through storage round-trip', async () => {
-      const serviceIdArbitrary = fc.stringOf(
-        fc.constantFrom('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'),
-        { minLength: 2, maxLength: 10 }
-      );
+      const serviceIdArbitrary = fc.stringMatching(/^[a-z]{2,10}$/);
 
       // Property: Order should be preserved through save and load
       await fc.assert(

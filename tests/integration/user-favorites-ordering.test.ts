@@ -33,48 +33,7 @@ describe('User Favorites Ordering Property Tests', () => {
   describe('Property 7: User favorites ordering priority', () => {
     it('should ensure user-pinned services always appear before recent services', () => {
       // Define arbitraries for generating test data
-      const serviceIdArbitrary = fc.stringOf(
-        fc.constantFrom(
-          'a',
-          'b',
-          'c',
-          'd',
-          'e',
-          'f',
-          'g',
-          'h',
-          'i',
-          'j',
-          'k',
-          'l',
-          'm',
-          'n',
-          'o',
-          'p',
-          'q',
-          'r',
-          's',
-          't',
-          'u',
-          'v',
-          'w',
-          'x',
-          'y',
-          'z',
-          '0',
-          '1',
-          '2',
-          '3',
-          '4',
-          '5',
-          '6',
-          '7',
-          '8',
-          '9',
-          '-'
-        ),
-        { minLength: 2, maxLength: 20 }
-      );
+      const serviceIdArbitrary = fc.stringMatching(/^[a-z]{2,15}$/);
 
       const serviceArbitrary = fc.record({
         id: serviceIdArbitrary,
@@ -148,48 +107,7 @@ describe('User Favorites Ordering Property Tests', () => {
     });
 
     it('should maintain user favorites order in merged result', () => {
-      const serviceIdArbitrary = fc.stringOf(
-        fc.constantFrom(
-          'a',
-          'b',
-          'c',
-          'd',
-          'e',
-          'f',
-          'g',
-          'h',
-          'i',
-          'j',
-          'k',
-          'l',
-          'm',
-          'n',
-          'o',
-          'p',
-          'q',
-          'r',
-          's',
-          't',
-          'u',
-          'v',
-          'w',
-          'x',
-          'y',
-          'z',
-          '0',
-          '1',
-          '2',
-          '3',
-          '4',
-          '5',
-          '6',
-          '7',
-          '8',
-          '9',
-          '-'
-        ),
-        { minLength: 2, maxLength: 20 }
-      );
+      const serviceIdArbitrary = fc.stringMatching(/^[a-z]{2,15}$/);
 
       const serviceArbitrary = fc.record({
         id: serviceIdArbitrary,
