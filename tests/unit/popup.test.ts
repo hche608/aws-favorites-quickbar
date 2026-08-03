@@ -253,8 +253,18 @@ describe('Popup', () => {
   describe('search', () => {
     beforeEach(async () => {
       const services: Record<string, Service> = {
-        s3: { id: 's3', name: 'S3', iconUrl: null, consoleUrl: 'https://console.aws.amazon.com/s3' },
-        ec2: { id: 'ec2', name: 'EC2', iconUrl: null, consoleUrl: 'https://console.aws.amazon.com/ec2' }
+        s3: {
+          id: 's3',
+          name: 'S3',
+          iconUrl: null,
+          consoleUrl: 'https://console.aws.amazon.com/s3'
+        },
+        ec2: {
+          id: 'ec2',
+          name: 'EC2',
+          iconUrl: null,
+          consoleUrl: 'https://console.aws.amazon.com/ec2'
+        }
       };
       (loadCachedServices as jest.Mock).mockResolvedValue(services);
       (loadUserFavorites as jest.Mock).mockResolvedValue([]);
@@ -287,7 +297,9 @@ describe('Popup', () => {
   describe('pinning note', () => {
     it('should show pinning note when injection status is not success', async () => {
       (storage.local.get as jest.Mock).mockResolvedValue({ injectionStatus: 'no-native-pin' });
-      (loadCachedServices as jest.Mock).mockResolvedValue({ s3: { id: 's3', name: 'S3', iconUrl: null, consoleUrl: 'https://a.com' } });
+      (loadCachedServices as jest.Mock).mockResolvedValue({
+        s3: { id: 's3', name: 'S3', iconUrl: null, consoleUrl: 'https://a.com' }
+      });
       (loadUserFavorites as jest.Mock).mockResolvedValue([]);
       (loadMaxServices as jest.Mock).mockResolvedValue(10);
       (loadVisualMode as jest.Mock).mockResolvedValue('light');
@@ -305,7 +317,9 @@ describe('Popup', () => {
 
     it('should hide pinning note when injection status is success', async () => {
       (storage.local.get as jest.Mock).mockResolvedValue({ injectionStatus: 'success' });
-      (loadCachedServices as jest.Mock).mockResolvedValue({ s3: { id: 's3', name: 'S3', iconUrl: null, consoleUrl: 'https://a.com' } });
+      (loadCachedServices as jest.Mock).mockResolvedValue({
+        s3: { id: 's3', name: 'S3', iconUrl: null, consoleUrl: 'https://a.com' }
+      });
       (loadUserFavorites as jest.Mock).mockResolvedValue(['s3']);
       (loadMaxServices as jest.Mock).mockResolvedValue(10);
       (loadVisualMode as jest.Mock).mockResolvedValue('light');

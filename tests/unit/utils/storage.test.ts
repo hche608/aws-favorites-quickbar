@@ -118,7 +118,9 @@ describe('Storage Utilities', () => {
 
     it('should log error when browser.storage write fails', async () => {
       const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-      (mockBrowserStorage.local.set as jest.Mock).mockRejectedValue(new Error('Browser storage error'));
+      (mockBrowserStorage.local.set as jest.Mock).mockRejectedValue(
+        new Error('Browser storage error')
+      );
 
       const services: Service[] = [
         {

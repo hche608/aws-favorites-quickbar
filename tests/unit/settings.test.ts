@@ -109,7 +109,7 @@ describe('Settings', () => {
 
     it('should handle partial storage (some values defined, some not)', async () => {
       (mockStorage.sync.get as jest.Mock).mockResolvedValue({
-        userFavorites: ['lambda'],
+        userFavorites: ['lambda']
         // maxServices and visualMode are undefined
       });
 
@@ -122,7 +122,9 @@ describe('Settings', () => {
       // Should only write the missing values
       expect(mockStorage.sync.set).toHaveBeenCalledWith({ maxServices: 10 });
       expect(mockStorage.sync.set).toHaveBeenCalledWith({ visualMode: 'light' });
-      expect(mockStorage.sync.set).not.toHaveBeenCalledWith(expect.objectContaining({ userFavorites: expect.anything() }));
+      expect(mockStorage.sync.set).not.toHaveBeenCalledWith(
+        expect.objectContaining({ userFavorites: expect.anything() })
+      );
     });
   });
 

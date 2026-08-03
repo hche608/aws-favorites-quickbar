@@ -72,10 +72,18 @@ jest.mock('../../src/browser-api', () => ({
   }
 }));
 
-import { waitForDOMReady, isAWSConsolePage, isAWSConsoleHomepage, waitForElement } from '../../src/utils/dom';
+import {
+  waitForDOMReady,
+  isAWSConsolePage,
+  isAWSConsoleHomepage,
+  waitForElement
+} from '../../src/utils/dom';
 import { saveServicesToStorage, loadServicesFromStorage } from '../../src/utils/storage';
 import { detectRegion } from '../../src/utils/region';
-import { waitForRecentlyVisitedWidget, parseRecentlyVisited } from '../../src/services/recently-visited-parser';
+import {
+  waitForRecentlyVisitedWidget,
+  parseRecentlyVisited
+} from '../../src/services/recently-visited-parser';
 import { mergeServices } from '../../src/services/service-merger';
 import { injectServices } from '../../src/quickbar/injector';
 import { loadSettings, applyVisualMode } from '../../src/settings';
@@ -151,7 +159,13 @@ describe('Content Script', () => {
     (isAWSConsoleHomepage as jest.Mock).mockReturnValue(true);
     (waitForRecentlyVisitedWidget as jest.Mock).mockResolvedValue(true);
     (parseRecentlyVisited as jest.Mock).mockResolvedValue([
-      { id: 's3', name: 'S3', iconUrl: null, consoleUrl: 'https://console.aws.amazon.com/s3', source: 'recent' }
+      {
+        id: 's3',
+        name: 'S3',
+        iconUrl: null,
+        consoleUrl: 'https://console.aws.amazon.com/s3',
+        source: 'recent'
+      }
     ]);
     (loadSettings as jest.Mock).mockResolvedValue({
       favoriteIds: ['ec2'],
@@ -159,8 +173,20 @@ describe('Content Script', () => {
       visualMode: 'light'
     });
     (mergeServices as jest.Mock).mockReturnValue([
-      { id: 'ec2', name: 'EC2', iconUrl: null, consoleUrl: 'https://console.aws.amazon.com/ec2', source: 'user' },
-      { id: 's3', name: 'S3', iconUrl: null, consoleUrl: 'https://console.aws.amazon.com/s3', source: 'recent' }
+      {
+        id: 'ec2',
+        name: 'EC2',
+        iconUrl: null,
+        consoleUrl: 'https://console.aws.amazon.com/ec2',
+        source: 'user'
+      },
+      {
+        id: 's3',
+        name: 'S3',
+        iconUrl: null,
+        consoleUrl: 'https://console.aws.amazon.com/s3',
+        source: 'recent'
+      }
     ]);
 
     jest.isolateModules(() => {
@@ -179,7 +205,13 @@ describe('Content Script', () => {
     (isAWSConsolePage as jest.Mock).mockReturnValue(true);
     (isAWSConsoleHomepage as jest.Mock).mockReturnValue(false);
     (loadServicesFromStorage as jest.Mock).mockReturnValue([
-      { id: 's3', name: 'S3', iconUrl: null, consoleUrl: 'https://console.aws.amazon.com/s3', source: 'recent' }
+      {
+        id: 's3',
+        name: 'S3',
+        iconUrl: null,
+        consoleUrl: 'https://console.aws.amazon.com/s3',
+        source: 'recent'
+      }
     ]);
     (loadSettings as jest.Mock).mockResolvedValue({
       favoriteIds: ['ec2'],

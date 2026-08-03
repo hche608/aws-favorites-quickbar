@@ -49,7 +49,10 @@ describe('Core Logic Browser Independence', () => {
             // Test with Chrome environment
             setupChromeMocks();
             setupGlobalNamespace();
-            const chromeElement = window.AWSFavoritesQuickbar.createServiceLink(service, testClasses);
+            const chromeElement = window.AWSFavoritesQuickbar.createServiceLink(
+              service,
+              testClasses
+            );
             const chromeHTML = chromeElement ? chromeElement.outerHTML : null;
             const chromeDataId = chromeElement
               ? chromeElement.getAttribute('data-service-id')
@@ -65,7 +68,10 @@ describe('Core Logic Browser Independence', () => {
             // Test with Firefox environment
             setupFirefoxMocks();
             setupGlobalNamespace();
-            const firefoxElement = window.AWSFavoritesQuickbar.createServiceLink(service, testClasses);
+            const firefoxElement = window.AWSFavoritesQuickbar.createServiceLink(
+              service,
+              testClasses
+            );
             const firefoxHTML = firefoxElement ? firefoxElement.outerHTML : null;
             const firefoxDataId = firefoxElement
               ? firefoxElement.getAttribute('data-service-id')

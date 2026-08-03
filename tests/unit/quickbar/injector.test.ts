@@ -15,9 +15,7 @@ import { createSampleServices } from '../../helpers/fixtures';
 /**
  * Helper: creates a quickbar with a native pinned service for CSS extraction
  */
-function createQuickbarWithNativeFavorite(
-  serviceId: string = 'cloudformation'
-): HTMLOListElement {
+function createQuickbarWithNativeFavorite(serviceId: string = 'cloudformation'): HTMLOListElement {
   const quickbar = document.createElement('ol');
   quickbar.setAttribute('data-rbd-droppable-id', 'global-nav-favorites-bar-list-edit-mode');
 
@@ -103,7 +101,12 @@ describe('Quickbar Injector', () => {
       // Try to inject services including S3 (which is already native)
       const services: Service[] = [
         { id: 's3', name: 'S3', iconUrl: '', consoleUrl: 'https://console.aws.amazon.com/s3/home' },
-        { id: 'ec2', name: 'EC2', iconUrl: '', consoleUrl: 'https://console.aws.amazon.com/ec2/home' }
+        {
+          id: 'ec2',
+          name: 'EC2',
+          iconUrl: '',
+          consoleUrl: 'https://console.aws.amazon.com/ec2/home'
+        }
       ];
 
       const result = await injectServices(services, quickbar);
@@ -121,7 +124,12 @@ describe('Quickbar Injector', () => {
       document.body.appendChild(quickbar);
 
       const services: Service[] = [
-        { id: 'lambda', name: 'Lambda', iconUrl: '', consoleUrl: 'https://console.aws.amazon.com/lambda/home' }
+        {
+          id: 'lambda',
+          name: 'Lambda',
+          iconUrl: '',
+          consoleUrl: 'https://console.aws.amazon.com/lambda/home'
+        }
       ];
 
       const result = await injectServices(services, quickbar);
@@ -146,8 +154,18 @@ describe('Quickbar Injector', () => {
 
       // Second injection with different services
       const services2: Service[] = [
-        { id: 'ec2', name: 'EC2', iconUrl: '', consoleUrl: 'https://console.aws.amazon.com/ec2/home' },
-        { id: 'lambda', name: 'Lambda', iconUrl: '', consoleUrl: 'https://console.aws.amazon.com/lambda/home' }
+        {
+          id: 'ec2',
+          name: 'EC2',
+          iconUrl: '',
+          consoleUrl: 'https://console.aws.amazon.com/ec2/home'
+        },
+        {
+          id: 'lambda',
+          name: 'Lambda',
+          iconUrl: '',
+          consoleUrl: 'https://console.aws.amazon.com/lambda/home'
+        }
       ];
       await injectServices(services2, quickbar);
 

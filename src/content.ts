@@ -151,7 +151,9 @@ async function init(): Promise<void> {
   const injectionResult = await injectServices(mergedServices, quickbar);
 
   // Store injection status so the popup can show helpful messages
-  await browserStorage.local.set({ injectionStatus: injectionResult ? 'success' : 'no-native-pin' });
+  await browserStorage.local.set({
+    injectionStatus: injectionResult ? 'success' : 'no-native-pin'
+  });
 
   updateIconsInBackground(userFavorites, recentServices, settings.maxServices, quickbar);
 }

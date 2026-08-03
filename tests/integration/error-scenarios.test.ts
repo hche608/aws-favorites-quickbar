@@ -176,7 +176,10 @@ describe('Error Scenarios Integration Tests', () => {
 
       const validLink = window.AWSFavoritesQuickbar.createServiceLink(validService, testClasses);
       const nullIdLink = window.AWSFavoritesQuickbar.createServiceLink(nullIdService, testClasses);
-      const missingIdLink = window.AWSFavoritesQuickbar.createServiceLink(missingIdService, testClasses);
+      const missingIdLink = window.AWSFavoritesQuickbar.createServiceLink(
+        missingIdService,
+        testClasses
+      );
 
       expect(validLink).not.toBeNull();
       expect(validLink.getAttribute('data-service-id')).toBe('s3');

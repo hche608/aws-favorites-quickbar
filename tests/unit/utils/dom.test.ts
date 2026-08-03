@@ -4,12 +4,7 @@
  */
 
 import * as domModule from '../../../src/utils/dom';
-const {
-  waitForDOMReady,
-  waitForElement,
-  isAWSConsolePage,
-  isAWSConsoleHomepage
-} = domModule;
+const { waitForDOMReady, waitForElement, isAWSConsolePage, isAWSConsoleHomepage } = domModule;
 import { teardownDOM } from '../../helpers/dom-helpers';
 import { mockMutationObserver } from '../../helpers/mocks';
 
@@ -161,7 +156,9 @@ describe('DOM Utilities', () => {
     });
 
     it('should return true for regional console hostnames', () => {
-      jest.spyOn(domModule.location, 'getHostname').mockReturnValue('us-west-2.console.aws.amazon.com');
+      jest
+        .spyOn(domModule.location, 'getHostname')
+        .mockReturnValue('us-west-2.console.aws.amazon.com');
       expect(isAWSConsolePage()).toBe(true);
     });
 
