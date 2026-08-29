@@ -87,6 +87,16 @@ function buildUserFavorites(
 
 /**
  * Initializes the quickbar injection process.
+ *
+ * Orchestrates the full lifecycle on an AWS Console page:
+ * 1. Waits for DOM readiness and verifies console page
+ * 2. Detects current AWS region from URL or storage
+ * 3. Loads settings (user favorites, max services cap, visual mode)
+ * 4. Applies visual mode theme override
+ * 5. Collects user favorites and recently visited services (from homepage or cache)
+ * 6. Merges and caps services at maxServices limit
+ * 7. Injects into quickbar using dynamically extracted native CSS classes
+ * 8. Triggers non-blocking background icon discovery
  */
 async function init(): Promise<void> {
   await waitForDOMReady();
@@ -160,6 +170,14 @@ async function init(): Promise<void> {
 
 /**
  * Updates service icons in the background without blocking the main injection.
+ *
+ * Scans the page DOM for newly discovered AWS CDN icon URLs, validates each icon,
+ * updates the cached service records, and re-renders the quickbar if icons change.
+ *
+ * @param userFavorites - User-configured favorite services
+ * @param recentServices - Recently visited services
+ * @param maxServices - Maximum number of services to display
+ * @param quickbar - Quickbar container element
  */
 function updateIconsInBackground(
   userFavorites: Service[],

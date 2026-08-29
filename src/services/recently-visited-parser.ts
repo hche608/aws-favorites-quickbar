@@ -82,7 +82,12 @@ export async function waitForRecentlyVisitedWidget(timeout: number = 10000): Pro
 }
 
 /**
- * Parses recently visited services from the AWS Console widget
+ * Parses recently visited services from the AWS Console widget on the homepage.
+ *
+ * Scans the widget container or polite live region for rendered service items,
+ * extracting service names, IDs, console URLs, and CDN icon URLs.
+ *
+ * @returns Promise resolving to an array of parsed recently visited Service objects
  */
 export async function parseRecentlyVisited(): Promise<Service[]> {
   try {
@@ -117,7 +122,13 @@ export async function parseRecentlyVisited(): Promise<Service[]> {
 }
 
 /**
- * Extracts services from a container element
+ * Extracts services from a container element (such as aria-label="Recently visited").
+ *
+ * Looks for item wrapper elements containing anchor tags and images, or falls back
+ * to querying direct anchor links if wrapper classes are absent.
+ *
+ * @param container - The DOM container element holding recently visited items
+ * @returns Array of Service objects parsed from the container
  */
 function extractServicesFromContainer(container: Element): Service[] {
   const services: Service[] = [];
@@ -159,7 +170,14 @@ function extractServicesFromContainer(container: Element): Service[] {
 }
 
 /**
- * Extracts service information from a link element
+ * Extracts service information from a single anchor link element.
+ *
+ * Parses the canonical service ID by strictly matching `/<serviceId>/home`,
+ * extracts the service display name, and discovers the icon image URL.
+ *
+ * @param link - The anchor element linking to the AWS service console
+ * @param iconUrl - Optional pre-extracted icon URL (from surrounding DOM)
+ * @returns ServiceWithSource object or null if the link does not point to a valid service
  */
 function extractServiceFromLink(
   link: HTMLAnchorElement,
