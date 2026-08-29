@@ -235,5 +235,53 @@ describe('recently-visited-parser', () => {
       expect(services[0].name).toBe('CloudWatch');
       expect(services[0].iconUrl).toBe('https://a.b.cdn.console.awsstatic.com/icon/cloudwatch.svg');
     });
+
+    it('should parse services when container has only direct anchor links', async () => {
+      const html = `
+        <div data-widget-type="recently-visited">
+          <div aria-label="Recently visited">
+            <a href="https://console.aws.amazon.com/dynamodb/home">DynamoDB</a>
+            <a href="/sqs/home">SQS</a>
+          </div>
+        </div>
+      `;
+      setupDOM(html);
+
+      const services = await parseRecentlyVisited();
+      expect(services.length).toBe(2);
+      expect(services[0].id).toBe('dynamodb');
+      expect(services[1].id).toBe('sqs');
+    });
+
+    it('should skip items without valid links, non-home links, or empty hrefs', async () => {
+      const html = `
+        <div data-widget-type="recently-visited">
+          <div aria-label="Recently visited">
+            <div class="listItem-1"><a href="/not-a-service">No Home</a></div>
+            <div class="listItem-2"><a href="">Empty</a></div>
+            <div class="listItem-3"><a>No Href</a></div>
+            <div class="listItem-4"><span>No Link At All</span></div>
+          </div>
+        </div>
+      `;
+      setupDOM(html);
+
+      const services = await parseRecentlyVisited();
+      expect(services).toEqual([]);
+    });
+
+    it('should return empty array when polite region never loads recently visited section', async () => {
+      const html = `
+        <div data-widget-type="recently-visited">
+          <div data-testid="polite">
+            <div>Empty polite region</div>
+          </div>
+        </div>
+      `;
+      setupDOM(html);
+
+      const services = await parseRecentlyVisited();
+      expect(services).toEqual([]);
+    }, 10000);
   });
 });

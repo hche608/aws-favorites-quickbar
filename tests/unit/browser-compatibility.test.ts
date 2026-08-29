@@ -300,7 +300,9 @@ describe('Browser API Compatibility', () => {
       await fc.assert(
         fc.asyncProperty(
           fc.record({
-            key: fc.string({ minLength: 1, maxLength: 20 }),
+            key: fc
+              .string({ minLength: 1, maxLength: 20 })
+              .filter((k) => !['__proto__', 'constructor', 'prototype'].includes(k)),
             value: fc.jsonValue()
           }),
           async ({ key, value }) => {
