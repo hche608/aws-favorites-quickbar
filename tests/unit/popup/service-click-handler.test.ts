@@ -16,32 +16,16 @@ describe('service-click-handler', () => {
   let mockIsServiceSelected: jest.Mock;
   let mockGetCurrentFavorites: jest.Mock;
   let mockSetCurrentFavorites: jest.Mock;
-  let emptyStateElement: HTMLElement;
-  let mockSearchQuery: jest.Mock;
-  let serviceItem: HTMLElement;
-  let checkbox: HTMLInputElement;
+  let mockOnFavoritesChanged: jest.Mock;
 
   beforeEach(() => {
     teardownDOM();
-
-    // Setup DOM
-    setupDOM(`
-      <div id="emptyState"></div>
-      <div class="service-item" data-service-id="ec2">
-        <input type="checkbox" />
-        <span>EC2</span>
-      </div>
-    `);
-
-    emptyStateElement = document.getElementById('emptyState')!;
-    serviceItem = document.querySelector('.service-item')!;
-    checkbox = serviceItem.querySelector('input[type="checkbox"]')!;
 
     // Setup mocks
     mockIsServiceSelected = jest.fn();
     mockGetCurrentFavorites = jest.fn();
     mockSetCurrentFavorites = jest.fn();
-    mockSearchQuery = jest.fn().mockReturnValue('');
+    mockOnFavoritesChanged = jest.fn();
 
     // Mock storage functions
     (storage.addFavorite as jest.Mock).mockResolvedValue(['ec2']);
@@ -49,7 +33,6 @@ describe('service-click-handler', () => {
 
     // Mock UI state functions
     (uiState.showStorageWarning as jest.Mock).mockImplementation(() => {});
-    (uiState.updateEmptyState as jest.Mock).mockImplementation(() => {});
   });
 
   afterEach(() => {
@@ -63,14 +46,15 @@ describe('service-click-handler', () => {
         mockIsServiceSelected,
         mockGetCurrentFavorites,
         mockSetCurrentFavorites,
-        emptyStateElement,
-        mockSearchQuery
+        mockOnFavoritesChanged
       );
 
       expect(typeof handler).toBe('function');
     });
 
     it('should add service to favorites when not selected', async () => {
+      jest.useFakeTimers();
+
       mockIsServiceSelected.mockReturnValue(false);
       mockGetCurrentFavorites.mockReturnValue([]);
 
@@ -78,73 +62,49 @@ describe('service-click-handler', () => {
         mockIsServiceSelected,
         mockGetCurrentFavorites,
         mockSetCurrentFavorites,
-        emptyStateElement,
-        mockSearchQuery
+        mockOnFavoritesChanged
       );
 
       const event = new MouseEvent('click', { bubbles: true });
-      Object.defineProperty(event, 'currentTarget', { value: serviceItem });
-      Object.defineProperty(event, 'target', { value: serviceItem });
-
       await handler(event, 'ec2');
 
       expect(storage.addFavorite).toHaveBeenCalledWith('ec2');
       expect(mockSetCurrentFavorites).toHaveBeenCalledWith(['ec2']);
-      expect(serviceItem.classList.contains('selected')).toBe(true);
-      expect(checkbox.checked).toBe(true);
-      expect(uiState.updateEmptyState).toHaveBeenCalled();
+
+      jest.runAllTimers();
+      expect(mockOnFavoritesChanged).toHaveBeenCalled();
+
+      jest.useRealTimers();
     });
 
     it('should remove service from favorites when selected', async () => {
+      jest.useFakeTimers();
+
       mockIsServiceSelected.mockReturnValue(true);
       mockGetCurrentFavorites.mockReturnValue(['ec2', 's3']);
-      serviceItem.classList.add('selected');
-      checkbox.checked = true;
 
       const handler = createServiceClickHandler(
         mockIsServiceSelected,
         mockGetCurrentFavorites,
         mockSetCurrentFavorites,
-        emptyStateElement,
-        mockSearchQuery
+        mockOnFavoritesChanged
       );
 
       const event = new MouseEvent('click', { bubbles: true });
-      Object.defineProperty(event, 'currentTarget', { value: serviceItem });
-      Object.defineProperty(event, 'target', { value: serviceItem });
-
       await handler(event, 'ec2');
 
       expect(storage.removeFavorite).toHaveBeenCalledWith('ec2');
       expect(mockSetCurrentFavorites).toHaveBeenCalledWith(['s3']);
-      expect(serviceItem.classList.contains('selected')).toBe(false);
-      expect(checkbox.checked).toBe(false);
-      expect(uiState.updateEmptyState).toHaveBeenCalled();
-    });
 
-    it('should handle checkbox click events', async () => {
-      mockIsServiceSelected.mockReturnValue(false);
-      mockGetCurrentFavorites.mockReturnValue([]);
+      jest.runAllTimers();
+      expect(mockOnFavoritesChanged).toHaveBeenCalled();
 
-      const handler = createServiceClickHandler(
-        mockIsServiceSelected,
-        mockGetCurrentFavorites,
-        mockSetCurrentFavorites,
-        emptyStateElement,
-        mockSearchQuery
-      );
-
-      const event = new MouseEvent('click', { bubbles: true });
-      Object.defineProperty(event, 'target', { value: checkbox });
-
-      await handler(event, 'ec2');
-
-      expect(storage.addFavorite).toHaveBeenCalledWith('ec2');
-      expect(serviceItem.classList.contains('selected')).toBe(true);
-      expect(checkbox.checked).toBe(true);
+      jest.useRealTimers();
     });
 
     it('should handle case-insensitive service ID matching when removing', async () => {
+      jest.useFakeTimers();
+
       mockIsServiceSelected.mockReturnValue(true);
       mockGetCurrentFavorites.mockReturnValue(['EC2', 's3']);
 
@@ -152,20 +112,18 @@ describe('service-click-handler', () => {
         mockIsServiceSelected,
         mockGetCurrentFavorites,
         mockSetCurrentFavorites,
-        emptyStateElement,
-        mockSearchQuery
+        mockOnFavoritesChanged
       );
 
       const event = new MouseEvent('click', { bubbles: true });
-      Object.defineProperty(event, 'currentTarget', { value: serviceItem });
-      Object.defineProperty(event, 'target', { value: serviceItem });
-
       await handler(event, 'ec2');
 
       expect(mockSetCurrentFavorites).toHaveBeenCalledWith(['s3']);
+
+      jest.useRealTimers();
     });
 
-    it('should revert UI and show warning on storage error', async () => {
+    it('should show warning on storage error', async () => {
       mockIsServiceSelected.mockReturnValue(false);
       mockGetCurrentFavorites.mockReturnValue([]);
       (storage.addFavorite as jest.Mock).mockRejectedValue(new Error('Storage error'));
@@ -174,47 +132,16 @@ describe('service-click-handler', () => {
         mockIsServiceSelected,
         mockGetCurrentFavorites,
         mockSetCurrentFavorites,
-        emptyStateElement,
-        mockSearchQuery
+        mockOnFavoritesChanged
       );
 
       const event = new MouseEvent('click', { bubbles: true });
-      Object.defineProperty(event, 'currentTarget', { value: serviceItem });
-      Object.defineProperty(event, 'target', { value: serviceItem });
-
       await handler(event, 'ec2');
 
       expect(console.error).toHaveBeenCalled();
       expect(uiState.showStorageWarning).toHaveBeenCalledWith(
         'Failed to save your selection. Please check your browser storage settings and try again.'
       );
-      expect(serviceItem.classList.contains('selected')).toBe(false);
-      expect(checkbox.checked).toBe(false);
-    });
-
-    it('should revert UI when removing favorite fails', async () => {
-      mockIsServiceSelected.mockReturnValue(true);
-      mockGetCurrentFavorites.mockReturnValue(['ec2']);
-      (storage.removeFavorite as jest.Mock).mockRejectedValue(new Error('Storage error'));
-      serviceItem.classList.add('selected');
-      checkbox.checked = true;
-
-      const handler = createServiceClickHandler(
-        mockIsServiceSelected,
-        mockGetCurrentFavorites,
-        mockSetCurrentFavorites,
-        emptyStateElement,
-        mockSearchQuery
-      );
-
-      const event = new MouseEvent('click', { bubbles: true });
-      Object.defineProperty(event, 'currentTarget', { value: serviceItem });
-      Object.defineProperty(event, 'target', { value: serviceItem });
-
-      await handler(event, 'ec2');
-
-      expect(serviceItem.classList.contains('selected')).toBe(true);
-      expect(checkbox.checked).toBe(true);
     });
 
     it('should retry operation after error with delay', async () => {
@@ -230,14 +157,10 @@ describe('service-click-handler', () => {
         mockIsServiceSelected,
         mockGetCurrentFavorites,
         mockSetCurrentFavorites,
-        emptyStateElement,
-        mockSearchQuery
+        mockOnFavoritesChanged
       );
 
       const event = new MouseEvent('click', { bubbles: true });
-      Object.defineProperty(event, 'currentTarget', { value: serviceItem });
-      Object.defineProperty(event, 'target', { value: serviceItem });
-
       await handler(event, 'ec2');
 
       // Fast-forward time
@@ -260,14 +183,10 @@ describe('service-click-handler', () => {
         mockIsServiceSelected,
         mockGetCurrentFavorites,
         mockSetCurrentFavorites,
-        emptyStateElement,
-        mockSearchQuery
+        mockOnFavoritesChanged
       );
 
       const event = new MouseEvent('click', { bubbles: true });
-      Object.defineProperty(event, 'currentTarget', { value: serviceItem });
-      Object.defineProperty(event, 'target', { value: serviceItem });
-
       await handler(event, 'ec2');
 
       // Fast-forward time
@@ -289,21 +208,15 @@ describe('service-click-handler', () => {
       (storage.removeFavorite as jest.Mock)
         .mockRejectedValueOnce(new Error('Storage error'))
         .mockResolvedValueOnce([]);
-      serviceItem.classList.add('selected');
-      checkbox.checked = true;
 
       const handler = createServiceClickHandler(
         mockIsServiceSelected,
         mockGetCurrentFavorites,
         mockSetCurrentFavorites,
-        emptyStateElement,
-        mockSearchQuery
+        mockOnFavoritesChanged
       );
 
       const event = new MouseEvent('click', { bubbles: true });
-      Object.defineProperty(event, 'currentTarget', { value: serviceItem });
-      Object.defineProperty(event, 'target', { value: serviceItem });
-
       await handler(event, 'ec2');
 
       // Fast-forward time
@@ -313,32 +226,6 @@ describe('service-click-handler', () => {
       expect(storage.removeFavorite).toHaveBeenCalledTimes(2);
 
       jest.useRealTimers();
-    });
-
-    it('should pass search query to updateEmptyState', async () => {
-      mockIsServiceSelected.mockReturnValue(false);
-      mockGetCurrentFavorites.mockReturnValue([]);
-      mockSearchQuery.mockReturnValue('test query');
-
-      const handler = createServiceClickHandler(
-        mockIsServiceSelected,
-        mockGetCurrentFavorites,
-        mockSetCurrentFavorites,
-        emptyStateElement,
-        mockSearchQuery
-      );
-
-      const event = new MouseEvent('click', { bubbles: true });
-      Object.defineProperty(event, 'currentTarget', { value: serviceItem });
-      Object.defineProperty(event, 'target', { value: serviceItem });
-
-      await handler(event, 'ec2');
-
-      expect(uiState.updateEmptyState).toHaveBeenCalledWith(
-        emptyStateElement,
-        ['ec2'],
-        'test query'
-      );
     });
   });
 });

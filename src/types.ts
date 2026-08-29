@@ -88,3 +88,9 @@ export interface AWSFavoriteClasses {
   /** Class for the service label span */
   label: string;
 }
+
+/**
+ * Default placeholder SVG icon data URI used when service icon is unavailable or fails to load.
+ */
+export const PLACEHOLDER_ICON_URL =
+  'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><rect width="20" height="20" fill="%23232F3E"/></svg>';

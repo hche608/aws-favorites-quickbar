@@ -306,6 +306,7 @@ describe('Popup Drag and Drop', () => {
     let saveCallback: jest.Mock;
     let renderCallback: jest.Mock;
     let errorCallback: jest.Mock;
+    let notifyCallback: jest.Mock;
     let dropHandler: (event: DragEvent) => Promise<boolean>;
 
     beforeEach(() => {
@@ -313,20 +314,14 @@ describe('Popup Drag and Drop', () => {
       saveCallback = jest.fn().mockResolvedValue(undefined);
       renderCallback = jest.fn();
       errorCallback = jest.fn();
+      notifyCallback = jest.fn().mockResolvedValue(undefined);
       dropHandler = createDropHandler(
         currentFavorites,
         saveCallback,
         renderCallback,
-        errorCallback
+        errorCallback,
+        notifyCallback
       );
-
-      // Mock browser.tabs (used by browser-api)
-      (global as any).browser = {
-        tabs: {
-          query: jest.fn().mockResolvedValue([{ id: 1 }, { id: 2 }]),
-          sendMessage: jest.fn().mockResolvedValue(undefined)
-        }
-      };
     });
 
     it('should reorder favorites when dropping on different selected item', async () => {
@@ -495,17 +490,6 @@ describe('Popup Drag and Drop', () => {
     });
 
     it('should notify tabs after successful reorder', async () => {
-      // Re-setup browser mock for this test
-      (global as any).browser = {
-        tabs: {
-          query: jest.fn().mockResolvedValue([{ id: 1 }, { id: 2 }]),
-          sendMessage: jest.fn().mockResolvedValue(undefined)
-        },
-        runtime: {
-          id: 'test-extension-id'
-        }
-      };
-
       const draggedItem = document.createElement('div');
       draggedItem.classList.add('service-item', 'selected');
       draggedItem.dataset.serviceId = 's3';
@@ -534,16 +518,7 @@ describe('Popup Drag and Drop', () => {
 
       await dropHandler(event);
 
-      expect((browser as any).tabs.query).toHaveBeenCalledWith({
-        url: 'https://*.console.aws.amazon.com/*'
-      });
-      expect((browser as any).tabs.sendMessage).toHaveBeenCalledTimes(2);
-      expect((browser as any).tabs.sendMessage).toHaveBeenCalledWith(1, {
-        action: 'updateQuickbar'
-      });
-      expect((browser as any).tabs.sendMessage).toHaveBeenCalledWith(2, {
-        action: 'updateQuickbar'
-      });
+      expect(notifyCallback).toHaveBeenCalled();
     });
 
     it('should return false', async () => {

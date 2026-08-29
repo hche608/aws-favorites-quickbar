@@ -72,15 +72,13 @@ async function initializePopup(): Promise<void> {
 
   await loadSettingsIntoUI();
 
-  // Initialize service click handler with DOM element references
+  // Initialize service click handler
   handleServiceClick = createServiceClickHandler(
     (serviceId: string) => isServiceSelected(serviceId, currentFavorites),
     () => currentFavorites,
     (favorites: string[]) => {
       currentFavorites = favorites;
     },
-    emptyStateElement,
-    () => searchInputElement.value,
     () => renderServices()
   );
 
@@ -239,7 +237,11 @@ async function updatePinningNote(): Promise<void> {
 }
 
 /**
- * Renders the service list using the renderer module
+ * Renders the service list in the popup interface.
+ *
+ * Updates the native pinning helper note, renders the draggable favorites and non-favorites
+ * lists, updates the empty state visibility, and triggers cross-tab sync when drag-and-drop
+ * reordering occurs.
  */
 function renderServices(): void {
   updatePinningNote();
@@ -251,13 +253,16 @@ function renderServices(): void {
     handleServiceClick,
     () => {
       updateEmptyState(emptyStateElement, currentFavorites, searchInputElement.value);
-    }
+    },
+    () => notifyContentScripts()
   );
 }
 
 /**
  * Handles search input changes.
  * Filters the service list based on the search query and re-renders.
+ *
+ * @param event - The input event from the search input element
  */
 function handleSearch(event: Event): void {
   const target = event.target as HTMLInputElement;

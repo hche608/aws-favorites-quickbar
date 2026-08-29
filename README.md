@@ -300,12 +300,11 @@ These tests verify:
 4. Use the Storage tab to inspect stored data
 5. Use the Browser Console (Ctrl+Shift+J) for content script debugging
 
-### Spec Documentation
+### Documentation & AI Reference
 
-See `.kiro/specs/` for detailed requirements, design, and implementation tasks:
-- `aws-favorites-quickbar/` - Original feature specification
-- `firefox-support/` - Firefox compatibility specification
-- `typescript-migration/` - TypeScript migration specification with requirements, design, and correctness properties
+- **[AGENTS.md](AGENTS.md)** — Architectural invariants, non-negotiable rules, and reference guide for AI coding assistants and developers.
+- **[changelogs/](changelogs/)** — Version release history and release notes.
+- **`.kiro/specs/`** — Original requirements, design documents, and correctness properties.
 
 ## Testing
 

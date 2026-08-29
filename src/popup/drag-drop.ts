@@ -5,8 +5,6 @@
  * in the popup interface.
  */
 
-import { tabs } from '../browser-api';
-
 /** Currently dragged element */
 let draggedElement: HTMLElement | null = null;
 
@@ -92,18 +90,25 @@ export type RenderCallback = () => void;
 export type ErrorCallback = (message: string) => void;
 
 /**
+ * Callback function for notifying tabs
+ */
+export type NotifyCallback = () => Promise<void>;
+
+/**
  * Creates a drop handler with the necessary callbacks
  * @param currentFavorites - Array of current favorite service IDs (mutable)
  * @param saveCallback - Function to save favorites to storage
  * @param renderCallback - Function to re-render the UI
  * @param errorCallback - Function to display error messages
+ * @param notifyCallback - Optional function to notify content scripts of change
  * @returns Drop event handler function
  */
 export function createDropHandler(
   currentFavorites: string[],
   saveCallback: SaveCallback,
   renderCallback: RenderCallback,
-  errorCallback: ErrorCallback
+  errorCallback: ErrorCallback,
+  notifyCallback?: NotifyCallback
 ): (event: DragEvent) => Promise<boolean> {
   return async function handleDrop(event: DragEvent): Promise<boolean> {
     if (event.stopPropagation) {
@@ -139,14 +144,8 @@ export function createDropHandler(
           await saveCallback(currentFavorites);
           renderCallback();
 
-          // Notify tabs
-          const awsTabs = await tabs.query({ url: 'https://*.console.aws.amazon.com/*' });
-          for (const tab of awsTabs) {
-            if (tab.id) {
-              tabs.sendMessage(tab.id, { action: 'updateQuickbar' }).catch(() => {
-                // Ignore errors from tabs that don't have content script
-              });
-            }
+          if (notifyCallback) {
+            await notifyCallback();
           }
         } catch (error) {
           console.error('AWS Favorites Quickbar: Error saving reordered favorites', error);

@@ -8,14 +8,7 @@
  * pinned service). This module never hardcodes CSS class names.
  */
 
-import { Service, AWSFavoriteClasses } from '../types';
-
-/**
- * Default icon URL used when service icon is unavailable.
- * This is a simple placeholder SVG — not a CSS fallback.
- */
-const PLACEHOLDER_ICON_URL =
-  'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><rect width="16" height="16" fill="%23232F3E"/></svg>';
+import { Service, AWSFavoriteClasses, PLACEHOLDER_ICON_URL } from '../types';
 
 /**
  * Creates a service link element for the quickbar.

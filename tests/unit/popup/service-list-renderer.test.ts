@@ -221,7 +221,8 @@ describe('service-list-renderer', () => {
         currentFavorites,
         storage.saveUserFavorites,
         expect.any(Function),
-        uiState.showStorageWarning
+        uiState.showStorageWarning,
+        undefined
       );
     });
 

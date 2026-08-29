@@ -168,12 +168,60 @@ describe('recently-visited-parser', () => {
       expect(services[0].name).toBe('Lambda');
     });
 
-    it('should handle widget without polite region gracefully', async () => {
+    it('should correctly distinguish CodeBuild and CodePipeline under codesuite umbrella path', async () => {
       const html = `
         <div data-widget-type="recently-visited">
           <div aria-label="Recently visited">
-            <div class="listItem-abc">
-              <a href="https://dynamodb.console.aws.amazon.com/dynamodb/home">DynamoDB</a>
+            <div class="wrapper-0-1-36">
+              <img alt="CodeBuild" src="https://a.b.cdn.console.awsstatic.com/icon/codebuild.svg" height="24" width="24">
+              <div class="linkWrapper-0-1-37">
+                <a id="link-self:r9g:" data-testid="recently-visited-link-codebuild" href="/codesuite/codebuild/home?region=ap-southeast-2">
+                  <span>CodeBuild</span>
+                </a>
+              </div>
+            </div>
+            <div class="wrapper-0-1-36">
+              <img alt="CodePipeline" src="https://a.b.cdn.console.awsstatic.com/icon/codepipeline.svg" height="24" width="24">
+              <div class="linkWrapper-0-1-37">
+                <a id="link-self:r9h:" data-testid="recently-visited-link-codepipeline" href="/codesuite/codepipeline/home?region=ap-southeast-2">
+                  <span>CodePipeline</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+      setupDOM(html);
+
+      const services = await parseRecentlyVisited();
+
+      expect(services.length).toBe(2);
+      expect(services[0].id).toBe('codebuild');
+      expect(services[0].name).toBe('CodeBuild');
+      expect(services[0].iconUrl).toBe('https://a.b.cdn.console.awsstatic.com/icon/codebuild.svg');
+      expect(services[0].consoleUrl).toContain('/codesuite/codebuild/home?region=ap-southeast-2');
+
+      expect(services[1].id).toBe('codepipeline');
+      expect(services[1].name).toBe('CodePipeline');
+      expect(services[1].iconUrl).toBe(
+        'https://a.b.cdn.console.awsstatic.com/icon/codepipeline.svg'
+      );
+      expect(services[1].consoleUrl).toContain(
+        '/codesuite/codepipeline/home?region=ap-southeast-2'
+      );
+    });
+
+    it('should parse CloudWatch with real console href and DOM structure', async () => {
+      const html = `
+        <div data-widget-type="recently-visited">
+          <div aria-label="Recently visited">
+            <div class="wrapper-0-1-36">
+              <img alt="CloudWatch" src="https://a.b.cdn.console.awsstatic.com/icon/cloudwatch.svg" height="24" width="24">
+              <div class="linkWrapper-0-1-37">
+                <a id="link-self:r9a:" data-testid="recently-visited-link-cw" href="/cloudwatch/home?region=ap-southeast-2">
+                  <span>CloudWatch</span>
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -183,7 +231,57 @@ describe('recently-visited-parser', () => {
       const services = await parseRecentlyVisited();
 
       expect(services.length).toBe(1);
-      expect(services[0].id).toBe('dynamodb');
+      expect(services[0].id).toBe('cloudwatch');
+      expect(services[0].name).toBe('CloudWatch');
+      expect(services[0].iconUrl).toBe('https://a.b.cdn.console.awsstatic.com/icon/cloudwatch.svg');
     });
+
+    it('should parse services when container has only direct anchor links', async () => {
+      const html = `
+        <div data-widget-type="recently-visited">
+          <div aria-label="Recently visited">
+            <a href="https://console.aws.amazon.com/dynamodb/home">DynamoDB</a>
+            <a href="/sqs/home">SQS</a>
+          </div>
+        </div>
+      `;
+      setupDOM(html);
+
+      const services = await parseRecentlyVisited();
+      expect(services.length).toBe(2);
+      expect(services[0].id).toBe('dynamodb');
+      expect(services[1].id).toBe('sqs');
+    });
+
+    it('should skip items without valid links, non-home links, or empty hrefs', async () => {
+      const html = `
+        <div data-widget-type="recently-visited">
+          <div aria-label="Recently visited">
+            <div class="listItem-1"><a href="/not-a-service">No Home</a></div>
+            <div class="listItem-2"><a href="">Empty</a></div>
+            <div class="listItem-3"><a>No Href</a></div>
+            <div class="listItem-4"><span>No Link At All</span></div>
+          </div>
+        </div>
+      `;
+      setupDOM(html);
+
+      const services = await parseRecentlyVisited();
+      expect(services).toEqual([]);
+    });
+
+    it('should return empty array when polite region never loads recently visited section', async () => {
+      const html = `
+        <div data-widget-type="recently-visited">
+          <div data-testid="polite">
+            <div>Empty polite region</div>
+          </div>
+        </div>
+      `;
+      setupDOM(html);
+
+      const services = await parseRecentlyVisited();
+      expect(services).toEqual([]);
+    }, 10000);
   });
 });
