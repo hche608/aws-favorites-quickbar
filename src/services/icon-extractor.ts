@@ -33,26 +33,13 @@ export async function extractIconUrlsFromConsole(): Promise<Record<string, strin
 
         const url = link.href;
         const urlObj = new URL(url);
-        const hostname = urlObj.hostname;
 
-        let serviceId: string | null = null;
-        const serviceMatch = hostname.match(/^([^.]+)\.console\.aws\.amazon\.com$/);
-        if (serviceMatch) {
-          const subdomain = serviceMatch[1];
-          // Skip region subdomains (e.g., us-east-1)
-          if (!subdomain.match(/^[a-z]{2}-[a-z]+-\d+$/)) {
-            serviceId = subdomain;
-          }
+        const homeMatch = urlObj.pathname.match(/\/([^\/]+)\/home/);
+        if (!homeMatch) {
+          continue;
         }
 
-        // Fallback: extract from path
-        if (!serviceId) {
-          const pathMatch = urlObj.pathname.match(/^\/([^\/]+)/);
-          if (pathMatch) {
-            serviceId = pathMatch[1];
-          }
-        }
-
+        const serviceId = homeMatch[1];
         if (serviceId && img.src) {
           iconMap[serviceId.toLowerCase()] = img.src;
         }

@@ -72,15 +72,13 @@ async function initializePopup(): Promise<void> {
 
   await loadSettingsIntoUI();
 
-  // Initialize service click handler with DOM element references
+  // Initialize service click handler
   handleServiceClick = createServiceClickHandler(
     (serviceId: string) => isServiceSelected(serviceId, currentFavorites),
     () => currentFavorites,
     (favorites: string[]) => {
       currentFavorites = favorites;
     },
-    emptyStateElement,
-    () => searchInputElement.value,
     () => renderServices()
   );
 
@@ -251,7 +249,8 @@ function renderServices(): void {
     handleServiceClick,
     () => {
       updateEmptyState(emptyStateElement, currentFavorites, searchInputElement.value);
-    }
+    },
+    () => notifyContentScripts()
   );
 }
 

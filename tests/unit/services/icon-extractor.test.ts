@@ -228,7 +228,7 @@ describe('icon-extractor', () => {
         <a href="https://ec2.console.aws.amazon.com/ec2/home">
           <img src="https://a0.awsstatic.com/icons/ec2-old.png" />
         </a>
-        <a href="https://ec2.console.aws.amazon.com/ec2/instances">
+        <a href="https://ec2.console.aws.amazon.com/ec2/home?region=us-west-2">
           <img src="https://a0.awsstatic.com/icons/ec2-new.png" />
         </a>
       `);
@@ -236,6 +236,25 @@ describe('icon-extractor', () => {
       const result = await extractIconUrlsFromConsole();
 
       expect(result['ec2']).toBe('https://a0.awsstatic.com/icons/ec2-new.png');
+    });
+
+    it('should extract CodeBuild and CodePipeline icons independently without collision', async () => {
+      setupDOM(`
+        <a href="https://ap-southeast-2.console.aws.amazon.com/codesuite/codebuild/home?region=ap-southeast-2">
+          <img src="https://a.b.cdn.console.awsstatic.com/icons/codebuild.svg" />
+        </a>
+        <a href="https://ap-southeast-2.console.aws.amazon.com/codesuite/codepipeline/home?region=ap-southeast-2">
+          <img src="https://a.b.cdn.console.awsstatic.com/icons/codepipeline.svg" />
+        </a>
+      `);
+
+      const result = await extractIconUrlsFromConsole();
+
+      expect(result['codebuild']).toBe('https://a.b.cdn.console.awsstatic.com/icons/codebuild.svg');
+      expect(result['codepipeline']).toBe(
+        'https://a.b.cdn.console.awsstatic.com/icons/codepipeline.svg'
+      );
+      expect(result['codesuite']).toBeUndefined();
     });
   });
 });

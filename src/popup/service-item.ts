@@ -5,7 +5,7 @@
  * for the popup interface.
  */
 
-import { Service } from '../types';
+import { Service, PLACEHOLDER_ICON_URL } from '../types';
 
 /**
  * Event handlers for service item interactions
@@ -87,14 +87,12 @@ export function createServiceItem(
   if (service.iconUrl) {
     iconImg.src = service.iconUrl;
   } else {
-    iconImg.src =
-      'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><rect width="20" height="20" fill="%23232F3E"/></svg>';
+    iconImg.src = PLACEHOLDER_ICON_URL;
   }
 
   iconImg.alt = service.name;
   iconImg.onerror = function () {
-    this.src =
-      'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><rect width="20" height="20" fill="%23232F3E"/></svg>';
+    this.src = PLACEHOLDER_ICON_URL;
     this.onerror = null;
   };
 

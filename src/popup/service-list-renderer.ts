@@ -43,6 +43,7 @@ export function isServiceSelected(serviceId: string, currentFavorites: string[])
  * @param searchQuery - Current search query
  * @param onServiceClick - Handler for service click events
  * @param onRenderComplete - Callback after rendering completes
+ * @param onFavoritesReordered - Optional callback when favorites are reordered via drag-and-drop
  */
 export function renderServiceList(
   serviceListElement: HTMLElement,
@@ -50,7 +51,8 @@ export function renderServiceList(
   currentFavorites: string[],
   searchQuery: string,
   onServiceClick: (event: Event, serviceId: string) => Promise<void>,
-  onRenderComplete?: () => void
+  onRenderComplete?: () => void,
+  onFavoritesReordered?: () => Promise<void>
 ): void {
   serviceListElement.innerHTML = '';
 
@@ -92,10 +94,12 @@ export function renderServiceList(
         currentFavorites,
         searchQuery,
         onServiceClick,
-        onRenderComplete
+        onRenderComplete,
+        onFavoritesReordered
       );
     },
-    showStorageWarning
+    showStorageWarning,
+    onFavoritesReordered
   );
 
   // Handlers for favorite items (draggable)

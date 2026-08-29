@@ -1,6 +1,6 @@
 {
   "name": "aws-favorites-quickbar",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Chrome extension to populate AWS Console favorites bar",
   "author": "8its.pixel@gmail.com",
   "scripts": {
@@ -28,16 +28,16 @@
     "security-check": "tsx scripts/security-check.ts"
   },
   "devDependencies": {
-    "@types/chrome": "^0.2.5",
+    "@types/chrome": "^0.2.6",
     "@types/eslint": "^9.6.1",
     "@types/firefox-webext-browser": "^143.0.0",
     "@types/jest": "^30.0.0",
-    "@types/node": "^26.1.2",
-    "@typescript-eslint/eslint-plugin": "^8.65.0",
-    "@typescript-eslint/parser": "^8.65.0",
+    "@types/node": "^26.2.0",
+    "@typescript-eslint/eslint-plugin": "^8.67.0",
+    "@typescript-eslint/parser": "^8.67.0",
     "canvas": "^3.2.3",
-    "esbuild": "^0.28.1",
-    "eslint": "^10.8.0",
+    "esbuild": "^0.28.2",
+    "eslint": "^10.8.1",
     "fast-check": "^4.9.0",
     "jest": "^30.4.2",
     "jest-environment-jsdom": "^30.4.1",
@@ -45,7 +45,7 @@
     "prettier": "^3.9.6",
     "ts-jest": "^29.4.12",
     "ts-node": "^10.9.2",
-    "tsx": "^4.23.5",
+    "tsx": "^4.23.12",
     "typescript": "^5.8.3"
   },
   "dependencies": {

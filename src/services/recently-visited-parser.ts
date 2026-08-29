@@ -1,34 +1,20 @@
 /**
  * Recently Visited widget parser
  *
- * This module provides functionality to parse AWS services from the Recently Visited
- * widget on the AWS Console homepage.
+ * Parses AWS services from the Recently Visited widget on the AWS Console homepage.
  */
 
 import { Service } from '../types';
 
-/**
- * Extended Service interface with source information
- */
 interface ServiceWithSource extends Service {
-  /** Source of the service data */
   source?: 'user' | 'recent';
 }
 
 /**
  * Waits for the Recently Visited widget to appear and be fully loaded
  *
- * This function monitors the DOM for the Recently Visited widget and waits until
- * it contains at least 3 items and has stabilized (no new items appearing).
- *
  * @param timeout - Maximum wait time in milliseconds (default: 10000)
  * @returns Promise resolving to true if widget loaded, false if timeout
- *
- * @example
- * const loaded = await waitForRecentlyVisitedWidget(5000);
- * if (loaded) {
- *   const services = await parseRecentlyVisited();
- * }
  */
 export async function waitForRecentlyVisitedWidget(timeout: number = 10000): Promise<boolean> {
   return new Promise((resolve) => {
@@ -36,17 +22,11 @@ export async function waitForRecentlyVisitedWidget(timeout: number = 10000): Pro
 
     const isWidgetFullyLoaded = (): boolean => {
       const widget = document.querySelector('[data-widget-type="recently-visited"]');
-      if (!widget) {
-        return false;
-      }
-
-      const ariaLabel = widget.querySelector('[aria-label="Recently visited"]');
+      const ariaLabel = widget?.querySelector('[aria-label="Recently visited"]');
       if (!ariaLabel) {
         return false;
       }
-
-      const listItems = ariaLabel.querySelectorAll('[class*="listItem-"]');
-      return listItems.length >= MIN_ITEMS;
+      return ariaLabel.querySelectorAll('[class*="listItem-"]').length >= MIN_ITEMS;
     };
 
     if (isWidgetFullyLoaded()) {
@@ -60,16 +40,14 @@ export async function waitForRecentlyVisitedWidget(timeout: number = 10000): Pro
     const observer = new MutationObserver(() => {
       if (isWidgetFullyLoaded()) {
         const widget = document.querySelector('[data-widget-type="recently-visited"]');
-        const ariaLabel = widget!.querySelector('[aria-label="Recently visited"]');
-        const currentItemCount = ariaLabel!.querySelectorAll('[class*="listItem-"]').length;
+        const ariaLabel = widget?.querySelector('[aria-label="Recently visited"]');
+        const currentItemCount = ariaLabel?.querySelectorAll('[class*="listItem-"]').length ?? 0;
 
         if (currentItemCount !== lastItemCount) {
           lastItemCount = currentItemCount;
-
           if (stabilityCheckTimeout) {
             clearTimeout(stabilityCheckTimeout);
           }
-
           stabilityCheckTimeout = setTimeout(() => {
             clearTimeout(timeoutId);
             observer.disconnect();
@@ -93,17 +71,11 @@ export async function waitForRecentlyVisitedWidget(timeout: number = 10000): Pro
       }
 
       const widget = document.querySelector('[data-widget-type="recently-visited"]');
-      if (widget) {
-        const ariaLabel = widget.querySelector('[aria-label="Recently visited"]');
-        if (ariaLabel) {
-          const itemCount = ariaLabel.querySelectorAll('[class*="listItem-"]').length;
-          if (itemCount > 0) {
-            resolve(true);
-            return;
-          }
-        }
+      const ariaLabel = widget?.querySelector('[aria-label="Recently visited"]');
+      if (ariaLabel && ariaLabel.querySelectorAll('[class*="listItem-"]').length > 0) {
+        resolve(true);
+        return;
       }
-
       resolve(false);
     }, timeout);
   });
@@ -111,15 +83,6 @@ export async function waitForRecentlyVisitedWidget(timeout: number = 10000): Pro
 
 /**
  * Parses recently visited services from the AWS Console widget
- *
- * This function extracts service information from the Recently Visited widget,
- * including service IDs, names, icons, and console URLs.
- *
- * @returns Promise resolving to array of Service objects
- *
- * @example
- * const services = await parseRecentlyVisited();
- * // Returns: [{ id: 'ec2', name: 'EC2', iconUrl: '...', consoleUrl: '...' }, ...]
  */
 export async function parseRecentlyVisited(): Promise<Service[]> {
   try {
@@ -129,31 +92,23 @@ export async function parseRecentlyVisited(): Promise<Service[]> {
     }
 
     const politeRegion = widgetContainer.querySelector('[data-testid="polite"]');
-
     if (!politeRegion) {
-      const ariaLabelContainer = widgetContainer.querySelector('[aria-label="Recently visited"]');
-      if (!ariaLabelContainer) {
-        return [];
-      }
-      return extractServicesFromContainer(ariaLabelContainer);
+      const ariaLabel = widgetContainer.querySelector('[aria-label="Recently visited"]');
+      return ariaLabel ? extractServicesFromContainer(ariaLabel) : [];
     }
 
     let recentlyVisitedSection: Element | null = null;
-    const maxRetries = 10;
-    const retryDelay = 500;
-
-    for (let i = 0; i < maxRetries; i++) {
+    for (let i = 0; i < 10; i++) {
       recentlyVisitedSection = politeRegion.querySelector('[aria-label="Recently visited"]');
       if (recentlyVisitedSection) {
         break;
       }
-      await new Promise((resolve) => setTimeout(resolve, retryDelay));
+      await new Promise((resolve) => setTimeout(resolve, 500));
     }
 
     if (!recentlyVisitedSection) {
       return [];
     }
-
     return extractServicesFromContainer(recentlyVisitedSection);
   } catch (error) {
     console.error('AWS Favorites Quickbar: Error parsing Recently Visited', error);
@@ -163,18 +118,13 @@ export async function parseRecentlyVisited(): Promise<Service[]> {
 
 /**
  * Extracts services from a container element
- *
- * This function searches a container for service links and extracts service information
- * from each link, including icons if available.
- *
- * @param container - Container element to search
- * @returns Array of Service objects
  */
 function extractServicesFromContainer(container: Element): Service[] {
   const services: Service[] = [];
-
   try {
-    const allElements = container.querySelectorAll('[class*="listItem-"]');
+    const allElements = container.querySelectorAll(
+      '[class*="listItem-"], [class*="wrapper-"], [class*="itemWrapper"]'
+    );
 
     if (allElements.length === 0) {
       const links = container.querySelectorAll<HTMLAnchorElement>('a[href]');
@@ -193,37 +143,23 @@ function extractServicesFromContainer(container: Element): Service[] {
         if (!link) {
           continue;
         }
-
-        let iconUrl: string | null = null;
         const img = item.querySelector<HTMLImageElement>('img');
-        if (img && img.src) {
-          iconUrl = img.src;
-        }
-
-        const service = extractServiceFromLink(link, iconUrl);
+        const service = extractServiceFromLink(link, img?.src || null);
         if (service) {
           services.push(service);
         }
       } catch (_error) {
-        // Continue with other items
+        // Skip malformed item
       }
     }
   } catch (error) {
     console.error('AWS Favorites Quickbar: Error extracting services', error);
   }
-
   return services;
 }
 
 /**
  * Extracts service information from a link element
- *
- * This function parses a link to extract the service ID, name, icon URL, and console URL.
- * It handles both subdomain-based and path-based service identification.
- *
- * @param link - Link element to parse
- * @param iconUrl - Optional icon URL if already extracted
- * @returns Service object or null if extraction fails
  */
 function extractServiceFromLink(
   link: HTMLAnchorElement,
@@ -235,43 +171,26 @@ function extractServiceFromLink(
       return null;
     }
 
-    // Handle relative URLs
     if (url.startsWith('/')) {
       url = `https://${window.location.hostname}${url}`;
     }
 
-    let serviceId: string | null = null;
     const urlObj = new URL(url);
-
-    // Try to extract service ID from hostname
-    const hostname = urlObj.hostname;
-    const hostnameMatch = hostname.match(/^([^.]+)\.console\.aws\.amazon\.com$/);
-    if (hostnameMatch) {
-      const subdomain = hostnameMatch[1];
-      // Skip region subdomains (e.g., us-east-1)
-      if (!subdomain.match(/^[a-z]{2}-[a-z]+-\d+$/)) {
-        serviceId = subdomain;
-      }
-    }
-
-    // Fallback: extract from path
-    if (!serviceId) {
-      const pathMatch = urlObj.pathname.match(/^\/([^\/]+)/);
-      if (pathMatch) {
-        serviceId = pathMatch[1];
-      }
-    }
-
-    if (!serviceId) {
+    const homeMatch = urlObj.pathname.match(/\/([^\/]+)\/home/);
+    if (!homeMatch) {
       return null;
     }
 
+    const serviceId = homeMatch[1];
     const name = link.textContent?.trim() || serviceId;
 
-    // Extract icon if not provided
     if (!iconUrl) {
-      const img = link.querySelector<HTMLImageElement>('img');
-      if (img && img.src) {
+      const img =
+        link.querySelector<HTMLImageElement>('img') ||
+        link
+          .closest('[class*="wrapper"], [class*="listItem"], li, div')
+          ?.querySelector<HTMLImageElement>('img');
+      if (img?.src) {
         iconUrl = img.src;
       }
     }
@@ -279,7 +198,7 @@ function extractServiceFromLink(
     return {
       id: serviceId,
       name: name,
-      iconUrl: iconUrl || '',
+      iconUrl: iconUrl || null,
       consoleUrl: url,
       source: 'recent'
     };
