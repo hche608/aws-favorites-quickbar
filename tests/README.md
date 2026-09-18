@@ -33,7 +33,7 @@ npm run test:verbose
 
 ## Custom Matchers
 
-The test infrastructure provides custom Jest matchers:
+The test infrastructure provides custom Vitest matchers:
 
 ### `toBeValidServiceElement()`
 Checks if an element is a valid service element with `data-service-id` attribute and an anchor tag.

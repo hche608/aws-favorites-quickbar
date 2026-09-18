@@ -12,10 +12,10 @@ import * as storage from '../../../src/popup/storage';
 import * as uiState from '../../../src/popup/ui-state';
 
 // Mock the dependencies
-jest.mock('../../../src/popup/service-item');
-jest.mock('../../../src/popup/drag-drop');
-jest.mock('../../../src/popup/storage');
-jest.mock('../../../src/popup/ui-state');
+vi.mock('../../../src/popup/service-item');
+vi.mock('../../../src/popup/drag-drop');
+vi.mock('../../../src/popup/storage');
+vi.mock('../../../src/popup/ui-state');
 
 describe('service-list-renderer', () => {
   let serviceListElement: HTMLElement;

@@ -15,25 +15,28 @@ import { STORAGE_DEFAULTS } from '../../src/types';
 import { teardownDOM } from '../helpers/dom-helpers';
 
 // Mock browser-api
-jest.mock('../../src/browser-api', () => {
+vi.mock('../../src/browser-api', () => {
   const mockStorage = {
     local: {
-      get: jest.fn().mockResolvedValue({}),
-      set: jest.fn().mockResolvedValue(undefined)
+      get: vi.fn().mockResolvedValue({}),
+      set: vi.fn().mockResolvedValue(undefined)
     },
     sync: {
-      get: jest.fn().mockResolvedValue({}),
-      set: jest.fn().mockResolvedValue(undefined)
+      get: vi.fn().mockResolvedValue({}),
+      set: vi.fn().mockResolvedValue(undefined)
     }
   };
   return { storage: mockStorage };
 });
 
 // Mock utils/dom waitForElement
-jest.mock('../../src/utils/dom', () => ({
-  ...jest.requireActual('../../src/utils/dom'),
-  waitForElement: jest.fn().mockResolvedValue(null)
-}));
+vi.mock('../../src/utils/dom', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('../../src/utils/dom')>();
+  return {
+    ...actual,
+    waitForElement: vi.fn().mockResolvedValue(null)
+  };
+});
 
 import { storage as mockStorage } from '../../src/browser-api';
 import { waitForElement } from '../../src/utils/dom';

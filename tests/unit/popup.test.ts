@@ -6,47 +6,47 @@
  */
 
 // Mock all dependencies
-jest.mock('../../src/popup/storage', () => ({
-  loadUserFavorites: jest.fn().mockResolvedValue(undefined),
-  loadCachedServices: jest.fn().mockResolvedValue(undefined),
-  loadMaxServices: jest.fn().mockResolvedValue(undefined),
-  saveMaxServices: jest.fn().mockResolvedValue(undefined),
-  loadVisualMode: jest.fn().mockResolvedValue(undefined),
-  saveVisualMode: jest.fn().mockResolvedValue(undefined)
+vi.mock('../../src/popup/storage', () => ({
+  loadUserFavorites: vi.fn().mockResolvedValue(undefined),
+  loadCachedServices: vi.fn().mockResolvedValue(undefined),
+  loadMaxServices: vi.fn().mockResolvedValue(undefined),
+  saveMaxServices: vi.fn().mockResolvedValue(undefined),
+  loadVisualMode: vi.fn().mockResolvedValue(undefined),
+  saveVisualMode: vi.fn().mockResolvedValue(undefined)
 }));
 
-jest.mock('../../src/popup/search', () => ({
-  searchServices: jest.fn().mockReturnValue([])
+vi.mock('../../src/popup/search', () => ({
+  searchServices: vi.fn().mockReturnValue([])
 }));
 
-jest.mock('../../src/popup/ui-state', () => ({
-  showErrorState: jest.fn(),
-  updateEmptyState: jest.fn(),
-  showStorageWarning: jest.fn()
+vi.mock('../../src/popup/ui-state', () => ({
+  showErrorState: vi.fn(),
+  updateEmptyState: vi.fn(),
+  showStorageWarning: vi.fn()
 }));
 
-jest.mock('../../src/popup/service-list-renderer', () => ({
-  renderServiceList: jest.fn(),
-  isServiceSelected: jest.fn().mockReturnValue(false)
+vi.mock('../../src/popup/service-list-renderer', () => ({
+  renderServiceList: vi.fn(),
+  isServiceSelected: vi.fn().mockReturnValue(false)
 }));
 
-jest.mock('../../src/popup/service-click-handler', () => ({
-  createServiceClickHandler: jest.fn().mockReturnValue(jest.fn())
+vi.mock('../../src/popup/service-click-handler', () => ({
+  createServiceClickHandler: vi.fn().mockReturnValue(vi.fn())
 }));
 
-jest.mock('../../src/browser-api', () => ({
+vi.mock('../../src/browser-api', () => ({
   tabs: {
-    query: jest.fn().mockResolvedValue([]),
-    sendMessage: jest.fn().mockResolvedValue({ success: true })
+    query: vi.fn().mockResolvedValue([]),
+    sendMessage: vi.fn().mockResolvedValue({ success: true })
   },
   storage: {
     local: {
-      get: jest.fn().mockResolvedValue({}),
-      set: jest.fn().mockResolvedValue(undefined)
+      get: vi.fn().mockResolvedValue({}),
+      set: vi.fn().mockResolvedValue(undefined)
     },
     sync: {
-      get: jest.fn().mockResolvedValue({}),
-      set: jest.fn().mockResolvedValue(undefined)
+      get: vi.fn().mockResolvedValue({}),
+      set: vi.fn().mockResolvedValue(undefined)
     }
   }
 }));
@@ -114,9 +114,8 @@ describe('Popup', () => {
       (loadCachedServices as jest.Mock).mockResolvedValue(undefined);
       (loadUserFavorites as jest.Mock).mockResolvedValue(undefined);
 
-      jest.isolateModules(() => {
-        require('../../src/popup');
-      });
+      vi.resetModules();
+      await import('../../src/popup');
 
       // Trigger DOMContentLoaded
       document.dispatchEvent(new Event('DOMContentLoaded'));
@@ -139,9 +138,8 @@ describe('Popup', () => {
       (loadCachedServices as jest.Mock).mockResolvedValue(undefined);
       (loadUserFavorites as jest.Mock).mockResolvedValue(undefined);
 
-      jest.isolateModules(() => {
-        require('../../src/popup');
-      });
+      vi.resetModules();
+      await import('../../src/popup');
 
       document.dispatchEvent(new Event('DOMContentLoaded'));
       await new Promise((resolve) => setTimeout(resolve, 50));
@@ -160,9 +158,8 @@ describe('Popup', () => {
       (loadCachedServices as jest.Mock).mockResolvedValue(services);
       (loadUserFavorites as jest.Mock).mockResolvedValue(['s3']);
 
-      jest.isolateModules(() => {
-        require('../../src/popup');
-      });
+      vi.resetModules();
+      await import('../../src/popup');
 
       document.dispatchEvent(new Event('DOMContentLoaded'));
       await new Promise((resolve) => setTimeout(resolve, 50));
@@ -176,9 +173,8 @@ describe('Popup', () => {
       (loadCachedServices as jest.Mock).mockResolvedValue(undefined);
       (loadUserFavorites as jest.Mock).mockResolvedValue(undefined);
 
-      jest.isolateModules(() => {
-        require('../../src/popup');
-      });
+      vi.resetModules();
+      await import('../../src/popup');
 
       document.dispatchEvent(new Event('DOMContentLoaded'));
       await new Promise((resolve) => setTimeout(resolve, 50));
@@ -196,9 +192,8 @@ describe('Popup', () => {
       (loadCachedServices as jest.Mock).mockResolvedValue(undefined);
       (loadUserFavorites as jest.Mock).mockResolvedValue(undefined);
 
-      jest.isolateModules(() => {
-        require('../../src/popup');
-      });
+      vi.resetModules();
+      await import('../../src/popup');
 
       document.dispatchEvent(new Event('DOMContentLoaded'));
       await new Promise((resolve) => setTimeout(resolve, 50));
@@ -274,9 +269,8 @@ describe('Popup', () => {
         { id: 's3', name: 'S3', iconUrl: null, consoleUrl: 'https://console.aws.amazon.com/s3' }
       ]);
 
-      jest.isolateModules(() => {
-        require('../../src/popup');
-      });
+      vi.resetModules();
+      await import('../../src/popup');
 
       document.dispatchEvent(new Event('DOMContentLoaded'));
       await new Promise((resolve) => setTimeout(resolve, 50));
@@ -304,9 +298,8 @@ describe('Popup', () => {
       (loadMaxServices as jest.Mock).mockResolvedValue(10);
       (loadVisualMode as jest.Mock).mockResolvedValue('light');
 
-      jest.isolateModules(() => {
-        require('../../src/popup');
-      });
+      vi.resetModules();
+      await import('../../src/popup');
 
       document.dispatchEvent(new Event('DOMContentLoaded'));
       await new Promise((resolve) => setTimeout(resolve, 100));
@@ -324,9 +317,8 @@ describe('Popup', () => {
       (loadMaxServices as jest.Mock).mockResolvedValue(10);
       (loadVisualMode as jest.Mock).mockResolvedValue('light');
 
-      jest.isolateModules(() => {
-        require('../../src/popup');
-      });
+      vi.resetModules();
+      await import('../../src/popup');
 
       document.dispatchEvent(new Event('DOMContentLoaded'));
       await new Promise((resolve) => setTimeout(resolve, 100));

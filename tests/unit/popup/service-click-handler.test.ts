@@ -9,8 +9,8 @@ import * as storage from '../../../src/popup/storage';
 import * as uiState from '../../../src/popup/ui-state';
 
 // Mock the dependencies
-jest.mock('../../../src/popup/storage');
-jest.mock('../../../src/popup/ui-state');
+vi.mock('../../../src/popup/storage');
+vi.mock('../../../src/popup/ui-state');
 
 describe('service-click-handler', () => {
   let mockIsServiceSelected: jest.Mock;

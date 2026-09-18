@@ -24,13 +24,20 @@ console.error = (...args: any[]) => {
 };
 
 // Custom matcher types
+interface CustomMatchers<R = unknown> {
+  toBeValidServiceElement(): R;
+  toContainServiceWithId(serviceId: string): R;
+  toHaveNoDuplicateIds(): R;
+}
+
+declare module 'vitest' {
+  interface Assertion<T = any> extends CustomMatchers<T> {}
+  interface AsymmetricMatchersContaining extends CustomMatchers {}
+}
+
 declare global {
   namespace jest {
-    interface Matchers<R> {
-      toBeValidServiceElement(): R;
-      toContainServiceWithId(serviceId: string): R;
-      toHaveNoDuplicateIds(): R;
-    }
+    interface Matchers<R> extends CustomMatchers<R> {}
   }
 }
 
@@ -94,9 +101,15 @@ expect.extend({
 // Suppress console errors during tests unless explicitly needed
 (global as any).console = {
   ...console,
-  error: jest.fn(),
-  warn: jest.fn()
+  error: vi.fn(),
+  warn: vi.fn()
 };
 
-// Set up global test timeout
-jest.setTimeout(5000);
+// Backwards compatibility alias so tests using jest.* API seamlessly work with vi
+(globalThis as any).jest = {
+  ...vi,
+  isolateModules: (fn: () => void) => {
+    vi.resetModules();
+    fn();
+  }
+};
