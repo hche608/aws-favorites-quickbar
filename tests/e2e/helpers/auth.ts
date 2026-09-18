@@ -21,6 +21,7 @@ export async function ensureAwsLoggedIn(page: Page, timeoutMs = 60_000): Promise
   if (isAlreadyHome()) {
     console.log('✅ Already logged in to AWS Console.');
     await page.waitForLoadState('domcontentloaded');
+    await ensureNativeConsoleHomePinned(page);
     return;
   }
 
@@ -69,4 +70,53 @@ export async function ensureAwsLoggedIn(page: Page, timeoutMs = 60_000): Promise
   } catch {
     // Ignore load state errors if already loaded
   }
+  await ensureNativeConsoleHomePinned(page);
+}
+
+/**
+ * Ensures that AWS "Console Home" is pinned natively in the AWS Console navbar.
+ * Per Rule 3 of AGENTS.md, at least 1 native pinned service must exist in the navbar
+ * for the extension to dynamically extract CSS classes.
+ * This helper searches "Console Home" in the top navbar and clicks its star button if unpinned.
+ */
+export async function ensureNativeConsoleHomePinned(page: Page): Promise<void> {
+  const hasNativePin = await page.evaluate(() => {
+    const quickbar = document.querySelector(
+      'ol[data-rbd-droppable-id*="favorites"], ol[class*="favorites"], [data-testid="favorites-bar-list"]'
+    );
+    return quickbar && quickbar.querySelectorAll('li:not([data-source])').length > 0;
+  });
+
+  if (hasNativePin) {
+    console.log('✅ Native pinned service (Console Home) is already present in navbar.');
+    return;
+  }
+
+  console.log('🔍 Native pin missing. Auto-pinning "Console Home" via AWS Search...');
+  const searchInput = page
+    .locator(
+      'input[data-testid="awsc-concierge-input"], #awsc-concierge-input, input[placeholder*="Search"]'
+    )
+    .first();
+
+  await searchInput.waitFor({ state: 'visible', timeout: 10_000 });
+  await searchInput.click();
+  await searchInput.fill('Console Home');
+
+  const pinButton = page
+    .locator('button[data-testid="service-list-item-toggle-favorite-button-home"]')
+    .last();
+  await pinButton.waitFor({ state: 'visible', timeout: 8_000 });
+
+  const ariaLabel = (await pinButton.getAttribute('aria-label')) || '';
+  if (ariaLabel.toLowerCase().includes('add')) {
+    console.log('⭐ Pinning "Console Home" natively...');
+    await pinButton.click();
+    await page.waitForTimeout(1000);
+  }
+
+  // Close search overlay
+  await page.keyboard.press('Escape');
+  await page.waitForTimeout(1000);
+  console.log('🎉 "Console Home" successfully pinned natively!');
 }
