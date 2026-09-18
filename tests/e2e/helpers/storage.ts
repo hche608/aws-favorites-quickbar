@@ -19,6 +19,29 @@ export async function setE2EFavorites(
 }
 
 /**
+ * Injects a list of cached services into local storage for testing popup UI.
+ */
+export async function setE2ECachedServices(
+  context: BrowserContext,
+  extensionId: string,
+  services: any[]
+): Promise<void> {
+  const page = await context.newPage();
+  await page.goto(`chrome-extension://${extensionId}/popup.html`);
+
+  await page.evaluate(async (svcs) => {
+    await chrome.storage.local.set({
+      cachedServices: {
+        services: svcs,
+        timestamp: Date.now()
+      }
+    });
+  }, services);
+
+  await page.close();
+}
+
+/**
  * Retrieves all items from extension storage ('sync' or 'local').
  */
 export async function getE2EStorage(

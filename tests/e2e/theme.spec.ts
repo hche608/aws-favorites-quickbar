@@ -10,11 +10,16 @@ test.describe('Theme & Visual Mode E2E Tests', () => {
     const popup = await context.newPage();
     await popup.goto(`chrome-extension://${extensionId}/popup.html`);
 
+    await popup.evaluate(async () => {
+      await chrome.storage.sync.remove('visualMode');
+    });
+    await popup.reload();
+
     const select = popup.locator('#visualModeSelect');
     await expect(select).toBeVisible();
 
-    // Default from STORAGE_DEFAULTS is 'dark' (auto-retries until loadSettings resolves)
-    await expect(select).toHaveValue('dark');
+    // Default from STORAGE_DEFAULTS is 'light' (auto-retries until loadSettings resolves)
+    await expect(select).toHaveValue('light');
 
     await popup.close();
   });
