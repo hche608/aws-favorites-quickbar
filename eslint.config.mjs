@@ -1,8 +1,8 @@
 import tseslint from '@typescript-eslint/eslint-plugin';
 import tsparser from '@typescript-eslint/parser';
-import type { Linter } from 'eslint';
 
-const config: Linter.FlatConfig[] = [
+/** @type {import('eslint').Linter.Config[]} */
+const config = [
   {
     files: ['src/**/*.ts', 'tests/**/*.ts', 'scripts/**/*.ts'],
     languageOptions: {

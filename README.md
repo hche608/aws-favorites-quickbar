@@ -1,6 +1,6 @@
 # AWS Favorites Quickbar
 
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue.svg)](https://www.typescriptlang.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-6.x-blue.svg)](https://www.typescriptlang.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 A cross-browser extension for Chrome and Firefox that automatically populates the AWS Console favorites bar with your configured favorite services and recently visited services. Built with TypeScript for type safety and maintainability.
@@ -114,7 +114,7 @@ aws-favorites-quickbar/
 ├── tsconfig.json         # TypeScript configuration
 ├── tsconfig.test.json    # TypeScript test configuration
 ├── jest.config.ts        # Jest test configuration (TypeScript)
-├── eslint.config.ts      # ESLint configuration (TypeScript)
+├── eslint.config.mjs     # ESLint configuration (ESM)
 ├── .prettierrc.json      # Prettier formatting rules
 ├── Makefile              # Build automation
 └── README.md             # This file
@@ -489,7 +489,7 @@ Duration: 27.81s
 
 **Configuration Files:**
 - `tsconfig.json` - TypeScript compiler configuration
-- `eslint.config.ts` - ESLint rules (TypeScript config)
+- `eslint.config.mjs` - ESLint rules (ESM config)
 - `.prettierrc.json` - Prettier formatting rules
 - `jest.config.ts` - Jest testing configuration (TypeScript config)
 - `scripts/security-check.ts` - Comprehensive security check script
