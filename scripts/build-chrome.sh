@@ -9,9 +9,11 @@ NODE_ENV=production npx tsx scripts/bundle.ts
 # Create Chrome dist directory
 mkdir -p dist/chrome
 
-# Copy bundled files (no source maps in production)
+# Copy bundled files and source maps
 cp dist/content.js dist/chrome/
 cp dist/popup.js dist/chrome/
+[ -f "dist/content.js.map" ] && cp dist/content.js.map dist/chrome/
+[ -f "dist/popup.js.map" ] && cp dist/popup.js.map dist/chrome/
 
 # Copy static assets
 cp manifest.json dist/chrome/

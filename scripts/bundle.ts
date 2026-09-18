@@ -12,7 +12,7 @@ async function bundle(): Promise<void> {
     platform: 'browser',
     target: 'es2020',
     minify: isProduction,
-    sourcemap: !isProduction,
+    sourcemap: true,
     treeShaking: true,
     external: []
   };
