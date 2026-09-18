@@ -1,1734 +1,1762 @@
 [
   {
-    "id": "iam",
-    "name": "IAM",
-    "description": "Manage access to AWS resources",
-    "consoleUrl": "https://us-east-1.console.aws.amazon.com/iam/home?region=ap-southeast-2",
-    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/STFYE4KUQFFP2JZ2KOHPEHBH4BDHCX3ZIEKWLMGPOXOLYRC4QUDQ/icon/0ebc580ae6450fce8762fad1bff32e7b-0841c1f0e7c5788b88d07a7dbcaceb6e.svg"
-  },
-  {
-    "id": "vpc",
-    "name": "VPC",
-    "description": "Isolated Cloud Resources",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/vpc/home?region=ap-southeast-2",
-    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/HLWK65QMJM2I2JS7MFNDL3GYWYC7SUVMYOXC7I4RXZJ2LZVOHB4Q/icon/3918767c49f0151791236f3b99d1ce7c-13bf23cb4a6d38bb77b1a9030fe9d925.svg"
-  },
-  {
-    "id": "fsx",
-    "name": "FSx",
-    "description": "Fully managed third-party file systems optimized for a variety of workloads",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/fsx/home?region=ap-southeast-2",
-    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/CLJE4ERTEKC75CF46XRDOHY6UW4PAKGOL3H5ETBZHQO3LB5FD7HA/icon/fea0543b0b4b9d4c240c6219de0db41c-23eb23b7479038064ce8f040d747df83.svg"
-  },
-  {
-    "id": "dynamodbv2",
-    "name": "DynamoDB",
-    "description": "Managed NoSQL Database",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/dynamodbv2/home?region=ap-southeast-2",
-    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/AN2R6BU3DBLYCROPWJWYQWM62AYYLMXTM5V7AHNGQIU34L2VIEEA/icon/6f419a45e63123b4c16bd679549610f6-87862c68693445999110bbd6a467ce88.svg"
-  },
-  {
-    "id": "appstream2",
-    "name": "WorkSpaces Applications",
-    "description": "Stream desktop applications securely to any web browser",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/appstream2/home?region=ap-southeast-2",
-    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/CKNELFUGG6OXSP35Y6VMVOL3TQQWNDW574Z47NFNHZET4PN7K3TA/icon/a0ffb9e7fe4139fc285daa7409719a8a-db6c8a302a449a02de61152d4e914b3d.svg"
-  },
-  {
-    "id": "lambda",
-    "name": "Lambda",
-    "description": "Run code without thinking about servers",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/lambda/home?region=ap-southeast-2",
-    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/BMZQS7MWY7VIUF7PXETK3ULHIXZQQOURXD3AK46KD7UE6WMRLUSA/icon/945f3fc449518a73b9f5f32868db466c-926961f91b072604c42b7f39ce2eaf1c.svg"
-  },
-  {
-    "id": "secretsmanager",
-    "name": "Secrets Manager",
-    "description": "Easily rotate, manage, and retrieve secrets throughout their lifecycle",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/secretsmanager/home?region=ap-southeast-2",
-    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/JVAZC3MGFO75SWTKDTNZ6JAPAZXP5HIWUBGFCJYM67A7IARW6PHQ/icon/8915d768b4680de51126e0bf60a2a5d7-9ce11337c80efcb3442238d27794ee30.svg"
-  },
-  {
-    "id": "cloudwatch",
-    "name": "CloudWatch",
-    "description": "Monitor Resources and Applications",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/cloudwatch/home?region=ap-southeast-2",
-    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/CX6QBE6PRZYY4R3LVRUGVYCKEYSXHAEJLUVNJVMT5MOLELYXPPGQ/icon/8f57ebd825a828e205b2dde223ba17e4-6af63a22dc297f8041286760ee8cd2c9.svg"
-  },
-  {
-    "id": "systems-manager",
-    "name": "Systems Manager",
-    "description": "AWS Systems Manager is a Central Place to View and Manage AWS Resources",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/systems-manager/home?region=ap-southeast-2",
-    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/BX5GHDFHDNT62AAQ3LUPDPWNFQOTOSEMWNPXLYXUNWH2UM5QX5UQ/icon/b5c87c140628d6200f5ffeae85895b67-eed4319c5eaa4b84741dd26adcad7c1a.svg"
-  },
-  {
-    "id": "s3",
-    "name": "S3",
-    "description": "Scalable Storage in the Cloud",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/s3/home?region=ap-southeast-2",
-    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/DKY2SIL5N3MJQCULDNOQE7TKLNQIUXRSOHBJKJGQAHLZO7TLH3TQ/icon/c0828e0381730befd1f7a025057c74fb-43acc0496e64afba82dbc9ab774dc622.svg"
-  },
-  {
-    "id": "ec2",
-    "name": "EC2",
-    "description": "Virtual Servers in the Cloud",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/ec2/home?region=ap-southeast-2",
-    "iconUrl": null
-  },
-  {
-    "id": "codebuild",
-    "name": "CodeBuild",
-    "description": "Build and Test Code",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/codesuite/codebuild/home?region=ap-southeast-2",
-    "iconUrl": null
-  },
-  {
-    "id": "cloudshell",
-    "name": "cloudshell",
-    "description": "CloudShell",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/cloudshell/home?region=ap-southeast-2",
-    "iconUrl": null
-  },
-  {
-    "id": "support",
-    "name": "Support Center",
-    "description": "",
-    "consoleUrl": "https://support.console.aws.amazon.com/support/home?region=ap-southeast-2",
-    "iconUrl": null
-  },
-  {
-    "id": "settings",
-    "name": "See all user settings",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/settings/home?region=ap-southeast-2",
-    "iconUrl": null
-  },
-  {
-    "id": "billing",
-    "name": "Manage Regions",
-    "description": "",
-    "consoleUrl": "https://us-east-1.console.aws.amazon.com/billing/home?region=ap-southeast-2#/account?AWS-Regions",
-    "iconUrl": null
-  },
-  {
-    "id": "awsglobalview",
-    "name": "Manage Local Zones",
-    "description": "",
-    "consoleUrl": "https://us-east-1.console.aws.amazon.com/awsglobalview/home?region=ap-southeast-2#RegionsAndZones:tabId=lz",
-    "iconUrl": null
-  },
-  {
-    "id": "v2",
-    "name": "Organization",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/organizations/v2/home?region=ap-southeast-2",
-    "iconUrl": null
-  },
-  {
-    "id": "servicequotas",
-    "name": "Service Quotas",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/servicequotas/home?region=ap-southeast-2",
-    "iconUrl": null
-  },
-  {
-    "id": "costmanagement",
-    "name": "Billing and Cost Management",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/costmanagement/home?region=ap-southeast-2#/",
-    "iconUrl": null
-  },
-  {
-    "id": "webapp",
-    "name": "Lightsail",
-    "description": "",
-    "consoleUrl": "https://lightsail.aws.amazon.com/ls/webapp/home",
-    "iconUrl": null,
-    "category": "Compute"
-  },
-  {
-    "id": "batch",
-    "name": "Batch",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/batch/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Compute"
-  },
-  {
-    "id": "elasticbeanstalk",
-    "name": "Elastic Beanstalk",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/elasticbeanstalk/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Compute"
-  },
-  {
-    "id": "serverlessrepo",
-    "name": "Serverless Application Repository",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/serverlessrepo/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Compute"
-  },
-  {
-    "id": "outposts",
-    "name": "AWS Outposts",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/outposts/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Compute"
-  },
-  {
-    "id": "imagebuilder",
-    "name": "EC2 Image Builder",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/imagebuilder/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Compute"
-  },
-  {
-    "id": "apprunner",
-    "name": "AWS App Runner",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/apprunner/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Compute"
-  },
-  {
-    "id": "pcs",
-    "name": "Parallel Computing Service",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/pcs/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Compute"
-  },
-  {
-    "id": "ec2globalview",
-    "name": "AWS Global View",
-    "description": "",
-    "consoleUrl": "https://console.aws.amazon.com/ec2globalview/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Compute"
-  },
-  {
-    "id": "eks",
-    "name": "Elastic Kubernetes Service",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/eks/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Containers"
-  },
-  {
-    "id": "rosa",
-    "name": "Red Hat OpenShift Service on AWS",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/rosa/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Containers"
-  },
-  {
-    "id": "ecr",
-    "name": "Elastic Container Registry",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/ecr/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Containers"
-  },
-  {
-    "id": "efs",
-    "name": "EFS",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/efs/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Storage"
-  },
-  {
-    "id": "glacier",
-    "name": "S3 Glacier",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/glacier/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Storage"
-  },
-  {
-    "id": "storagegateway",
-    "name": "Storage Gateway",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/storagegateway/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Storage"
-  },
-  {
-    "id": "backup",
-    "name": "AWS Backup",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/backup/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Storage"
-  },
-  {
-    "id": "rbin",
-    "name": "Recycle Bin",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/rbin/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Storage"
-  },
-  {
-    "id": "drs",
-    "name": "AWS Elastic Disaster Recovery",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/drs/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Storage"
-  },
-  {
-    "id": "rds",
-    "name": "Aurora and RDS",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/rds/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Database"
-  },
-  {
-    "id": "elasticache",
-    "name": "ElastiCache",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/elasticache/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Database"
-  },
-  {
-    "id": "neptune",
-    "name": "Neptune",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/neptune/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Database"
-  },
-  {
-    "id": "docdb",
-    "name": "Amazon DocumentDB",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/docdb/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Database"
-  },
-  {
-    "id": "timestream",
-    "name": "Amazon Timestream",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/timestream/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Database"
-  },
-  {
-    "id": "dsql",
-    "name": "Aurora DSQL",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/dsql/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Database"
-  },
-  {
-    "id": "memorydb",
-    "name": "Amazon MemoryDB",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/memorydb/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Database"
-  },
-  {
-    "id": "odb",
-    "name": "Oracle Database@AWS",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/odb/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Database"
-  },
-  {
-    "id": "migrationhub",
-    "name": "AWS Migration Hub",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/migrationhub/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Migration & Transfer"
-  },
-  {
-    "id": "mgn",
-    "name": "AWS Transform MGN",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/mgn/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Migration & Transfer"
-  },
-  {
-    "id": "discovery",
-    "name": "Application Discovery Service",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/discovery/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Migration & Transfer"
-  },
-  {
-    "id": "transfer",
-    "name": "AWS Transfer Family",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/transfer/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Migration & Transfer"
-  },
-  {
-    "id": "snowfamily",
-    "name": "AWS Snow Family",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/snowfamily/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Migration & Transfer"
-  },
-  {
-    "id": "datasync",
-    "name": "DataSync",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/datasync/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Migration & Transfer"
-  },
-  {
-    "id": "transform",
-    "name": "AWS Transform",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/transform/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Migration & Transfer"
-  },
-  {
-    "id": "m2",
-    "name": "AWS Mainframe Modernization",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/m2/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Migration & Transfer"
-  },
-  {
-    "id": "evs",
-    "name": "Amazon Elastic VMware Service",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/evs/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Migration & Transfer"
-  },
-  {
-    "id": "v4",
-    "name": "CloudFront",
-    "description": "",
-    "consoleUrl": "https://console.aws.amazon.com/cloudfront/v4/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Networking & Content Delivery"
-  },
-  {
-    "id": "apigateway",
-    "name": "API Gateway",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/apigateway/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Networking & Content Delivery"
-  },
-  {
-    "id": "appmesh",
-    "name": "AWS App Mesh",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/appmesh/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Networking & Content Delivery"
-  },
-  {
-    "id": "globalaccelerator",
-    "name": "Global Accelerator",
-    "description": "",
-    "consoleUrl": "https://console.aws.amazon.com/globalaccelerator/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Networking & Content Delivery"
-  },
-  {
-    "id": "datatransferterminal",
-    "name": "AWS Data Transfer Terminal",
-    "description": "",
-    "consoleUrl": "https://console.aws.amazon.com/datatransferterminal/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Networking & Content Delivery"
-  },
-  {
-    "id": "route53globalresolver",
-    "name": "Amazon Route 53 Global Resolver",
-    "description": "",
-    "consoleUrl": "https://console.aws.amazon.com/route53globalresolver/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Networking & Content Delivery"
-  },
-  {
-    "id": "cloudmap",
-    "name": "AWS Cloud Map",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/cloudmap/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Networking & Content Delivery"
-  },
-  {
-    "id": "rtbfabric",
-    "name": "RTB Fabric",
-    "description": "",
-    "consoleUrl": "https://console.aws.amazon.com/rtbfabric/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Networking & Content Delivery"
-  },
-  {
-    "id": "route53recovery",
-    "name": "Application Recovery Controller",
-    "description": "",
-    "consoleUrl": "https://console.aws.amazon.com/route53recovery/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Networking & Content Delivery"
-  },
-  {
-    "id": "codecommit",
-    "name": "CodeCommit",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/codesuite/codecommit/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Developer Tools"
-  },
-  {
-    "id": "codedeploy",
-    "name": "CodeDeploy",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/codesuite/codedeploy/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Developer Tools"
-  },
-  {
-    "id": "codepipeline",
-    "name": "CodePipeline",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/codesuite/codepipeline/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Developer Tools"
-  },
-  {
-    "id": "cloud9",
-    "name": "Cloud9",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/cloud9/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Developer Tools"
-  },
-  {
-    "id": "xray",
-    "name": "X-Ray",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/xray/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Developer Tools"
-  },
-  {
-    "id": "fis",
-    "name": "AWS FIS",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/fis/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Developer Tools"
-  },
-  {
-    "id": "composer",
-    "name": "Infrastructure Composer",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/composer/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Developer Tools"
-  },
-  {
-    "id": "appstudio",
-    "name": "AWS App Studio",
-    "description": "",
-    "consoleUrl": "https://console.aws.amazon.com/appstudio/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Developer Tools"
-  },
-  {
-    "id": "aidevops",
-    "name": "AWS DevOps Agent",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/aidevops/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Developer Tools"
-  },
-  {
-    "id": "appconfig",
-    "name": "AWS AppConfig",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/systems-manager/appconfig/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Developer Tools"
-  },
-  {
-    "id": "codeartifact",
-    "name": "CodeArtifact",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/codesuite/codeartifact/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Developer Tools"
-  },
-  {
-    "id": "developer",
-    "name": "Amazon Q Developer",
-    "description": "",
-    "consoleUrl": "https://console.aws.amazon.com/amazonq/developer/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Developer Tools"
-  },
-  {
-    "id": "codecatalyst",
-    "name": "Amazon CodeCatalyst",
-    "description": "",
-    "consoleUrl": "https://console.aws.amazon.com/codecatalyst/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Developer Tools"
-  },
-  {
-    "id": "managedservices",
-    "name": "Managed Services",
-    "description": "",
-    "consoleUrl": "https://console.aws.amazon.com/managedservices/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Customer Enablement"
-  },
-  {
     "id": "activate",
     "name": "Activate for Startups",
-    "description": "",
-    "consoleUrl": "https://console.aws.amazon.com/activate/home?region=ap-southeast-2",
-    "iconUrl": null,
+    "description": "AWS Activate provides personalized tools and resources designed to support startups on AWS through every step of their startup journey. ",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/activate/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/VXRYSOOJWGTRP2EXT2RTUCARGPS4REMYM5DFMD4FFR2LODEKUHUA/icon/d4ee0fbbeb7ffd4fd7a7d477a7ecd922-f6a5867a7a453ed45953dff57879b8b6.svg",
     "category": "Customer Enablement"
   },
   {
-    "id": "repost-private",
-    "name": "AWS re:Post Private",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/repost-private/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Customer Enablement"
-  },
-  {
-    "id": "managedblockchain",
-    "name": "Amazon Managed Blockchain",
-    "description": "",
-    "consoleUrl": "https://console.aws.amazon.com/managedblockchain/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Blockchain"
-  },
-  {
-    "id": "groundstation",
-    "name": "Ground Station",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/groundstation/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Satellite"
-  },
-  {
-    "id": "braket",
-    "name": "Amazon Braket",
-    "description": "",
-    "consoleUrl": "https://console.aws.amazon.com/braket/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Quantum Technologies"
-  },
-  {
-    "id": "awsautoscaling",
-    "name": "AWS Auto Scaling",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/awsautoscaling/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Management & Governance"
-  },
-  {
-    "id": "cloudformation",
-    "name": "CloudFormation",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/cloudformation/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Management & Governance"
-  },
-  {
-    "id": "config",
-    "name": "AWS Config",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/config/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Management & Governance"
-  },
-  {
-    "id": "servicecatalog",
-    "name": "Service Catalog",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/servicecatalog/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Management & Governance"
-  },
-  {
-    "id": "trustedadvisor",
-    "name": "Trusted Advisor",
-    "description": "",
-    "consoleUrl": "https://console.aws.amazon.com/trustedadvisor/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Management & Governance"
-  },
-  {
-    "id": "controltower",
-    "name": "Control Tower",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/controltower/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Management & Governance"
-  },
-  {
-    "id": "wellarchitected",
-    "name": "AWS Well-Architected Tool",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/wellarchitected/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Management & Governance"
-  },
-  {
-    "id": "chatbot",
-    "name": "Amazon Q Developer in chat applications (previously AWS Chatbot)",
-    "description": "",
-    "consoleUrl": "https://console.aws.amazon.com/chatbot/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Management & Governance"
-  },
-  {
-    "id": "launchwizard",
-    "name": "Launch Wizard",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/launchwizard/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Management & Governance"
-  },
-  {
-    "id": "compute-optimizer",
-    "name": "AWS Compute Optimizer",
-    "description": "",
-    "consoleUrl": "https://console.aws.amazon.com/compute-optimizer/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Management & Governance"
-  },
-  {
-    "id": "resource-groups",
-    "name": "Resource Groups & Tag Editor",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/resource-groups/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Management & Governance"
-  },
-  {
-    "id": "grafana",
-    "name": "Amazon Grafana",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/grafana/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Management & Governance"
-  },
-  {
-    "id": "prometheus",
-    "name": "Amazon Prometheus",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/prometheus/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Management & Governance"
-  },
-  {
-    "id": "incidents",
-    "name": "Incident Manager",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/systems-manager/incidents/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Management & Governance"
-  },
-  {
-    "id": "awsforsap",
-    "name": "AWS for SAP",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/awsforsap/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Management & Governance"
-  },
-  {
-    "id": "health",
-    "name": "AWS Health Dashboard",
-    "description": "",
-    "consoleUrl": "https://health.console.aws.amazon.com/health/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Management & Governance"
-  },
-  {
-    "id": "proton",
-    "name": "AWS Proton",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/proton/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Management & Governance"
-  },
-  {
-    "id": "sustainability",
-    "name": "AWS Sustainability",
-    "description": "",
-    "consoleUrl": "https://console.aws.amazon.com/sustainability/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Management & Governance"
-  },
-  {
-    "id": "notifications",
-    "name": "AWS User Notifications",
-    "description": "",
-    "consoleUrl": "https://console.aws.amazon.com/notifications/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Management & Governance"
-  },
-  {
-    "id": "partnercentral",
-    "name": "AWS Partner Central",
-    "description": "",
-    "consoleUrl": "https://console.aws.amazon.com/partnercentral/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Management & Governance"
-  },
-  {
-    "id": "cloudtrailv2",
-    "name": "CloudTrail",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/cloudtrailv2/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Management & Governance"
-  },
-  {
-    "id": "license-manager",
-    "name": "AWS License Manager",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/license-manager/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Management & Governance"
-  },
-  {
-    "id": "resource-explorer",
-    "name": "AWS Resource Explorer",
-    "description": "",
-    "consoleUrl": "https://resource-explorer.console.aws.amazon.com/resource-explorer/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Management & Governance"
-  },
-  {
-    "id": "kinesisvideo",
-    "name": "Kinesis Video Streams",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/kinesisvideo/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Media Services"
-  },
-  {
-    "id": "mediaconvert",
-    "name": "MediaConvert",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/mediaconvert/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Media Services"
-  },
-  {
-    "id": "medialive",
-    "name": "MediaLive",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/medialive/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Media Services"
-  },
-  {
-    "id": "mediapackage",
-    "name": "MediaPackage",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/mediapackage/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Media Services"
-  },
-  {
-    "id": "mediastore",
-    "name": "MediaStore",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/mediastore/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Media Services"
-  },
-  {
-    "id": "mediatailor",
-    "name": "MediaTailor",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/mediatailor/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Media Services"
-  },
-  {
-    "id": "elemental-appliances-software",
-    "name": "Elemental Appliances & Software",
-    "description": "",
-    "consoleUrl": "https://console.aws.amazon.com/elemental-appliances-software/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Media Services"
-  },
-  {
-    "id": "ivs",
-    "name": "Amazon Interactive Video Service",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/ivs/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Media Services"
-  },
-  {
-    "id": "elemental-inference",
-    "name": "Elemental Inference",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/elemental-inference/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Media Services"
-  },
-  {
-    "id": "deadlinecloud",
-    "name": "AWS Deadline Cloud",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/deadlinecloud/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Media Services"
-  },
-  {
-    "id": "mediaconnect",
-    "name": "MediaConnect",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/mediaconnect/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Media Services"
-  },
-  {
-    "id": "sagemaker",
-    "name": "Amazon SageMaker AI",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/sagemaker/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Machine Learning"
+    "id": "appflow",
+    "name": "Amazon AppFlow",
+    "description": "Amazon AppFlow is an application integration service that enables you to create bidirectional data flows between SaaS apps and AWS in just a few clicks.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/appflow/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/YG6OGRSQKZOQY5EORSHF6WUVAYG7JSGRYPCBV3THYVQLFLVHUJIA/icon/763b2619b3459f034461d9417fba44d2-622106c0d4d58048b7e2ffa2bef3ff11.svg",
+    "category": "Application Integration"
   },
   {
     "id": "a2i",
     "name": "Amazon Augmented AI",
-    "description": "",
+    "description": "Amazon A2I brings human review to all developers, removing the undifferentiated heavy lifting associated with building human review systems or managing large numbers of human reviewers.",
     "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/a2i/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Machine Learning"
-  },
-  {
-    "id": "codeguru",
-    "name": "Amazon CodeGuru",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/codeguru/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Machine Learning"
-  },
-  {
-    "id": "devops-guru",
-    "name": "Amazon DevOps Guru",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/devops-guru/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Machine Learning"
-  },
-  {
-    "id": "comprehend",
-    "name": "Amazon Comprehend",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/comprehend/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Machine Learning"
-  },
-  {
-    "id": "forecast",
-    "name": "Amazon Forecast",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/forecast/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Machine Learning"
-  },
-  {
-    "id": "frauddetector",
-    "name": "Amazon Fraud Detector",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/frauddetector/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Machine Learning"
-  },
-  {
-    "id": "kendra",
-    "name": "Amazon Kendra",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/kendra/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Machine Learning"
-  },
-  {
-    "id": "personalize",
-    "name": "Amazon Personalize",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/personalize/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Machine Learning"
-  },
-  {
-    "id": "polly",
-    "name": "Amazon Polly",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/polly/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Machine Learning"
-  },
-  {
-    "id": "rekognition",
-    "name": "Amazon Rekognition",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/rekognition/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Machine Learning"
-  },
-  {
-    "id": "textract",
-    "name": "Amazon Textract",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/textract/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Machine Learning"
-  },
-  {
-    "id": "transcribe",
-    "name": "Amazon Transcribe",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/transcribe/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Machine Learning"
-  },
-  {
-    "id": "translate",
-    "name": "Amazon Translate",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/translate/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Machine Learning"
-  },
-  {
-    "id": "monitron",
-    "name": "Amazon Monitron",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/monitron/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Machine Learning"
-  },
-  {
-    "id": "healthlake",
-    "name": "AWS HealthLake",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/healthlake/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Machine Learning"
-  },
-  {
-    "id": "lookoutequipment",
-    "name": "Amazon Lookout for Equipment",
-    "description": "",
-    "consoleUrl": "https://console.aws.amazon.com/lookoutequipment/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Machine Learning"
-  },
-  {
-    "id": "business",
-    "name": "Amazon Q Business",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/amazonq/business/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Machine Learning"
-  },
-  {
-    "id": "bedrock-mantle",
-    "name": "Amazon Bedrock (mantle endpoint)",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/bedrock-mantle/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Machine Learning"
-  },
-  {
-    "id": "agent-registry",
-    "name": "AWS Agent Registry",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/agent-registry/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Machine Learning"
-  },
-  {
-    "id": "claude-platform",
-    "name": "Claude Platform on AWS",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/claude-platform/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Machine Learning"
-  },
-  {
-    "id": "omics",
-    "name": "AWS HealthOmics",
-    "description": "",
-    "consoleUrl": "https://console.aws.amazon.com/omics/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Machine Learning"
-  },
-  {
-    "id": "nova-act",
-    "name": "Amazon Nova Act",
-    "description": "",
-    "consoleUrl": "https://console.aws.amazon.com/nova-act/home?region=ap-southeast-2",
-    "iconUrl": null,
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/X6TOBPOSMDQCU2YS7BSGPDICZTM75YC4J4H4Z4IVVDHENTL2EZEQ/icon/45208ae174be1c5fc60dab194c4adce7-7c2d56ae991b87abdd5a79ea8369b4fb.svg",
     "category": "Machine Learning"
   },
   {
     "id": "bedrock",
     "name": "Amazon Bedrock",
-    "description": "",
+    "description": "Use as is or customize foundation models from Amazon and other top providers to quickly develop generative AI applications through a serverless API service.",
     "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/bedrock/home?region=ap-southeast-2",
-    "iconUrl": null,
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/LETP4TFABRTBD2D765TVLSVMVZXIHYQNI6NEA36TKA5SNDL7RC5A/icon/bee4d136bd8eb45ab32def8604e37cd2-2a0639d9c34980d353a3da561deb6460.svg",
+    "category": "Machine Learning"
+  },
+  {
+    "id": "bedrock-mantle",
+    "name": "Amazon Bedrock (mantle endpoint)",
+    "description": "The new Bedrock Console enables developers to build and scale generative AI applications using industry-standard APIs. It is optimized for the bedrock-mantle endpoint. Bedrock supports 100+ foundation models from industry-leading providers, including Amazon, Anthropic, DeepSeek, Moonshot AI, MiniMax, and OpenAI. You can use existing standard APIs such as OpenAI-compatible Chat Completions and Responses API, and Anthropic-compatible Messages API",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/bedrock-mantle/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/PL7FJMBEXYC24EWPRMGNTE7JOT232QRXT7BLRSYXPEL6GBSHNARQ/icon/8a834eed404ab6bb48ec1872f5afb495-2a0639d9c34980d353a3da561deb6460.svg",
     "category": "Machine Learning"
   },
   {
     "id": "bedrock-agentcore",
     "name": "Amazon Bedrock AgentCore",
-    "description": "",
+    "description": "With Amazon Bedrock AgentCore, developers can accelerate AI agents into production with the scale, reliability, and security, critical to real-world deployment. AgentCore provides tools and capabilities to make agents more effective and capable, purpose-built infrastructure to securely scale agents, and controls to operate trustworthy agents. AgentCore services are composable and work with popular open-source frameworks and any model, so you don’t have to choose between open-source flexibility and enterprise-grade security and reliability.",
     "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/bedrock-agentcore/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Machine Learning"
-  },
-  {
-    "id": "amazonq",
-    "name": "Amazon Q",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/amazonq/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Machine Learning"
-  },
-  {
-    "id": "comprehendmedical",
-    "name": "Amazon Comprehend Medical",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/comprehendmedical/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Machine Learning"
-  },
-  {
-    "id": "lexv2",
-    "name": "Amazon Lex",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/lexv2/home?region=ap-southeast-2",
-    "iconUrl": null,
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/JH6LNPYTBZQF3PLGY3KXRE32RXTHCSMOCB2MLYGK23NUWCQXRFYQ/icon/289ffeb2a745ccf51ca89a297f47e382-e23370428c208f1105171354f38d8a21.svg",
     "category": "Machine Learning"
   },
   {
     "id": "biodiscovery",
     "name": "Amazon Bio Discovery",
-    "description": "",
-    "consoleUrl": "https://console.aws.amazon.com/biodiscovery/home?region=ap-southeast-2",
-    "iconUrl": null,
+    "description": "Amazon Bio Discovery",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/biodiscovery/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/4J2ENI7R7PZYLV4U6FIBNOAJA67PTZKBZFTE4XHVBAACSWWQLX7A/icon/467c95a4e5dd777594e997c46f80977a-21fb351458af0eb9732b2afcf9ef39f2.svg",
     "category": "Machine Learning"
   },
   {
-    "id": "medical-imaging",
-    "name": "AWS HealthImaging",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/medical-imaging/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Machine Learning"
+    "id": "braket",
+    "name": "Amazon Braket",
+    "description": "Fully managed service that enables scientists, researchers, and developers to explore, evaluate and experiment with quantum computing.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/braket/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/U3MLWTW7UX3ASW6Y6WKNVEPIBP4DA5GUTNYKSBWVN5QVN5IG36PA/icon/5dcf8b3fd3fff6d26ffee039f6890300-a4c2920924dbc72926908eece15ec590.svg",
+    "category": "Quantum Technologies"
   },
   {
-    "id": "athena",
-    "name": "Athena",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/athena/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Analytics"
-  },
-  {
-    "id": "redshiftv2",
-    "name": "Amazon Redshift",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/redshiftv2/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Analytics"
-  },
-  {
-    "id": "cloudsearchv2",
-    "name": "CloudSearch",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/cloudsearchv2/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Analytics"
-  },
-  {
-    "id": "aos",
-    "name": "Amazon OpenSearch Service",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/aos/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Analytics"
-  },
-  {
-    "id": "kinesis",
-    "name": "Kinesis",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/kinesis/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Analytics"
-  },
-  {
-    "id": "dataexchange",
-    "name": "AWS Data Exchange",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/dataexchange/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Analytics"
-  },
-  {
-    "id": "lakeformation",
-    "name": "AWS Lake Formation",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/lakeformation/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Analytics"
-  },
-  {
-    "id": "msk",
-    "name": "MSK",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/msk/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Analytics"
-  },
-  {
-    "id": "databrew",
-    "name": "AWS Glue DataBrew",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/databrew/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Analytics"
-  },
-  {
-    "id": "finspace",
-    "name": "Amazon FinSpace",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/finspace/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Analytics"
-  },
-  {
-    "id": "flink",
-    "name": "Managed Apache Flink",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/flink/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Analytics"
-  },
-  {
-    "id": "emr",
-    "name": "EMR",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/emr/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Analytics"
-  },
-  {
-    "id": "cleanrooms",
-    "name": "AWS Clean Rooms",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/cleanrooms/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Analytics"
-  },
-  {
-    "id": "datazone",
-    "name": "Amazon SageMaker",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/datazone/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Analytics"
-  },
-  {
-    "id": "entityresolution",
-    "name": "AWS Entity Resolution",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/entityresolution/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Analytics"
-  },
-  {
-    "id": "glue",
-    "name": "AWS Glue",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/glue/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Analytics"
-  },
-  {
-    "id": "firehose",
-    "name": "Amazon Data Firehose",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/firehose/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Analytics"
-  },
-  {
-    "id": "ram",
-    "name": "Resource Access Manager",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/ram/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Security, Identity, & Compliance"
-  },
-  {
-    "id": "guardduty",
-    "name": "GuardDuty",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/guardduty/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Security, Identity, & Compliance"
-  },
-  {
-    "id": "macie",
-    "name": "Amazon Macie",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/macie/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Security, Identity, & Compliance"
-  },
-  {
-    "id": "singlesignon",
-    "name": "IAM Identity Center",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/singlesignon/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Security, Identity, & Compliance"
-  },
-  {
-    "id": "acm",
-    "name": "Certificate Manager",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/acm/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Security, Identity, & Compliance"
-  },
-  {
-    "id": "kms",
-    "name": "Key Management Service",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/kms/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Security, Identity, & Compliance"
-  },
-  {
-    "id": "cloudhsm",
-    "name": "CloudHSM",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/cloudhsm/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Security, Identity, & Compliance"
-  },
-  {
-    "id": "directoryservicev2",
-    "name": "Directory Service",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/directoryservicev2/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Security, Identity, & Compliance"
-  },
-  {
-    "id": "fmsv2",
-    "name": "AWS Firewall Manager",
-    "description": "",
-    "consoleUrl": "https://console.aws.amazon.com/wafv2/fmsv2/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Security, Identity, & Compliance"
-  },
-  {
-    "id": "detective",
-    "name": "Detective",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/detective/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Security, Identity, & Compliance"
-  },
-  {
-    "id": "signer",
-    "name": "AWS Signer",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/signer/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Security, Identity, & Compliance"
-  },
-  {
-    "id": "securitylake",
-    "name": "Security Lake",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/securitylake/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Security, Identity, & Compliance"
-  },
-  {
-    "id": "securityagent",
-    "name": "AWS Security Agent (now part of AWS Continuum)",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/securityagent/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Security, Identity, & Compliance"
-  },
-  {
-    "id": "verifiedpermissions",
-    "name": "Amazon Verified Permissions",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/verifiedpermissions/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Security, Identity, & Compliance"
-  },
-  {
-    "id": "auditmanager",
-    "name": "AWS Audit Manager",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/auditmanager/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Security, Identity, & Compliance"
-  },
-  {
-    "id": "securityhub",
-    "name": "Security Hub CSPM",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/securityhub/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Security, Identity, & Compliance"
-  },
-  {
-    "id": "wafv2-pro",
-    "name": "WAF & Shield",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/wafv2-pro/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Security, Identity, & Compliance"
-  },
-  {
-    "id": "acm-pca",
-    "name": "AWS Private Certificate Authority",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/acm-pca/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Security, Identity, & Compliance"
-  },
-  {
-    "id": "payment-cryptography",
-    "name": "AWS Payment Cryptography",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/payment-cryptography/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Security, Identity, & Compliance"
-  },
-  {
-    "id": "security-ir",
-    "name": "AWS Security Incident Response",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/security-ir/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Security, Identity, & Compliance"
-  },
-  {
-    "id": "marketplace",
-    "name": "AWS Marketplace",
-    "description": "",
-    "consoleUrl": "https://console.aws.amazon.com/marketplace/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Cloud Financial Management"
-  },
-  {
-    "id": "billingconductor",
-    "name": "AWS Billing Conductor",
-    "description": "",
-    "consoleUrl": "https://console.aws.amazon.com/billingconductor/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Cloud Financial Management"
-  },
-  {
-    "id": "finops-agent",
-    "name": "AWS FinOps Agent",
-    "description": "",
-    "consoleUrl": "https://console.aws.amazon.com/finops-agent/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Cloud Financial Management"
-  },
-  {
-    "id": "amplify",
-    "name": "AWS Amplify",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/amplify/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Front-end Web & Mobile"
-  },
-  {
-    "id": "appsync",
-    "name": "AWS AppSync",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/appsync/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Front-end Web & Mobile"
-  },
-  {
-    "id": "devicefarm",
-    "name": "Device Farm",
-    "description": "",
-    "consoleUrl": "https://console.aws.amazon.com/devicefarm/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Front-end Web & Mobile"
-  },
-  {
-    "id": "location",
-    "name": "Amazon Location Service",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/location/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Front-end Web & Mobile"
-  },
-  {
-    "id": "states",
-    "name": "Step Functions",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/states/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Application Integration"
-  },
-  {
-    "id": "appflow",
-    "name": "Amazon AppFlow",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/appflow/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Application Integration"
-  },
-  {
-    "id": "amazon-mq",
-    "name": "Amazon MQ",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/amazon-mq/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Application Integration"
-  },
-  {
-    "id": "v3",
-    "name": "Simple Notification Service",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/sns/v3/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Application Integration"
-  },
-  {
-    "id": "mwaa",
-    "name": "Managed Apache Airflow",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/mwaa/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Application Integration"
-  },
-  {
-    "id": "b2bi",
-    "name": "AWS B2B Data Interchange",
-    "description": "",
-    "consoleUrl": "https://console.aws.amazon.com/b2bi/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Application Integration"
-  },
-  {
-    "id": "events",
-    "name": "Amazon EventBridge",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/events/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Application Integration"
-  },
-  {
-    "id": "ses",
-    "name": "Amazon Simple Email Service",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/ses/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Business Applications"
-  },
-  {
-    "id": "zocalo",
-    "name": "Amazon WorkDocs",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/zocalo/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Business Applications"
-  },
-  {
-    "id": "connect-health",
-    "name": "Amazon Connect Health",
-    "description": "",
-    "consoleUrl": "https://console.aws.amazon.com/connect-health/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Business Applications"
-  },
-  {
-    "id": "talent",
-    "name": "Amazon Connect Talent",
-    "description": "",
-    "consoleUrl": "https://console.aws.amazon.com/connect/v2/talent/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Business Applications"
-  },
-  {
-    "id": "scn",
-    "name": "Amazon Connect Decisions",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/scn/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Business Applications"
-  },
-  {
-    "id": "pinpointv2",
-    "name": "Amazon Pinpoint",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/pinpointv2/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Business Applications"
-  },
-  {
-    "id": "wickr",
-    "name": "AWS Wickr",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/wickr/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Business Applications"
-  },
-  {
-    "id": "appfabric",
-    "name": "AWS AppFabric",
-    "description": "",
-    "consoleUrl": "https://console.aws.amazon.com/appfabric/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Business Applications"
-  },
-  {
-    "id": "end-user-messaging",
-    "name": "AWS End User Messaging",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/end-user-messaging/home?region=ap-southeast-2",
-    "iconUrl": null,
+    "id": "chime",
+    "name": "Amazon Chime",
+    "description": "Amazon Chime is a communications service that transforms online meetings and video conferencing, making them easier and more secure.",
+    "consoleUrl": "https://chime.aws.amazon.com",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/ELNOCB3XLMCX3NCLNS54INZVOG5ITBRLKIDYORZNS2MG3EZWM6JQ/icon/0478721a7cf7b2b81641cbf75a43a3cb-f4d8b07f3982a8436685a56e2423a0a1.svg",
     "category": "Business Applications"
   },
   {
     "id": "chime-sdk",
     "name": "Amazon Chime SDK",
-    "description": "",
+    "description": "Voice, video, and chat APIs and client libraries to add communication capabilities to applications with built-in machine learning to help improve the fidelity, and clarity of communication.",
     "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/chime-sdk/home?region=ap-southeast-2",
-    "iconUrl": null,
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/D7UHJ67JIHCPXWPUOW422E3AXZXOAF3STHXY7M4F362ORQMCQYYA/icon/d3da03628af0868d879fefd9bc9873de-5344e8f243c3d487f4854b41e41fba77.svg",
     "category": "Business Applications"
   },
   {
-    "id": "workspaces-thin-client",
-    "name": "WorkSpaces Thin Client",
-    "description": "",
-    "consoleUrl": "https://console.aws.amazon.com/workspaces-thin-client/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "End User Computing"
+    "id": "codecatalyst",
+    "name": "Amazon CodeCatalyst",
+    "description": "Amazon CodeCatalyst makes it easier to go from planning to production on\nAWS by integrating the tools software development teams need to track issues, manage source code,\nand build, test, and deploy applications.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/codecatalyst/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/XNCEIAITB22BTS3CMTX6AO7JRQHSYBPAPGU4V6EMGFJWEVRKPHLQ/icon/14c157e1fddbcfd99fa87c7d919d3d97-3ad5ef4b9d796947d2ba6de04c95cd37.svg",
+    "category": "Developer Tools"
   },
   {
-    "id": "workspaces-web",
-    "name": "WorkSpaces Secure Browser",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/workspaces-web/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "End User Computing"
+    "id": "codeguru",
+    "name": "Amazon CodeGuru",
+    "description": "Get intelligent recommendations, based on machine learning, for building and running modern applications. Improve code quality and application performance.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/codeguru/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/46N4FKUF7D3IJCTONH7EQN52YUR4UBLYKNZS66DDXSWA7S7EOCSQ/icon/6d242eed35ddf4227f5a48d37aa1572c-aaf3bc173e4fcb1edb453464bf101599.svg",
+    "category": "Machine Learning"
   },
   {
-    "id": "devicedefender",
-    "name": "IoT Device Defender",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/devicedefender/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Internet of Things"
+    "id": "comprehend",
+    "name": "Amazon Comprehend",
+    "description": "Amazon Comprehend is a new service that allows AWS customers to analyze their unstructured text data by using Natural Language Processing (NLP). Customers can perform tasks like language detection (capable of detecting up to 100 languages), identify entities such as person, place and product (entity recognition), analyze if the sentiment is positive, negative or neutral (sentiment analysis), extract Keyphrases and extract topics from a corpus of documents.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/comprehend/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/352IGEUHD4KMDOJSLWGOHVAOY5EATGEFQDTQ3MUM3SLCUPMXMISQ/icon/482863db6bbcbe5d42b2c38fc881497d-595c830f25109d745525de43d97fe7a9.svg",
+    "category": "Machine Learning"
   },
   {
-    "id": "iotdm",
-    "name": "IoT Device Management",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/iotdm/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Internet of Things"
+    "id": "comprehendmedical",
+    "name": "Amazon Comprehend Medical",
+    "description": "Amazon Comprehend Medical is a deep learning powered API service that extracts insights and relationships from medical text accurately, at scale.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/comprehendmedical/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/WHSGVXMX7NOPXJT7IHDCCOILPQCIOBXJTSLIU7NPXTB7UZ6IEKGQ/icon/7661a97333cc7b7df29451547cd16846-1ac4ac1d6d6d96ee7cbb66af154f978b.svg",
+    "category": "Machine Learning"
   },
   {
-    "id": "greengrass",
-    "name": "IoT Greengrass",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/greengrass/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Internet of Things"
+    "id": "v2",
+    "name": "Amazon Connect Customer",
+    "description": "Amazon Connect is a self-service, scalable, cloud-based contact center solution that enables dynamic, personal, and natural customer engagement. Amazon Connect Customer is an agentic AI solution that helps enterprises deliver exceptional customer experiences at every touchpoint. Choose fully autonomous AI agents, a blend of AI and human agents working together, or fully human-supported experiences—the flexibility to meet customers exactly how they want to be served.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/connect/v2/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/PJCN7GSAV6F7R2YJX6AKXLCIHBU6W3ROGX2PJFO3BKTG6HVB7CNA/icon/b640a0ce465fa2a4150c36b305c1c11b-062b708ec3fc35e2bbc45724a11b4d53.svg",
+    "category": "Business Applications"
   },
   {
-    "id": "iotsitewise",
-    "name": "IoT SiteWise",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/iotsitewise/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Internet of Things"
+    "id": "scn",
+    "name": "Amazon Connect Decisions",
+    "description": "Adaptive AI teammates that foresee and prevent supply chain disruptions and help you make better decisions.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/scn/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/CDDDAYFIGBLXJ7NEVMDK5FXUYFZPYBAEO5AVGQZ347D7ZZ5EU7PA/icon/a008a5e02ec40d9facee2ea028073662-023041edfe178e33709b0d8966689d9a.svg",
+    "category": "Business Applications"
   },
   {
-    "id": "iot",
-    "name": "IoT Core",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/iot/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Internet of Things"
+    "id": "connect-health",
+    "name": "Amazon Connect Health",
+    "description": "Amazon Connect Health is an agentic AI solution for healthcare providers that is available pre-integrated into products customers use today (e.g., Amazon Connect call center) for practitioners or via SDK for builders.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/connect-health/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/IPKAHWSEITNQOCBB22AWIBBMCQTTBB7TFPDN6BLIZLJFUVDY3BQA/icon/970078ade8a451260fa26bd063d55f5f-2dfea9f45810d6cdb677ecdbf6f78a2c.svg",
+    "category": "Business Applications"
   },
   {
-    "id": "iottwinmaker",
-    "name": "IoT TwinMaker",
-    "description": "",
-    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/iottwinmaker/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Internet of Things"
+    "id": "talent",
+    "name": "Amazon Connect Talent",
+    "description": "Amazon Connect Talent is an agentic AI hiring solution built for talent acquisition leaders managing scaled hiring.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/connect/v2/talent/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/72TAUASHZ3BX7S2JYSXW3X4OCVRMT2S4ANH4B6HMUDKTBSQX5T3A/icon/00559ea764f3549e2a9c714ecd8af73f-b229b6790f9f0959b5a55d1023b825f7.svg",
+    "category": "Business Applications"
   },
   {
-    "id": "iotfleetwise",
-    "name": "AWS IoT FleetWise",
-    "description": "",
-    "consoleUrl": "https://console.aws.amazon.com/iotfleetwise/home?region=ap-southeast-2",
-    "iconUrl": null,
-    "category": "Internet of Things"
+    "id": "firehose",
+    "name": "Amazon Data Firehose",
+    "description": "Amazon Data Firehose is a fully managed service for delivering real-time streaming data to destinations such as Amazon Simple Storage Service (Amazon S3), Amazon Redshift, Amazon OpenSearch Service, and various HTTP endpoint destinations.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/firehose/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/AWQWQFRW2EGLW3BOKU5J6RAVP4KHKZJA7F4WHFKXRDZ3XZP4JNGQ/icon/378868977293b479fb48ee12f15393ad-fa093bbd494922b414ddba79d875b858.svg",
+    "category": "Analytics"
+  },
+  {
+    "id": "datazone",
+    "name": "Amazon DataZone",
+    "description": "Amazon DataZone is a data management service to discover and share data at scale across organizational boundaries with built-in governance and access controls, removing the undifferentiated heavy lifting of making data accessible to everyone.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/datazone/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/45LGAUXGXTEH5XOF6BSHVMS7EPWJHBAYRBAMF5SC5QW2YRGSHRXQ/icon/971fe87795a0a4e0b27917a2d21883fc-2c34bc56ad3d9672c33fea072ca2abea.svg",
+    "category": "Analytics"
+  },
+  {
+    "id": "devops-guru",
+    "name": "Amazon DevOps Guru",
+    "description": "Amazon DevOps Guru is a machine learning (ML)-powered service that makes it easy to improve an application’s operational performance and availability.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/devops-guru/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/UNUCXRN3URKZIG5KNMTI3W5ULLZURZZZKO2L34IPHINSB6GJVSYA/icon/capstone-682fe232dcd673b44891064c049bd910.svg",
+    "category": "Machine Learning"
+  },
+  {
+    "id": "docdb",
+    "name": "Amazon DocumentDB",
+    "description": "Fast, reliable, and fully-managed MongoDB-compatible database service.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/docdb/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/2QXAZK5TNV5SH77IJ6XP7CQXNBJ6J6Q3EKCGS7B6H42S3EOETV5A/icon/aa6e97e79849eb5f00ba2aed4a094ff5-85776d0e063cd7194c095591777e17e9.svg",
+    "category": "Database"
+  },
+  {
+    "id": "evs",
+    "name": "Amazon Elastic VMware Service",
+    "description": "Amazon Elastic VMware Service (Amazon EVS), a new native AWS service that enables customers to run VMware Cloud Foundation (VCF) on EC2 bare-metal instances directly within their Amazon Virtual Private Cloud (Amazon VPC) alongside their other applications. Amazon EVS simplifies and automates the deployment of a ready-to-use VCF environment, allowing customers to quickly migrate VMware-based virtual machines to AWS, while keeping the same familiar VCF stack they already use on-premises. Amazon EVS unlocks the cost and scale benefits of the cloud, without having to refactor or re-platform VMware-based workloads. With the ability to set up a fully functional VCF stack in just a few hours, Amazon EVS simplifies the migration experience through automated deployment, allowing customers to quickly move, extend, and scale applications on AWS. Using EVS, customers have the flexibility and control to configure infrastructure that is highly optimized for their specific workloads giving them the freedom to extend on-premises networks and migrate workloads without having to change IP addresses, retrain staff, or re-write operational runbooks. EVS customers can use the same VCF features and tools for management, monitoring, and automation as they do on-premises, including third-party tools for backup, disaster recovery, storage and more.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/evs/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/YGVXQIBGL56TVSF5PDKZ4CR63FPG6IHCU6LTJMS7RNPRWFSAXFQQ/icon/15be136a454d8c04f95315f44faf7513-4ad84b588f996a5bd0a38271b9078101.svg",
+    "category": "Migration & Transfer"
+  },
+  {
+    "id": "events",
+    "name": "Amazon EventBridge",
+    "description": "Amazon EventBridge is a serverless service that uses events to connect application components together, making it easier to build scalable event-driven applications.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/events/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/VE337T2LHHXFIAPFSE6PV7E2KJFUWYNWTAIFJYCSMCOOD6VG7ZHQ/icon/16908b0605f2645dfcb4c3a8d248cef3-8fdd092f1116685eeb75b950acb85987.svg",
+    "category": "Application Integration"
+  },
+  {
+    "id": "finspace",
+    "name": "Amazon FinSpace",
+    "description": "Amazon FinSpace with Managed kdb Insights provides a fully managed high performance time series and real-time analytics engine, commonly used by capital markets customers. Built by KX, kdb Insights is optimized for low latency analysis of real-time and multi-petabyte historical time series stock market data.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/finspace/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/5K52W6ZB2AAWT7JGRY3M3HLJTASG7EV6FRVHMMZ7JDZHEZUZFEXA/icon/habanero-f7959476a3288de5335cc385b6fb35b4.svg",
+    "category": "Analytics"
+  },
+  {
+    "id": "forecast",
+    "name": "Amazon Forecast",
+    "description": "Amazon Forecast is a fully-managed time series forecasting service built on deep learning technology that can improve accuracy by up to 50% compared to traditional forecasting techniques.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/forecast/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/XMLGSS3GOQ55IB2FV7SEHY3HYTKKFFOETO4BTD5W5BIJDGF5SAQA/icon/d4e677bdb96f3e0b37b3beb2967d170f-20463bce0cbfdbcd4f8da17e82a35103.svg",
+    "category": "Machine Learning"
+  },
+  {
+    "id": "frauddetector",
+    "name": "Amazon Fraud Detector",
+    "description": "Amazon Fraud Detector is a fraud detection service that makes it easy for you to use machine learning to detect more online fraud faster.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/frauddetector/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/JWRTCVLOB26J34QMQT6AHYPBBFAKIDZBHPXTOMXPUPJ2IJKU4WBA/icon/a110c1a24b24a302787ce77229d40b27-c9939a5a9b7b28ba05f942fadbd4a4d5.svg",
+    "category": "Machine Learning"
   },
   {
     "id": "gameliftservers",
     "name": "Amazon GameLift Servers",
-    "description": "",
+    "description": "Deploy and scale session-based multiplayer games in the cloud in minutes, with no upfront costs.",
     "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/gameliftservers/home?region=ap-southeast-2",
-    "iconUrl": null,
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/EWICYSJQBFOEET6UPNHRWR67G5Q2QGOA43K5H5JXPN5VQKORPHQQ/icon/d7271b0e449d2ba150b1e9aac7f20776-48f8a6117f5fa4d408069fbce91b4d8a.svg",
     "category": "Game Development"
   },
   {
     "id": "gameliftstreams",
     "name": "Amazon GameLift Streams",
-    "description": "",
-    "consoleUrl": "https://console.aws.amazon.com/gameliftstreams/home?region=ap-southeast-2",
-    "iconUrl": null,
+    "description": "Amazon GameLift Streams helps developers stream games at up to 1080p resolution and 60 fps to any device with a browser",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/gameliftstreams/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/GK5VZVGXAOHTQWUAZO6PTABSC2UCDUMKTEIJSWPWGD7WCPDH3T5A/icon/009006fb766ea457b0601b16e2d69e13-f04e1e81fddef836c9efea596745175e.svg",
     "category": "Game Development"
+  },
+  {
+    "id": "grafana",
+    "name": "Amazon Grafana",
+    "description": "Analyze, monitor, and alarm on your metrics, logs, and traces across multiple data sources using a fully managed Grafana service",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/grafana/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/ACYI3EGDUYT3QDJ2TSSIDQ4D7UBYUY6TQ33OGIB27ZPZHMCPIDGA/icon/grafana-ea3defec485d2881c153d160ba82ce72.svg",
+    "category": "Management & Governance"
+  },
+  {
+    "id": "ivs",
+    "name": "Amazon Interactive Video Service",
+    "description": "Amazon Interactive Video Service (Amazon IVS) is a managed live streaming solution that makes low-latency live video available globally and allows you to create engaging live stream and interactive video experiences. Amazon IVS Chat is a scalable stream chat feature with a built in moderation option designed to accompany live streaming video.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/ivs/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/LW6WBGNB3H73UZ5U2N4LA42YPNHRYY2OTM5RLHPZAQBOROEFMXCQ/icon/873852e38ceabd55753ff7992c2a1ccd-6cf19d298ba6db110b5cb04627137a20.svg",
+    "category": "Media Services"
+  },
+  {
+    "id": "kendra",
+    "name": "Amazon Kendra",
+    "description": "Amazon Kendra is a highly accurate and easy to use enterprise search service that’s powered by machine learning. Enterprise search; machine learning; AI; ML; search; unstructured data; connectors; natural language; search engine; incremental learning; accurate results; reading comprehension; FAQ;",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/kendra/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/A4FOH22TG7QWGNMYQZC4G25VJLY6BEPTKTA55CYW65LIYMEFWMBQ/icon/a9ab7ffabee2fd02cfeb90fa2c01a7fd-721a0b96fe52c46786b1ff711999c730.svg",
+    "category": "Machine Learning"
+  },
+  {
+    "id": "lexv2",
+    "name": "Amazon Lex",
+    "description": "Amazon Lex is a service for building conversational interfaces using voice and text, powered by Alexa.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/lexv2/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/RT7VZFSJ5MNTVSK6IXIWYPJKR6QQ2VT2NNKGC2JYR7J3KH75VKQA/icon/16660b27a03cc547adc54a269bc4a69e-7d762d8739de54214018a7d757540c79.svg",
+    "category": "Machine Learning"
+  },
+  {
+    "id": "location",
+    "name": "Amazon Location Service",
+    "description": "With Amazon Location Service, you can easily and securely add maps, points of interest, geocoding, geofences, and tracking to your applications.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/location/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/AFGXORG3E5H4WYNIEVPDULDPFFLVSKYBN7R2XYAQTTQQBHMSRGOA/icon/waypoint-6c1d2320a20dd76867d0420ce2708023.svg",
+    "category": "Front-end Web & Mobile"
+  },
+  {
+    "id": "lookoutequipment",
+    "name": "Amazon Lookout for Equipment",
+    "description": "Detect abnormal equipment behavior by analyzing sensor data",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/lookoutequipment/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/KYR7PSMAOKP7KV3NBGOPLWPEBHYURB3QEJTOSXGNHW5VZLPAQSMA/icon/hogun-421e576f8c1c577a602812151c8cc134.svg",
+    "category": "Machine Learning"
+  },
+  {
+    "id": "macie",
+    "name": "Amazon Macie",
+    "description": "Amazon Macie, a visibility security service that helps classify and secure your sensitive and business-critical content.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/macie/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/3NNC67K7ISA2KLGCC5KXCZQDFGW5P7MYI6DE4IHKNRW4WI74CJCA/icon/433463d9b34c9b0b655eb325d5f0ebce-bb33021b98aec6dc842de83ef649969e.svg",
+    "category": "Security, Identity, & Compliance"
+  },
+  {
+    "id": "managedblockchain",
+    "name": "Amazon Managed Blockchain",
+    "description": "Amazon Managed Blockchain (AMB) makes building with blockchain and Web3 easy and scalable without any specialized infrastructure investment.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/managedblockchain/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/CDEG47QBVV72NJJTGRJF22J27Y2AYLQ2K3NQ62BULAPHQ3TWMRWQ/icon/81c091051125a938cdde1f5373a79752-966e30ef2cc020d4ff953dfaf3b813dc.svg",
+    "category": "Blockchain"
+  },
+  {
+    "id": "memorydb",
+    "name": "Amazon MemoryDB",
+    "description": "Fully managed, Valkey- and Redis OSS-compatible, in-memory database service",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/memorydb/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/6RWTXCGM4ZKY6IPSKU767DJLJAFJ2S7HUFVXUCE5SQZ7WKIZQFQQ/icon/81a0d909617532abb8bdbfe7a517d028-b3a9357a9df5342f954767efd721ef13.svg",
+    "category": "Database"
+  },
+  {
+    "id": "monitron",
+    "name": "Amazon Monitron",
+    "description": "Amazon Monitron is an end-to-end system that detects abnormal behaviour in industrial machinery, allowing you to enable predictive maintenance and reduce unplanned downtime.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/monitron/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/TLRGJJJSPUY5VMNLHCZPR4QDVDANMO67D6WAVYUZYZH3RBAD5IAQ/icon/thor-4b0e415482ab1d941dfbda637e4b55eb.svg",
+    "category": "Machine Learning"
+  },
+  {
+    "id": "amazon-mq",
+    "name": "Amazon MQ",
+    "description": "Amazon MQ is a managed message broker service for Apache ActiveMQ that makes it easy to set up and operate message brokers in the cloud.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/amazon-mq/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/PMMWNIGAALVKWSAS3SPW4DITBYP3BEV7N3WA3WWQCLR3VQA6IDJQ/icon/fbb6dfa8b3977184f170cc09442110d6-d925e664173507ede09f372672e53578.svg",
+    "category": "Application Integration"
+  },
+  {
+    "id": "nova-act",
+    "name": "Amazon Nova Act",
+    "description": "Amazon Nova Act is a service for building and managing reliable AI agents that can interact with user interfaces and automate complex workflows.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/nova-act/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/2ITHIEX3VX3C7EROTLSYL7TCJ2ZI3H2IXWWIG5DATWZA2HOW25JQ/icon/047eedb5b94ce1090dcfb20e7df5eb04-99e7d52c135259eb39698a503ced567a.svg",
+    "category": "Machine Learning"
+  },
+  {
+    "id": "aos",
+    "name": "Amazon OpenSearch Service",
+    "description": "Amazon OpenSearch Service is a fully managed service that makes it easy for you to deploy, secure, and run OpenSearch or Elasticsearch (up to version 7.10) clusters cost effectively at scale.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/aos/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/PCONPBOG6LNOD6NKN7KLQPJRQKXGQRJSIFEBWPXOLEYDY5YVVTTA/icon/18897dcfce6a4e7ae63a3baeed443c48-7724698ecde95174b630cef10d8335c2.svg",
+    "category": "Analytics"
+  },
+  {
+    "id": "personalize",
+    "name": "Amazon Personalize",
+    "description": "Amazon Personalize is a machine learning service that makes it easy for developers to add real-time personalization and recommendations to their apps.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/personalize/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/MOW5U2HTYCQE2YINXZSJKQVKCF5G6PDO3Z46YFVZHGP5FASBSP5A/icon/e609437d68f98af5e45b41ed6ffd20f7-aaeb03fe377cb2ce99ce6b432eb28b3a.svg",
+    "category": "Machine Learning"
+  },
+  {
+    "id": "pinpointv2",
+    "name": "Amazon Pinpoint",
+    "description": "Amazon Pinpoint is a multichannel communication service. Use Pinpoint Campaign Orchestration service to serve as your communication hub, bringing together your channels, segments, personalisation, and campaigns and journeys into a single tool.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/pinpointv2/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/LG4E7YBHGSJW7AOHBBV7A6UWSPOGAEX7CULDL57TE7IFIK4TEMNA/icon/4e7f4d9b89f5481d9305ecb4c46dd6aa-8648bb76cb416ccb1450946e936d1094.svg",
+    "category": "Business Applications"
+  },
+  {
+    "id": "polly",
+    "name": "Amazon Polly",
+    "description": "Amazon Polly is a service that turns text into lifelike speech.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/polly/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/RWPX5RTLV5AHTTISP5TNKN6WP6VHW3HOG3233YC5E34IJ7B4Q2RA/icon/8ca4245f09e5a6ecf058c15cca9ac9b6-4a6ec5b037b363b8f33064d09d4f40ab.svg",
+    "category": "Machine Learning"
+  },
+  {
+    "id": "prometheus",
+    "name": "Amazon Prometheus",
+    "description": "A fully managed Prometheus-compatible monitoring service that makes it easy to monitor containerized applications securely and at scale.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/prometheus/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/E6IRSSFRIH6SNTLU3E2CQEK7SLKPLXXPPURVS2M4RY23HUG4DJBQ/icon/stealfire-38b5dc1352bd06d3cec427f445e96a74.svg",
+    "category": "Management & Governance"
+  },
+  {
+    "id": "amazonq",
+    "name": "Amazon Q",
+    "description": "generative AI, machine learning, Retrieval Augmented Generation (RAG), natural language, conversational Q&A, search, subscriptions",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/amazonq/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/OP42BOPNUQBQQJ4IUQX6LYMZ6VTLASGPJX5E7K3IUM3NO4TCZWMA/icon/dd86f6221215fc35f8c4d0c73a3dd88b-f6370b5c3d88a202107b955664d41f41.svg",
+    "category": "Machine Learning"
+  },
+  {
+    "id": "business",
+    "name": "Amazon Q Business",
+    "description": "generative AI, machine learning, Retrieval Augmented Generation (RAG), natural language, conversational Q&A, search",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/amazonq/business/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/PDX4TZ3Q2BREKDXX5SO35NPB42R3ZXQZXNR2WZENFSCKLWSLQCTA/icon/6dca2396601052ede9efaf00e969f400-fc2fb84c5e1fc4b7003355a3c202325a.svg",
+    "category": "Machine Learning"
+  },
+  {
+    "id": "developer",
+    "name": "Amazon Q Developer",
+    "description": "Amazon Q Developer is the AWS expert that helps developers and IT pros build faster and reduce the amount of time spent on problem solving. Amazon Q is securely customized to a customer's AWS account and code base, and it is there to help developers wherever they need it—in the AWS Console, the IDE, and via Slack.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/amazonq/developer/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/JRBPYNMQ2S732UPVS5ZOBIX7EXENB7XNBKYOEI6LC6BNWT6MP4QA/icon/0e048fb00a0c78d160aadce6175452c0-f6370b5c3d88a202107b955664d41f41.svg",
+    "category": "Developer Tools"
+  },
+  {
+    "id": "chatbot",
+    "name": "Amazon Q Developer in chat applications (previously AWS Chatbot)",
+    "description": "Amazon Q Developer in chat applications makes it easy to monitor, operate, and optimize your AWS resources in your chat applications.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/chatbot/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/OCOIZG36X2V7XCFJ3JLN46KT3PDLFILJM33Q3OGCTY3INRY6UYYQ/icon/00f2b1ead3a0990b818517356cb40280-f6370b5c3d88a202107b955664d41f41.svg",
+    "category": "Management & Governance"
+  },
+  {
+    "id": "amazon_quick_suite",
+    "name": "Amazon Quick",
+    "description": "Amazon Quick is an Agentic AI-powered suite of enterprise products.",
+    "consoleUrl": "https://quicksight.aws.amazon.com",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/SJ4JSMBCM45H5Y4JWLMHZLHUEJSMNNACVKQB45ISBBCWNAZXIHQQ/icon/1df3746a4728276afdc24f828186f73a-686aa5f8644bfb1ad347bd8cb16c0fc9.svg",
+    "category": "Analytics"
+  },
+  {
+    "id": "redshiftv2",
+    "name": "Amazon Redshift",
+    "description": "Amazon Redshift is a fast, fully managed, petabyte-scale data warehouse that makes it cost-effective to analyze all your data using your existing business intelligence tools.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/redshiftv2/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/POJF3FV2KNPZZPTBLFB4A4GANH24Q7Z7HTSGASJIJEYXUFMNWAEQ/icon/33b2042a5120c531aab0d921c3d3686c-d3e9e06b23c57a3260ad218d52391ad3.svg",
+    "category": "Analytics"
+  },
+  {
+    "id": "rekognition",
+    "name": "Amazon Rekognition",
+    "description": "Amazon Rekognition is a deep learning-based image recognition service that enables you to search, verify, and organize millions of images.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/rekognition/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/XMRLE5L7TRL5DP47KT6X3KUHABYODRL6LLPIZEQRGQP5MMKWBEUQ/icon/b7cb336b98f3c4db02fb13d4d671df5e-37a81abbdae00bac12e1ffcd0776093b.svg",
+    "category": "Machine Learning"
+  },
+  {
+    "id": "route53globalresolver",
+    "name": "Amazon Route 53 Global Resolver",
+    "description": "Amazon Route 53 Global Resolver provides global anycast DNS resolution of public and private domains while securing your queries to the public internet.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/route53globalresolver/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/6MDXQJBE7AP57NNQM6TECFSOXYIAOBIGI42J5B5NVVDAD2OUMQPQ/icon/6d39a84ce450e01dba7c27f81234d3a0-53a84099cf556710383a52b4612a8612.svg",
+    "category": "Networking & Content Delivery"
+  },
+  {
+    "id": "sagemaker",
+    "name": "Amazon SageMaker AI",
+    "description": "Amazon SageMaker AI is a fully-managed service that enables data scientists and developers to quickly and easily build, train, and deploy machine learning models at scale.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/sagemaker/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/H6Y23P2JP7IYQJC674VSZHX6PWVNU56QTCFWFMLK3UFAS2IX2TUA/icon/0c8d8b2a870bf0792528dc54c41799f1-eff89633572cc66bc69c8bed5885bc73.svg",
+    "category": "Machine Learning"
+  },
+  {
+    "id": "ses",
+    "name": "Amazon Simple Email Service",
+    "description": "Amazon Simple Email Service (SES) enables you to send and receive email.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/ses/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/2QIS3M6GW3A6OS7WHLYZ26DOKTQ3ZGRI22PA57GP4C7Y7ANK5XDQ/icon/f2b32bda85a5a4a613eb47fb01c57ce3-2b4a0b6e3c7d785e7e0d22f5d540dce9.svg",
+    "category": "Business Applications"
+  },
+  {
+    "id": "textract",
+    "name": "Amazon Textract",
+    "description": "Amazon Textract is a service that automatically extracts text and data from scanned documents. Amazon Textract goes beyond simple optical character recognition (OCR) to also identify the contents of fields in forms and information stored in tables.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/textract/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/WNXNO6TAQ5L3DNOFKLM4U2OSEYPZZ4UCZAKP6RJRSCJJJIU5BNIA/icon/0121e707af85a4b5d571de33104d5ac1-b655f8b189e18898d77c2e95627a589b.svg",
+    "category": "Machine Learning"
+  },
+  {
+    "id": "timestream",
+    "name": "Amazon Timestream",
+    "description": "Fast, scalable, serverless time series database.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/timestream/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/DH2MO3OJQQRDEVHCG65ARLER5VDUOWQKDXKQ22R6WD5GWNAB43JA/icon/c53ad7b1c55df3505ed16a5d5714f0fc-b51aeef7545e7be066afc0bdeb77dfba.svg",
+    "category": "Database"
+  },
+  {
+    "id": "transcribe",
+    "name": "Amazon Transcribe",
+    "description": "Amazon Transcribe is an automatic speech recognition (ASR) service that makes it easy for developers to add speech-to-text capability to their applications. Using the Amazon Transcribe API, you can analyze any audio files stored in a common format (WAV, MP3, etc.) in Amazon Simple Storage Service (S3) and have the service return a text file of all the transcribed speech.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/transcribe/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/EUAQXZ45SGVTJE3G2PWP64BL5D43VM2HFPZKPJ7XV5POFGZVFEKA/icon/762bf9a0fc087fbb4ba021a3cee6edaf-2578b25de7cbb06633f39903ccc90d08.svg",
+    "category": "Machine Learning"
+  },
+  {
+    "id": "translate",
+    "name": "Amazon Translate",
+    "description": "Powered by deep learning technology, Amazon Translate delivers fast, high-quality, and affordable language translation. The service offers a managed and easy to use solution for crossing the language barrier – enabling you to translate large volumes of text efficiently, and easily localize the applications you build for international use.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/translate/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/PTBBQ44VIW7RHD6BZOOWXF6OSN42SLSP7AD4PWSGCTUVQU6TWLPQ/icon/fc46e26a907870744758b76166150f62-76c22bfd03882310f44da5a6a9590864.svg",
+    "category": "Machine Learning"
+  },
+  {
+    "id": "verifiedpermissions",
+    "name": "Amazon Verified Permissions",
+    "description": "Amazon Verified Permissions is authorization as a service. You can define permissions for your applications using the Cedar policy language. Access requests are evaluated using those policies.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/verifiedpermissions/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/X3M5UT3F3CIYAN7XS6IFTF6QDCRI4QIDV24NK7XBNNYMSU2S4OBA/icon/e04ed4d3e7ade38c46ebc5efed7190ea-988dffd597d8a600f5ce98ff7bd7a10d.svg",
+    "category": "Security, Identity, & Compliance"
+  },
+  {
+    "id": "zocalo",
+    "name": "Amazon WorkDocs",
+    "description": "Amazon WorkDocs is a fully managed, secure enterprise storage and sharing service with strong administrative controls and feedback capabilities that improve user productivity.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/zocalo/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/BKZWGSPNNAFU35G5ZHV53YWPXYDDMHDJLS7AFPVNXGSYBCSIOKKA/icon/1faa8ed08a91646930551ce93f92c854-916d8d9bcb1e5bd2af93348e898056d4.svg",
+    "category": "Business Applications"
+  },
+  {
+    "id": "apigateway",
+    "name": "API Gateway",
+    "description": "Amazon API Gateway makes it easy to create, maintain, monitor, and secure APIs at any scale.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/apigateway/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/YQSXE26XPXPOFR4RNTHADZ6A5EBPBODPAKV6IERNZE66HMBAER2A/icon/fb0cde6228b21d89ec222b45efec54e7-0856e92285f4e7ed254b2588d1fe1829.svg",
+    "category": "Networking & Content Delivery"
+  },
+  {
+    "id": "discovery",
+    "name": "Application Discovery Service",
+    "description": "AWS Application Discovery Service simplifies application migration planning by automatically identifying applications inventory and their associated dependencies.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/discovery/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/WNUJ23YIRY2FXPJMBUCLK2BQDJCPU6FPIF4Z2THLCMCV56R4IPSQ/icon/54818b05d116eadc7f67517a3a6e4b33-dc7f10ab989d8a9db8a63056ced7ea4c.svg",
+    "category": "Migration & Transfer"
+  },
+  {
+    "id": "route53recovery",
+    "name": "Application Recovery Controller",
+    "description": "Monitor application recovery readiness and manage failovers",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/route53recovery/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/XVP4ZXG4JYVPX7TD4QO2L63DSMBNXFZ3TCLVVTOFTE6VSZA74MQA/icon/f94832a5cd428328fb4b06a5f6e983fe-a9a7c98da85c28144860deba04054c74.svg",
+    "category": "Networking & Content Delivery"
+  },
+  {
+    "id": "athena",
+    "name": "Athena",
+    "description": "Amazon Athena is an interactive analytics service that makes it easy to analyse data in Amazon S3 and other data sources, using standard SQL or Python.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/athena/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/EHSCZUK4KBC7K5MVAYPZP576LUWP2J5NOQGZVQXNR4NJQCHPLXNA/icon/0454aa97682235df3ed1a3456bc86e62-690ff61a3c9cabacf2d3d79e64e3a8a4.svg",
+    "category": "Analytics"
+  },
+  {
+    "id": "rds",
+    "name": "Aurora and RDS",
+    "description": "Amazon Aurora and RDS Relational Database Service makes it easy to set up, operate, and scale relational databases in the cloud, such as MySQL, Aurora, MariaDB, and Oracle.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/rds/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/6JW3RZSXOZ4EFR2HZBU6IIOCUZEIFKRK6JZDCUDHQVQXRMAORYWQ/icon/1d374ed2a6bcf601d7bfd4fc3dfd3b5d-c9f69416d978016b3191175f35e59226.svg",
+    "category": "Database"
+  },
+  {
+    "id": "dsql",
+    "name": "Aurora DSQL",
+    "description": "Amazon Aurora DSQL a serverless distributed SQL database with virtually unlimited scale, highest availability, and zero infrastructure management. Aurora DSQL offers the fastest distributed SQL reads and writes. Aurora DSQL makes it effortless for customers to scale to meet any workload demand. With its active-active distributed architecture, Aurora DSQL ensures strong data consistency designed for 99.99% single-Region and 99.999% multi-Region availability. Aurora DSQL’s serverless design eliminates the operational burden of patching, upgrades, and maintenance downtime. Aurora DSQL is PostgreSQL compatible, and provides an easy-to-use developer experience.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/dsql/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/Q5U3JWNVY6GIA3B6CCIMWZ5WSPEUP4GSB36MU2DZF2CGU5ZVGG7Q/icon/32373ca0a2699cec4bd97d912d2fede9-21b3cac4e8b49c66b35b2584f0ca62e8.svg",
+    "category": "Database"
+  },
+  {
+    "id": "agent-registry",
+    "name": "AWS Agent Registry",
+    "description": "AWS Agent Registry is a fully managed discovery service that provides a centralized catalog for organizing, curating, and discovering resources across your organization. With AWS Agent Registry, you can publish MCP servers, tools, agents, agent skills, and custom resources into a searchable registry, control access through an approval workflow, and enable both human users and AI agents to discover the right tools and agents through hybrid search, catalog browsing, and a native MCP endpoint.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/agent-registry/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/37TPTPLXS3J67TEKYCDQKWIZLCNEAIB2ZVEXMFRYOLYBNTN2GTPA/icon/d11acb7f15a9ba01e0e9d4ef66ed2161-b2fc81c6d8448faf4dc2b3e5d74cebb2.svg",
+    "category": "Machine Learning"
+  },
+  {
+    "id": "amplify",
+    "name": "AWS Amplify",
+    "description": "AWS Amplify offers services for building and hosting web and mobile fullstack apps. Amplify Hosting offers managed web hosting for static and server-rendered apps with CI/CD. Amplify Backend provides tools to build and connect app backends using services like AppSync for APIs, DynamoDB, Aurora, S3, and Bedrock.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/amplify/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/FZWU7QTHKFSAFINJXIT6LM6IFFFZXRJNFG2Y5GLC3HF6JMOCJEVQ/icon/9da5a168cf8194c8ee5ed192a443d563-674375b53bc8ae94f48cfdb5c81e8363.svg",
+    "category": "Front-end Web & Mobile"
+  },
+  {
+    "id": "appmesh",
+    "name": "AWS App Mesh",
+    "description": "AWS App Mesh makes it easy to monitor and control microservices running on AWS.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/appmesh/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/6PQPGEIGRL6OCLBSU25QXKGK73MHXC2JA4BOI35GIAQ3KQSQ2LJQ/icon/b0efe76e23d3bde478d55212e8b0af22-54c6ae562017fb852580ab35dc0f3ff9.svg",
+    "category": "Networking & Content Delivery"
+  },
+  {
+    "id": "apprunner",
+    "name": "AWS App Runner",
+    "description": "AWS App Runner is a fully managed service that makes it easy for developers to deploy from source code or container image directly to a scalable and secure web application.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/apprunner/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/4O423MMLOJSHN2IMAAUMYOMXKD76H7SBF6BPXC4TTKXRXKBG7AZA/icon/051de32597041e41f73b97d61c67a13b-9cbdaf85e3bcf29b656fdedd8e6d1305.svg",
+    "category": "Compute"
+  },
+  {
+    "id": "appstudio",
+    "name": "AWS App Studio",
+    "description": "AWS App Studio is an application building service that accelerates development through generative AI assistance. Empower a new set of builders to create fully-managed internal applications against your AWS data services.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/appstudio/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/LW2T4AYCQI5E2LWP4CU4K2AVNSBXUOAMCFGFELJHVZDUNRV4ZI2A/icon/b106d7fd67ff73c5dcbd6a10057e2476-b43047601251f783a0fc07e1287cfb1e.svg",
+    "category": "Developer Tools"
+  },
+  {
+    "id": "appconfig",
+    "name": "AWS AppConfig",
+    "description": "Move faster and safer by using feature flags, operational flags, experiments, and other runtime configuration. Release new features faster, run A/B tests with controlled experiment rollouts, and tune your operations without pushing new code.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/systems-manager/appconfig/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/QJ64RU7EJ6YPIWKCHFI5FWKG7LXM5DD46ICDVXYWQR2IMM33BP6A/icon/de8e21b60c1c6af28b5898206446c5d5-4fdc0b94619dc6dd9466276c0a6ddb71.svg",
+    "category": "Developer Tools"
+  },
+  {
+    "id": "appfabric",
+    "name": "AWS AppFabric",
+    "description": "AWS AppFabric quickly connects SaaS applications across the organization so IT and security teams can easily manage and secure applications using a standard schema, and employees can complete everyday tasks faster using generative AI. Use AppFabric to natively connect SaaS productivity and security applications to each other, automatically normalize application data for administrators to set common policies, and empower employees to get answer quickly, automate task management, and generate insights with a common generative AI assistant.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/appfabric/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/SU5BBHM7E35EAB7BDF5XRTVR2VGT3UTPWWC3NSVEYDE5D3ARWBQQ/icon/6218832562965f9e1a11f138eb84e52b-424d3008a17c210e193ce57d11621e78.svg",
+    "category": "Business Applications"
+  },
+  {
+    "id": "appsync",
+    "name": "AWS AppSync",
+    "description": "Real-time data sync using GraphQL for mobile & web apps, available online and offline. Share data across devices and users.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/appsync/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/EYCDZS65BKXVRA6ZHI4Z7CD2NOH2MQJCJTWKZCQXMEH53FJWGFZA/icon/e7b8f8b9ecd08d72230d043d9ece0a53-94bfcda2029215ab7135f16f4a252607.svg",
+    "category": "Front-end Web & Mobile"
+  },
+  {
+    "id": "auditmanager",
+    "name": "AWS Audit Manager",
+    "description": "AWS Audit Manager enables you to audit your AWS usage by automating evidence collection so you can continuously assess controls for risk and compliance.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/auditmanager/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/RJHSMFSMSNCJQSRZJXUQBYLLWAOBNYA6WUR4VPFZLOUZQW7MTGRQ/icon/216304eb42158c57d4ec762a309c7df6-e0893f8c90b207de27e5bc820ecb2318.svg",
+    "category": "Security, Identity, & Compliance"
+  },
+  {
+    "id": "awsautoscaling",
+    "name": "AWS Auto Scaling",
+    "description": "AWS Auto Scaling maintains steady application performance by automating the scaling of multiple application resources for your applications.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/awsautoscaling/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/U6N3FDPZNBD46G4KBDEPSWQ5NZ4WRALI25ON3FPVDSO2CYXYXYRA/icon/8c4ff0bc6eb31f0dcf6f6765b4259429-8b46577d889db4c0abac90ec6961f188.svg",
+    "category": "Management & Governance"
+  },
+  {
+    "id": "b2bi",
+    "name": "AWS B2B Data Interchange",
+    "description": "AWS B2B Data Interchange is a fully managed service for automating the transformation of Electronic Interchange Data (EDI) documents into common data representations such as JSON and XML at cloud-scale with pay-as-you-go pricing.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/b2bi/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/SXR5KKVLF4L44CNH5UEBRJHKIXZIX4DO5P44IBNDBHJ4YYHP76YQ/icon/3ad6307a727cccc3dcd241f89405d92f-5242f5f2aae747ad213e28ca14e810f6.svg",
+    "category": "Application Integration"
+  },
+  {
+    "id": "backup",
+    "name": "AWS Backup",
+    "description": "AWS Backup is a fully managed backup service that makes it easy to centralize and automate the back up of data across AWS services in the cloud as well as on-premises.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/backup/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/H7VTVCAUFGKCWPVVULTXLIB53WNJUTGC3EF44PSXDZMHFVFEVNEA/icon/402051f4be0cc3aad33bcf3ac3d6532b-a9a8a0faf2e131a8dd2d144cabe4debd.svg",
+    "category": "Storage"
+  },
+  {
+    "id": "billingconductor",
+    "name": "AWS Billing Conductor",
+    "description": "AWS Billing Conductor is a service that allows you to customize your bill computation and display your billing data in a meaningful way to you and your end users.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/billingconductor/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/5EWWDZKGRKRGJRPGC57HHLAD4VNJON6RGX4YIUR6P66GF6C2RR3A/icon/c0e9fa38aafa698f926d7a371e219f4c-3deee6800a1b04be9b962596a5d411c4.svg",
+    "category": "Cloud Financial Management"
+  },
+  {
+    "id": "cleanrooms",
+    "name": "AWS Clean Rooms",
+    "description": "Easily and securely collaborate on collective datasets without sharing or revealing underlying raw data.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/cleanrooms/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/XRLUYGJ5WL7HBTF2KOUWGSMPK42I3KCL4NKHCGHTDEAK4TEWJKKQ/icon/cb8db1f49337e4a9fc660e68dd5fd3f1-024acf771c75b4dbc2b480c9332c5424.svg",
+    "category": "Analytics"
+  },
+  {
+    "id": "cloudmap",
+    "name": "AWS Cloud Map",
+    "description": "Define friendly names for your cloud resources so that your applications can quickly and dynamically discover them.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/cloudmap/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/57BK346A57MBIXFNUEJ54KDKSWCSNON3NYOWDAVWDG5SOE6NFUPA/icon/0888974475efed202c0b09605f1030cd-b9a9806adda2a739718f43d29869370f.svg",
+    "category": "Networking & Content Delivery"
+  },
+  {
+    "id": "compute-optimizer",
+    "name": "AWS Compute Optimizer",
+    "description": "AWS Compute Optimizer recommends optimal AWS Compute resources to reduce costs and improve performance for your workloads.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/compute-optimizer/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/XNVZTXQVBBPKEYJZHVH6M4RAAOQFAPENKHCSCU5AG32NAAZY67HQ/icon/9a2e6ec676386cc13f0bcd9c2e9efa1a-ea5d08b7e15abe74d5750036a744b023.svg",
+    "category": "Management & Governance"
+  },
+  {
+    "id": "config",
+    "name": "AWS Config",
+    "description": "AWS Config gives you inventory of your AWS resources, lets you audit resource configuration history, and notifies you when resource configurations change.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/config/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/KZ7QC3JXOJM5P2GEPPKJ2S6GIDJBWB6MSHBBQ3FYRS2BB2TXWN4A/icon/011134986548f3458aa3e7e2a7fceb8d-61e2ad36eb2acba35da09e890ced6904.svg",
+    "category": "Management & Governance"
+  },
+  {
+    "id": "dataexchange",
+    "name": "AWS Data Exchange",
+    "description": "Easily exchange data in the cloud. Millions of AWS customers can now find, subscribe to, and use third-party datasets from qualified data providers.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/dataexchange/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/NF7PVIJICGBONH3FR3ITT42T3UA7ZXJ5YEWHAFWEIQHHF4XPWPPA/icon/87bf81e4c8cbeb11c00fa4836e65e7d4-38b71496b8400bf103429e2108a23934.svg",
+    "category": "Analytics"
+  },
+  {
+    "id": "datatransferterminal",
+    "name": "AWS Data Transfer Terminal",
+    "description": "AWS Data Transfer Terminal provides a safe and secure facility to quickly transfer data to and from Amazon services, such as Amazon S3. Bring your own storage devices and leverage our high-speed data network connections to achieve transfer speeds up to 100 Gbps.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/datatransferterminal/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/PYHFDSUOY5VJWPQM7I655GZ3NBKE5TDPSR5XC26WPBKUFNUCHPVA/icon/e277f78c8d3131487d9cd2494cc4df03-3c72b3f58b587bed70e655fea300460c.svg",
+    "category": "Networking & Content Delivery"
+  },
+  {
+    "id": "deadlinecloud",
+    "name": "AWS Deadline Cloud",
+    "description": "AWS Deadline Cloud is a fully managed solution that lets your creative teams deliver faster, run more jobs in parallel, and improve cost control.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/deadlinecloud/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/ILVCC2NG75Z7QLRWVUIQPO4GTMK333IEFR5T73A3RINPULX3K5QA/icon/48248ff97cb0ba2793759c61fef07c5c-36ab68bb615ab4b721185091f1da38ab.svg",
+    "category": "Media Services"
+  },
+  {
+    "id": "aidevops",
+    "name": "AWS DevOps Agent",
+    "description": "AWS DevOps Agent investigates incidents and identifies operational improvements as an experienced DevOps engineer would: by learning your resources and their relationships, working with your observability tools, runbooks, code repositories, and CI/CD pipelines, and correlating telemetry, code, and deployment data across all of them to understand the relationships between your application resources, including applications in multicloud and hybrid environments. DevOps Agent uses this deep understanding of your operations and workloads to reduce MTTR and drive operational excellence.\n",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/aidevops/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/6O7B7SC2AD4OYKGUO7Y7PE2NFS6NVEOZMG73UAH4MIYG32FY7NPA/icon/ab3d80f3c9c9db0fdffe8c1a9720af67-7dea472e17f221460261abc505fe07de.svg",
+    "category": "Developer Tools"
+  },
+  {
+    "id": "drs",
+    "name": "AWS Elastic Disaster Recovery",
+    "description": "Minimize downtime and data loss with fast, reliable recovery of on-premises and cloud-based applications using affordable storage, minimal compute, and point-in-time recovery",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/drs/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/4CA24WPBWRXQJH5H46HKSSQKMGFZQVBOJZ6IV6FVL2PKUO3DYJKA/icon/2a3b4bb3d8bee59009b8da70135c9637-5b0b138d0fcc329c01f1f8b841ec313b.svg",
+    "category": "Storage"
+  },
+  {
+    "id": "end-user-messaging",
+    "name": "AWS End User Messaging",
+    "description": "AWS End User Messaging empowers developers to integrate scalable and reliable messaging into their applications. Whether it's time-sensitive alerts, one-time send messages reliably to local and global destinations passwords, or two-way communications, AWS End User Messaging helps ensure your messages reach their local or global destinations across multiple channels like SMS, Push, and others. AWS End User Messaging helps unlock the full potential of your messaging strategy by connecting your applications directly to your end-users across the channels they use and trust.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/end-user-messaging/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/M223X5C4ON2KJWENXQVEILFKKRTUH4AMXWSQHULEVFH57X7EA7DA/icon/389b3317b1ea2cb5476d10e654acabc6-4178d59baa7bb1bcf84371503b88f71b.svg",
+    "category": "Business Applications"
+  },
+  {
+    "id": "entityresolution",
+    "name": "AWS Entity Resolution",
+    "description": "AWS Entity Resolution is a fully managed entity resolution service that lets you easily match and link related records stored across multiple applications, channels, and data stores using flexible, configurable workflows that take only minutes to set up.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/entityresolution/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/QAZUJIETGPNYE3NBYW3T2M6GHAOK42UGRXH4BDYEAQBQZDSAA45A/icon/fbf968d5fc8f3e17ae50869dd4e58a6b-897713719d66280e2133a150874fcd39.svg",
+    "category": "Analytics"
+  },
+  {
+    "id": "finops-agent",
+    "name": "AWS FinOps Agent",
+    "description": "AWS FinOps Agent",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/finops-agent/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/6JQ3TXJ5ONA633PDMYRX7DVMMMEURRD74UXJZKAIYZBGTWGFAQQA/icon/f5305953a6f8f05535781608b008485b-7eb74c339c2d8486b8b0011248d9c8d7.svg",
+    "category": "Cloud Financial Management"
+  },
+  {
+    "id": "fmsv2",
+    "name": "AWS Firewall Manager",
+    "description": "Centrally configure and manage firewall rules across accounts and applications",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/wafv2/fmsv2/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/O7RVGTF2KPRJMZ6VSNBYSRYZD2MWP43PUGCIASTSETEUZTURUUMA/icon/bf19fa027c5a9d181dc72fd77bc4acdc-c8d9ea3e4aa8cea0b1562cd0474b51b2.svg",
+    "category": "Security, Identity, & Compliance"
+  },
+  {
+    "id": "fis",
+    "name": "AWS FIS",
+    "description": "AWS Fault Injection Service is a fully managed service for running fault injection experiments on AWS that makes it easier to continuously improve an application’s performance, observability, and resiliency.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/fis/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/BDHM2PU4F2NVNL6YEJNN7TMMTP5Z4UEHZQNA4QTUEDMOPZGEOMPA/icon/valkyrie-fd78b539f98a06e2dcc4e58f37c680ad.svg",
+    "category": "Developer Tools"
+  },
+  {
+    "id": "awsforsap",
+    "name": "AWS for SAP",
+    "description": "AWS for SAP console allows you to centrally manage, operate, and innovate with SAP applications on AWS",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/awsforsap/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/UA7Q4YSFIF3GRK3PZE4ZTYN4LOVINBZAJPJ47QQY3PFHIWAZVJ3Q/icon/053fd3dcb3af3eadea87fe39e4cb4c24-55c1a3b5cc1018448cb962699caa3016.svg",
+    "category": "Management & Governance"
+  },
+  {
+    "id": "ec2globalview",
+    "name": "AWS Global View",
+    "description": "Get a global view of your AWS core resources",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/ec2globalview/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/GGFGTDR5WXRYZJYS2XFK2OQPZD4O66TELRJ2MJQCQLTCVBNMVY2Q/icon/07b9ff1cdb54742f1cd1c975d63969c3-688231cb62ca075892854e32e93ecdc2.svg",
+    "category": "Compute"
+  },
+  {
+    "id": "glue",
+    "name": "AWS Glue",
+    "description": "AWS Glue is a serverless data integration service that makes it easier to discover, prepare, move, and integrate data from multiple sources for analytics, machine learning (ML), and application development.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/glue/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/62XZQTV736H3UQFPH2XX4OUYIIQRNUVKRZQMV2RN3KBIHKZALFWQ/icon/1ed4de8986cf6e4a68d5a18c135d36f2-83f0853380b5ba846a691333dfd4d3ba.svg",
+    "category": "Analytics"
+  },
+  {
+    "id": "databrew",
+    "name": "AWS Glue DataBrew",
+    "description": "Visual data preparation tool to clean and normalize data for analytics and machine learning",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/databrew/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/LJUBG2OIXSGIQAMFYR2YGCNNQGK2K2NUUMYETLTE2LWLMIZDGW3Q/icon/elixir-2d19db829f6b67060e76d000e31fdc4d.svg",
+    "category": "Analytics"
+  },
+  {
+    "id": "health",
+    "name": "AWS Health Dashboard",
+    "description": "Personalized view of AWS service health.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/health/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/ZSAXFD7V4UPZQPG5NQ4RSH464QXVKHFLEV56RMUPUF2UETKMLLAQ/icon/4295ed0c9cbd0dc7e7476c91e7be83c0-02a1f2d9e668ba57a90fa52b7ab6d631.svg",
+    "category": "Management & Governance"
+  },
+  {
+    "id": "medical-imaging",
+    "name": "AWS HealthImaging",
+    "description": "AWS HealthImaging is a HIPAA-eligible service that enables healthcare and life science organizations and their software partners to easily store, analyze, and share medical images in the cloud at petabyte scale.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/medical-imaging/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/JDXLEOXYRDUBC5APP46PTYBJEJDXCSXMATSVLTW44PC3XKBMSQHA/icon/0d49b8ffa5280b7c276a853a3bc7546c-d4630693ff6a5fa51c9ec5681f321d82.svg",
+    "category": "Machine Learning"
+  },
+  {
+    "id": "healthlake",
+    "name": "AWS HealthLake",
+    "description": "Store, transform, query and analyse petabytes of health data in minutes with Amazon HealthLake",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/healthlake/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/3N7HMF6HMPYEKSWYL6A2XQTNCCPV6GWGD6DXMA7DN4YTMLCIOMYQ/icon/colossus-fc7a939c03f53768cd5a4cb8906e0095.svg",
+    "category": "Machine Learning"
+  },
+  {
+    "id": "omics",
+    "name": "AWS HealthOmics",
+    "description": "Store, query, analyze and generate insights from genomic, transcriptomic, and other omics data to improve health and advance scientific discoveries.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/omics/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/EDPPQ5KO22P4OCTOZDT5W2BII5OTJZ2P2CGCQEED2VHONPOBT7DA/icon/ff6de6588e7a0f679a5c71e3a762b455-799598e323eddc0a92cd27ba514b9dbe.svg",
+    "category": "Machine Learning"
+  },
+  {
+    "id": "iotfleetwise",
+    "name": "AWS IoT FleetWise",
+    "description": "Easily collect, organize, and transfer vehicle data to the cloud at scale.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/iotfleetwise/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/AVHVRAWHZK7FPU7UD6M567SSA2KQF2LHR6OSX22F7MWJDGSAC2SA/icon/f6108089fe232c964235dac210aab04e-17f00a6fc14ce60251ce74517a253546.svg",
+    "category": "Internet of Things"
+  },
+  {
+    "id": "iq",
+    "name": "AWS IQ",
+    "description": "Complete projects faster with help from third-party AWS Certified experts",
+    "consoleUrl": "https://iq.aws.amazon.com/?utm=csl",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/I3Z766SUFOY6L426D7ZKC4SHK3WCLGY7S4H7YZ5HUIQKBM2U377Q/icon/795237fd9d107e63cd19b0db0f2fba2f-da09af0434cc7c75a75ccbc599e19018.svg",
+    "category": "Customer Enablement"
+  },
+  {
+    "id": "lakeformation",
+    "name": "AWS Lake Formation",
+    "description": "AWS Lake Formation makes it easy to set up your secure data lake, accelerating the time spent making data available for analysis and machine learning.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/lakeformation/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/244BTBJEBU7ACBTCBK35CVHKWQXLKDNTM2CWSSDQ46J2PT5AENGQ/icon/38d6a77f9e8487e5551c5248662353a7-6f1c3ad4ec3cadb88cea24f1aabe39cf.svg",
+    "category": "Analytics"
+  },
+  {
+    "id": "license-manager",
+    "name": "AWS License Manager",
+    "description": "With AWS License Manager you can set customized rules, manage centrally, and discover software, across accounts, whether you’re running on AWS, on premises, or a public cloud. ",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/license-manager/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/42GZJTKRJWYDV6VJPDB5EEL3NBICCEC5FPN5PA72QOXQSVDTUNGA/icon/8ccdb5f6d9a8952cc8ae97ce3f2dac29-586d250d6e6745646f38e41aed448e99.svg",
+    "category": "Management & Governance"
+  },
+  {
+    "id": "m2",
+    "name": "AWS Mainframe Modernization",
+    "description": "AWS Mainframe Migration and Modernization Platform",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/m2/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/HSAJ3ZFCDHHSUXFC3ESRE2OHHWJDVGUCTUFNOFWIYJAZJYUEMAFA/icon/de05930dd46a984ca32aad9feac718e8-e36b49290b8f9b727525350b31d90f6c.svg",
+    "category": "Migration & Transfer"
+  },
+  {
+    "id": "marketplace",
+    "name": "AWS Marketplace",
+    "description": "Digital catalog where you can find, buy, and deploy software",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/marketplace/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/UL4LXJS2ECDNQJ6GUXMAM6DDRUCL7NZBP2QJ25QTEPSCNAYSPWTA/icon/bc5986ebbf4dde661f229fd527ad82f4-f17167bb69305a462c78c3087221e815.svg",
+    "category": "Cloud Financial Management"
+  },
+  {
+    "id": "migrationhub",
+    "name": "AWS Migration Hub",
+    "description": "Simplify and accelerate the migration of your data centers to AWS with a single location to track application migrations.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/migrationhub/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/DF3UE3FTWPRZPDP2BKUMWGVKJC6GV3LS2TRDCIA6ME74A46D4E3Q/icon/a5f80acb5faf8bfba43a0a899fa7a098-6dd2e427405699968f2b9e29b6529bea.svg",
+    "category": "Migration & Transfer"
+  },
+  {
+    "id": "outposts",
+    "name": "AWS Outposts",
+    "description": "Run AWS Services On Premises",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/outposts/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/G6VEYBN7ESIDYYK2TLVXARVVODNKNWDHOAGNM7XBW6DWGII22SRA/icon/a9f49db14fbca9e8da922af641b00039-76d783f16197f52fd838821b7143ee9e.svg",
+    "category": "Compute"
+  },
+  {
+    "id": "partnercentral",
+    "name": "AWS Partner Central",
+    "description": "Accelerate your AWS partnership with unified tools, APIs and resources for building, marketing, and selling solutions with AWS and on AWS Marketplace.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/partnercentral/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/22FNDZAMU6ASOVGPLCH7IKUHCJ5HY4YX6SQWXOUDLSLZUYKCYIEA/icon/f6e72bbfde90661525884d1477311a05-5df5581d78505d69e9ce4f087cf3d613.svg",
+    "category": "Management & Governance"
+  },
+  {
+    "id": "payment-cryptography",
+    "name": "AWS Payment Cryptography",
+    "description": "Simplifies your implementation of key management and cryptographic operations used in payment processing applications in accordance with PCI standards",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/payment-cryptography/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/VCS2E5HG5PK2SW3YTYOW65ED2NOJQ722TAM4SG2O7AW4YIYCJB5Q/icon/137dcec44002170db2d2dcd9c70dbebf-14304ef7b1a896e4445ba262376f9437.svg",
+    "category": "Security, Identity, & Compliance"
+  },
+  {
+    "id": "acm-pca",
+    "name": "AWS Private Certificate Authority",
+    "description": "AWS Private Certificate Authority (AWS Private CA) is a managed private certificate authority (CA) service which enables creation of private certificates and CA hierarchies, including root and subordinate CAs.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/acm-pca/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/O2OEDEW4NEAX3UZXCKROJGVZQTT4OSZKZJLJTAULDFBIN2XI5VSA/icon/a354d60aa1d12b1b0a66b6913ea6ff52-8970f3116f0aaed7ff9b4391626e5192.svg",
+    "category": "Security, Identity, & Compliance"
+  },
+  {
+    "id": "proton",
+    "name": "AWS Proton",
+    "description": "With AWS Proton, you can define, manage and update your infrastructure so your developers can focus on writing great code.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/proton/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/3TPVWZ7UQRURBFGRBXKD76GRKZDJL2KLIMLOHOLT2XU2OVT66EQA/icon/arrow-90be37226bb10f4382c472615e1d16cd.svg",
+    "category": "Management & Governance"
+  },
+  {
+    "id": "repost-private",
+    "name": "AWS re:Post Private",
+    "description": "Accelerate cloud adoption, improve productivity, and drive innovation and collaboration with a knowledge resource built for your organization’s cloud  community.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/repost-private/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/LULG76ND4B66LJ7N2NCSH5IWETFLIDWQA5RTRZ56PRRVMVNMIWZQ/icon/9fdb3d099bdb5ccb9582b5a0a9b8072f-f54eff603ec063776904208edcdc34d2.svg",
+    "category": "Customer Enablement"
+  },
+  {
+    "id": "resource-explorer",
+    "name": "AWS Resource Explorer",
+    "description": "Easily search for and discover relevant resources across AWS",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/resource-explorer/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/2VGH4PB27ER2L5DGGHOEZ6NE5E4LFKOIPECQTSF4IBN2HPHOFYPQ/icon/8a4ac216fb230da3834de641b3e5d0f7-91e7b77c605e5651a28627e119b58dc5.svg",
+    "category": "Management & Governance"
+  },
+  {
+    "id": "securityagent",
+    "name": "AWS Security Agent (now part of AWS Continuum)",
+    "description": "Proactively secure your applications throughout the development lifecycle",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/securityagent/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/LDTTWHIEXJJBRL6NK2M6M2CDZGTWQPS6GPNR3S7GMTUTD5HDS6LQ/icon/63572532fb33aeae6f10ee7936b88c50-b155c94c86ce0d8631446e9ffe3cff0b.svg",
+    "category": "Security, Identity, & Compliance"
+  },
+  {
+    "id": "security-ir",
+    "name": "AWS Security Incident Response",
+    "description": "Quickly prepare for, respond to, and recover from security incidents\n\n",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/security-ir/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/MSKN7ZXJUXVTI623OLKLPTY6FNFQ2LIENCTPEATIV4VOGT2VMIGA/icon/e24f6e3ce19ee0728ff1c443e4ff488d-2e7465e6ba498febec57d9f55bda1155.svg",
+    "category": "Security, Identity, & Compliance"
+  },
+  {
+    "id": "signer",
+    "name": "AWS Signer",
+    "description": "AWS Signer is a fully managed code signing service to ensure the trust and integrity of your code for AWS Lambda.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/signer/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/OAA4H7C5YKICZ5RGRLXFQGOQOQYMXUCHKKSHK4N4F6DYSVHEN7EA/icon/signer-38333f6a7731797b22186a97f1aeebf5.svg",
+    "category": "Security, Identity, & Compliance"
+  },
+  {
+    "id": "snowfamily",
+    "name": "AWS Snow Family",
+    "description": "AWS Snowball accelerates moving large amounts of data into and out of AWS using secure appliances for transport.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/snowfamily/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/6B2JOLABNC6IZKTU6HR4NPB3TEP33VKCGHZI2LZFHJEFQ5UE6TVA/icon/316ccf80948adeaa0b9fc5863fa2e5d0-041cc4f719216c8b7fab8dd1d41f41e0.svg",
+    "category": "Migration & Transfer"
+  },
+  {
+    "id": "sustainability",
+    "name": "AWS Sustainability",
+    "description": "View your estimated environmental impact from using AWS. Plan actions to reduce your environmental impact. Report your impact.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/sustainability/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/GJXBIQMVKC2DB3ZMNXEPOXHUOVVQ477PQLPAMONPTAMBBT3ZVDYA/icon/ab3b66f24ad98d64e9a18a7fa5f4b02f-139b3008a521f27090f0568c34326a27.svg",
+    "category": "Management & Governance"
+  },
+  {
+    "id": "transfer",
+    "name": "AWS Transfer Family",
+    "description": "AWS Transfer Family is a secure, fully managed service for B2B file transfer into and out of Amazon S3 and EFS over SFTP, FTPS, FTP, and AS2",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/transfer/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/F6XTBJNUIQCRSKPXMAMK6DY3GR5MTTAFYH2LFEAFSOUNKJQV23AA/icon/84a0f3455dcca894ace136be62efa292-8f85f711c127875782ebb7e8e39ac621.svg",
+    "category": "Migration & Transfer"
+  },
+  {
+    "id": "transform",
+    "name": "AWS Transform",
+    "description": "AWS Transform is a service that helps you accelerate and simplify the transformation of infrastructure, applications, and code with an agentic AI experience. It provides specialized tools to streamline migration and modernization efforts across various workloads.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/transform/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/KPL2DXN2FEDP3UJXHN2A53WV4JNV2NYM5VEVHC35LMCJHHNDXAVA/icon/515eac893fd5e9ca5ba4293cd6173789-cd2b170ab0a1a4e08acce96769f4121a.svg",
+    "category": "Migration & Transfer"
+  },
+  {
+    "id": "mgn",
+    "name": "AWS Transform MGN",
+    "description": "AWS Transform MGN is a highly automated lift-and-shift solution that simplifies and expedites migration to AWS.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/mgn/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/NRICD5LJILO3H3CMGJA7YHOWKNXUZCACKOD7MXILXDUGRI3DKYIQ/icon/a5ffe5487f62ef75d8e5cf78c18525a5-d4867f9d4adcd749f0c5aff987232847.svg",
+    "category": "Migration & Transfer"
+  },
+  {
+    "id": "notifications",
+    "name": "AWS User Notifications",
+    "description": "AWS User Notifications enables users to centrally configure and view notifications from AWS services across accounts, services and regions",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/notifications/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/F7UBHWB7YPGWOCO3BXP4V3CG5ZV4EGKQOBGBJ3FP5BGVXPRRDT2Q/icon/864f9a4fbb8df49f1f59068a7f9a94d4-abfebe480b291cfdff54170e7becb8b1.svg",
+    "category": "Management & Governance"
+  },
+  {
+    "id": "wellarchitected",
+    "name": "AWS Well-Architected Tool",
+    "description": "Review your workloads with AWS Well-Architected Tool and get AWS best practice guidance for designing and operating workloads in the cloud.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/wellarchitected/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/MEDWOZEYL653Z5JCIIHJGYYZ75XETPVSK22JMHXRCAXP2O64OWOA/icon/f8cb5f109111d16645dd95da5a83dc86-fd913977dfdcaefdc9857e0389230ee2.svg",
+    "category": "Management & Governance"
+  },
+  {
+    "id": "wickr",
+    "name": "AWS Wickr",
+    "description": "Wickr is an enterprise grade, secure collaboration product that provides end-to-end encrypted (E2EE), person-to-person and group (room) messaging, file transfer, screen sharing, location sharing, and voice and video conferencing capabilities.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/wickr/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/H2JFWIFNYX75WFNXZZYVLPTJL2TDAJEYZHLX6Z2HDKHDB6LAAVDQ/icon/3912804f9bb1d0d70108d8b314a964b5-aded756c9d9d9ffe1982f15610110c5d.svg",
+    "category": "Business Applications"
+  },
+  {
+    "id": "batch",
+    "name": "Batch",
+    "description": "AWS Batch enables developers, scientists, and engineers to easily and efficiently run hundreds of thousands of batch computing jobs on AWS.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/batch/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/SQ77B5ZQJH6X7KXUONZYNXKFCZ6I3RGE32OSHCGP2B6MDQ4D342Q/icon/d265aed699f7409ac0ec6fe07ee9cb11-be1feb5292957964748293bc174e1623.svg",
+    "category": "Compute"
+  },
+  {
+    "id": "costmanagement",
+    "name": "Billing and Cost Management",
+    "description": "View and pay bills and invoices. Analyze costs. Organize and allocate costs. Budget, plan, and forecast costs. Find savings opportunities. Find cost optimization opportunities. Monitor and alert costs.\n",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/costmanagement/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/DS7ORV4P6ZTCYOMPJ24IJPBQXPG5SJW7F65YM7RNWZECHLGOOL3Q/icon/2342d9ccd7d52448de0ef187d97c575c-de388fcdf7988c4792628bc8089f788f.svg",
+    "category": "Cloud Financial Management"
+  },
+  {
+    "id": "acm",
+    "name": "Certificate Manager",
+    "description": "AWS Certificate Manager lets you easily provision, manage, and deploy Secure Sockets Layer/Transport Layer Security (SSL/TLS) certificates for use with AWS services.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/acm/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/FCO5MJQQIXE6ZMUNZTKTM7NNBPMXEXFBACEUTRSBJDID67MBKEXQ/icon/02b55e4f52388520bfe11f959f836e68-b8cdde73b02af863b91a2296bbd10b4c.svg",
+    "category": "Security, Identity, & Compliance"
+  },
+  {
+    "id": "claude-platform",
+    "name": "Claude Platform on AWS",
+    "description": "Use Anthropic's Claude Platform through a native Anthropic experience in AWS",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/claude-platform/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/4RK5ZGBK7LDMOPDU3QRIAANAN2PSGT4NXFD5HEXJPHSC4U7TTMOA/icon/246b9ab03a4a9ac074b25a04aa379e03-65eb8a8e7791bf886ccf437d676f010e.svg",
+    "category": "Machine Learning"
+  },
+  {
+    "id": "cloud9",
+    "name": "Cloud9",
+    "description": "A cloud IDE (Integrated Development Environment) for writing, running, and debugging code.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/cloud9/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/7OJTPJ6VMLEUA2XCJO45AZ5ZLF6DI4X67WJXVHJUXEHZ3762IL5A/icon/1a4ec26b6d36503c5b00ae9769d17687-647b27ff27670c1627a1e146f9c557ab.svg",
+    "category": "Developer Tools"
+  },
+  {
+    "id": "cloudformation",
+    "name": "CloudFormation",
+    "description": "AWS CloudFormation lets you create and update a collection of related AWS resources in a predictable fashion.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/cloudformation/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/K3QRWX4NRHRI7VQGXZDNGKGB7EUB3BLHIVDRZJ5YHW2RSGFOS36A/icon/5d3629a64564e611bbeae9b3045be424-e9ebf1d2d9d9c14a684cec1c80e127eb.svg",
+    "category": "Management & Governance"
+  },
+  {
+    "id": "v4",
+    "name": "CloudFront",
+    "description": "Amazon CloudFront provides a way to distribute content to end users with low latency and high data transfer speeds.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/cloudfront/v4/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/O5KUMVBWS74QN7SCF6UJX2EBWYVGGRWTRCB3H6YPT5QYNZU7RUYQ/icon/4200ac8906c9a841a229ed9e5008a533-465d196059bdeeb0ffcb07ebe5f79b28.svg",
+    "category": "Networking & Content Delivery"
+  },
+  {
+    "id": "cloudhsm",
+    "name": "CloudHSM",
+    "description": "CloudHSM provides fully-managed FIPS 140-2 Level 3 Hardware Security Modules (HSMs) in the cloud to create, store, manage, and use the cryptographic keys used to protect sensitive data.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/cloudhsm/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/I727QQEHDAVFR4VZONHNU3MSA2E74E7AWI6J42K2HR3O7L5VBC2A/icon/5e80c1f0dc6f783dc096e17513fd3984-2576791e7baa133f119841b87c3544d4.svg",
+    "category": "Security, Identity, & Compliance"
+  },
+  {
+    "id": "cloudsearchv2",
+    "name": "CloudSearch",
+    "description": "AWS CloudSearch is a fully managed search service for websites and apps.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/cloudsearchv2/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/VF7H5XZO3G454ZEM5LW6BLBB2LF2RMZPYTIMZ7AI7SD4RFMYJPJQ/icon/57bf09e9dd70880afbdbc4005beb4285-096bae18fcc843c63b0416921fd87436.svg",
+    "category": "Analytics"
+  },
+  {
+    "id": "cloudshell",
+    "name": "CloudShell",
+    "description": "A browser-based shell with AWS CLI access from the AWS Management Console",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/cloudshell/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/LKDCE7D3P6B2ZDG7NPEEP4OPKHDFWNQG7UVK4EZWT7T2FGNA2LGA/icon/eb41a287e2011f27d4764844cec7067d-4af6e7aafabe7dd06d94ca592d94ee35.svg",
+    "category": "Developer Tools"
+  },
+  {
+    "id": "cloudtrailv2",
+    "name": "CloudTrail",
+    "description": "AWS CloudTrail provides increased visibility into user activity by recording API calls made on your account.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/cloudtrailv2/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/C3BNCB7H62OB26PSPVHV3U7WEO5GFXTBP7RBLFNYGPWLYOF3JABQ/icon/f3c91469882644ff1d9094ab7bccaebf-9973918bc85c1a1c63bf994cffdee9b7.svg",
+    "category": "Management & Governance"
+  },
+  {
+    "id": "cloudwatch",
+    "name": "CloudWatch",
+    "description": "Amazon CloudWatch provides monitoring and metrics for resources and applications.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/cloudwatch/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/CX6QBE6PRZYY4R3LVRUGVYCKEYSXHAEJLUVNJVMT5MOLELYXPPGQ/icon/8f57ebd825a828e205b2dde223ba17e4-6af63a22dc297f8041286760ee8cd2c9.svg",
+    "category": "Management & Governance"
+  },
+  {
+    "id": "codeartifact",
+    "name": "CodeArtifact",
+    "description": "AWS CodeArtifact is a fully managed artifact repository service that makes it easy for organizations of any size to securely store, publish, and share software packages used in their software development process.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/codesuite/codeartifact/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/QSLQYHWNNMF6SQGGU3Q3YXCUZX6I3IONUYL55VXOSIV3POBNGFEQ/icon/b291609a77359753e9634a9886941d16-c66ffca8d44a017992d0b670866fc14f.svg",
+    "category": "Developer Tools"
+  },
+  {
+    "id": "codebuild",
+    "name": "CodeBuild",
+    "description": "AWS CodeBuild is a build service that compiles source code and runs unit tests.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/codesuite/codebuild/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/XY4Q5TY33HMUJG7NXI3D5OVE5BC7TS5EMSQIZUFRTA2XNCHHOP5Q/icon/13ee531096ccb4384d55f6b7cc66572b-9f8463d77a472721923c47b01f973d59.svg",
+    "category": "Developer Tools"
+  },
+  {
+    "id": "codecommit",
+    "name": "CodeCommit",
+    "description": "AWS CodeCommit is a highly scalable, managed source control service that hosts private Git repositories.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/codesuite/codecommit/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/QVGZV75RHKMJBV7IRYJVXXJDSDFOEKUFVQY737LPBX7AA3UG7GWQ/icon/f302aa78eafe713bb278e61ef3f29ef9-1901ceb3d0fa4648fa6ac2e2aa8559ed.svg",
+    "category": "Developer Tools"
+  },
+  {
+    "id": "codedeploy",
+    "name": "CodeDeploy",
+    "description": "AWS CodeDeploy lets you fully automate code deployments.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/codesuite/codedeploy/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/65JNKOCBZOMIBK5J5KZXPYVSBF2WYGOUHGE4Y6YDJYTU4RAL2IYA/icon/dc0ee5098cd676b9e0ff0ef4efe08836-ba08f633d12059af0acd90ac4404af86.svg",
+    "category": "Developer Tools"
+  },
+  {
+    "id": "codepipeline",
+    "name": "CodePipeline",
+    "description": "AWS CodePipeline is a continuous delivery service that enables you to model, visualize, and automate the steps required to release your software.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/codesuite/codepipeline/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/2HFLAECQR64FVSSNYGL223M54JIIL5ZB7BRX6MALUER46C7VDRAA/icon/59874d8b5a9e702e16641126cc15e561-8137f94920dd8639de205d20e8e72ad6.svg",
+    "category": "Developer Tools"
+  },
+  {
+    "id": "controltower",
+    "name": "Control Tower",
+    "description": "AWS Control Tower provides you with a single location to set up a well architected multi-account environment to govern your AWS workloads with rules for security, operations, and compliance.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/controltower/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/7XBJVRX57QDVZOO5J2XSTWZP5UA2VEP3NJ6YPDA6E22BY4TJHBDQ/icon/87d9120e27c5f075016d654e5f5ed5fb-256f00da2d724a534765701a37ae1fa5.svg",
+    "category": "Management & Governance"
+  },
+  {
+    "id": "datasync",
+    "name": "DataSync",
+    "description": "DataSync simplifies, automates, and accelerates moving and replicating data between on-premises storage and AWS services over the network.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/datasync/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/SQHB5ZBZD6M3RFMP2AD5CL2ZJANBA32ZB6ZENTH7FW4VWUV6TSJQ/icon/a919a25c09b5e0e533111577995cff53-cbdfb0576b864a4e29d346f83bf64ee9.svg",
+    "category": "Migration & Transfer"
+  },
+  {
+    "id": "detective",
+    "name": "Detective",
+    "description": "Analyze and visualize security data to rapidly get to the root cause of potential security issues",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/detective/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/MIDU5ACUJR2NSEWJE3WPEASIPEWY6JXCBALRSZDNOJNNOMC7JCOA/icon/4af05d61b7a4d1e3dfdb929e5fcdf91f-55cc043acd89ed2b9f76dadfbee4a006.svg",
+    "category": "Security, Identity, & Compliance"
+  },
+  {
+    "id": "devicefarm",
+    "name": "Device Farm",
+    "description": "AWS Device Farm helps you improve the quality of your Android, iOS and web apps through automated and manual testing on real devices in the AWS Cloud.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/devicefarm/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/IBGLTKLQCNCNNPJU7G7KTACRHTXK7Z3J2NDN7DWSFT4JA4BVEDHA/icon/39e1071caf585a5cead5f46574cc7641-e1dff4e8ac2eab88b8f03a2e8b3de681.svg",
+    "category": "Front-end Web & Mobile"
+  },
+  {
+    "id": "directoryservicev2",
+    "name": "Directory Service",
+    "description": "AWS Directory Service provides managed directories in the cloud.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/directoryservicev2/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/TVPQDP5GQEUODCW4YOFZG6F4GBXLPYTUO55M72KCKMU5ECDBD4MQ/icon/b410f5e2f0000a534e3cc915139e6b53-d10eb3311d6c3acdca6b8b284e90bb0d.svg",
+    "category": "Security, Identity, & Compliance"
+  },
+  {
+    "id": "dynamodbv2",
+    "name": "DynamoDB",
+    "description": "Amazon DynamoDB is a scalable NoSQL data store that manages distributed replicas of your data for high availability.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/dynamodbv2/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/AN2R6BU3DBLYCROPWJWYQWM62AYYLMXTM5V7AHNGQIU34L2VIEEA/icon/6f419a45e63123b4c16bd679549610f6-87862c68693445999110bbd6a467ce88.svg",
+    "category": "Database"
+  },
+  {
+    "id": "ec2",
+    "name": "EC2",
+    "description": "Amazon Elastic Compute Cloud (EC2) provides resizable compute capacity through virtual machines (VM's or instances) in the cloud.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/ec2/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/RHSMMGZKYJXPPNI2IOC6Z63HJEW4FD5ZYMKJSXD7HQ5IPUTQR2TQ/icon/d88319dfa5d204f019b4284149886c59-7d586ea82f792b61a8c87de60565133d.svg",
+    "category": "Compute"
+  },
+  {
+    "id": "imagebuilder",
+    "name": "EC2 Image Builder",
+    "description": "EC2 Image Builder is a managed service that makes it easier and faster to build customized OS images for use on AWS and on-premises.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/imagebuilder/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/D5GEAIVIRCM5P6XO6KSOX6MCEAZEN4N7LIJEEOMY2M67CE7SJSSA/icon/fb1591f31b4ba22b7a0361a723ad19c1-0cb1efcffe89ea01904bca34486dbe0a.svg",
+    "category": "Compute"
+  },
+  {
+    "id": "efs",
+    "name": "EFS",
+    "description": "Amazon EFS stores and retrieves file data for Amazon EC2 instances.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/efs/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/HNVLMTWAGA2LOD7D5AA6VUHS5LSJPQ7GRYYWH3JAX5FGYKF6UTHA/icon/21bf745da611cadf93e64da3c3e1c8a5-cb081e79694e868a2309e47696addf01.svg",
+    "category": "Storage"
+  },
+  {
+    "id": "elasticbeanstalk",
+    "name": "Elastic Beanstalk",
+    "description": "AWS Elastic Beanstalk is an application container for deploying and managing applications.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/elasticbeanstalk/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/WWHSRL5VGMSHMYFU2N56KMDGDT3LKEEACUMREKPRNIFSVSN65XYA/icon/d43b67a293d39d11b046bd1813c804cb-4bc0ce71c93950e1ad695b25a4f1d4b5.svg",
+    "category": "Compute"
+  },
+  {
+    "id": "ecr",
+    "name": "Elastic Container Registry",
+    "description": "Amazon Elastic Container Registry (ECR) is a fully-managed Docker container registry that makes it easy for developers to store, manage, and deploy Docker container images.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/ecr/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/YMDV5OFQK7UFN5N2QPZNRZZN2QIHTD4OSMMQG6VKETYTJ357ZJ2Q/icon/de7db04805a33606a40b897578543648-c0174badf433f1e0148e43426ae8e43a.svg",
+    "category": "Containers"
+  },
+  {
+    "id": "eks",
+    "name": "Elastic Kubernetes Service",
+    "description": "Amazon Elastic Kubernetes Service (EKS) is a managed Kubernetes service that makes it easy for you to run Kubernetes on AWS without needing to install, operate, and maintain your own Kubernetes cluster.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/eks/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/KBJLRZENOPQL6KRM2T7ESBBGZPJ2UAW432YBKYUHK6YV6GJNV3PQ/icon/dca66d38fd916317687e1390a420c3fc-bcaecc0c3e268821d570a17049e38cc4.svg",
+    "category": "Containers"
+  },
+  {
+    "id": "elasticache",
+    "name": "ElastiCache",
+    "description": "Amazon ElastiCache improves application performance by allowing you to retrieve information from an in-memory caching system.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/elasticache/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/IF2SIODJBEB3KTBVKU4OMXONIUW26QGCQTFUYJ3ICQA3SVVCTRPQ/icon/23141cdce797eeb2bd54bba0e4e0968a-0394201dd8bdedfed719d44ff6a4c69b.svg",
+    "category": "Database"
+  },
+  {
+    "id": "elemental-appliances-software",
+    "name": "Elemental Appliances & Software",
+    "description": "On-premises solutions for video processing and delivery",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/elemental-appliances-software/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/QVFQ3D4AU335GEIPJTPDUAS6UM53ZLDEUTT55JRYYSSMGE3NPF5A/icon/0fba5d3f2f7fceddb1ec7acbd8cb3440-6cef6056df218c24c4a5bdd892381df7.svg",
+    "category": "Media Services"
+  },
+  {
+    "id": "elemental-inference",
+    "name": "Elemental Inference",
+    "description": "AWS Elemental Inference is a fully-managed AI service that automatically optimizes video content in real-time, expanding audience reach without requiring AI expertise",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/elemental-inference/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/YZEIUKLCGHHBVRPIUTUVYWQFK6YTYZHHSXPMK7HGQSSSM3VVAIDA/icon/1ced07f1fe4085ffb7f40cdcb66e42c4-74c31f53bf9d0b8694d13157cda4da1b.svg",
+    "category": "Media Services"
+  },
+  {
+    "id": "emr",
+    "name": "EMR",
+    "description": "Amazon Elastic MapReduce lets you perform big data tasks such as web indexing, data mining, and log file analysis.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/emr/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/2XL3TZE22R35XCGISLABXGBXWSAPWAMXI7WP7WURRFCQZ2DYEJ5A/icon/11cfbe30ac00ef945bb5bd8aa98993b4-431a00fa0a3fe5498b8c01ec091c65db.svg",
+    "category": "Analytics"
+  },
+  {
+    "id": "fsx",
+    "name": "FSx",
+    "description": "Amazon FSx provides fully-managed third-party file systems optimized for a variety of enterprise and compute-intensive workloads.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/fsx/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/CLJE4ERTEKC75CF46XRDOHY6UW4PAKGOL3H5ETBZHQO3LB5FD7HA/icon/fea0543b0b4b9d4c240c6219de0db41c-23eb23b7479038064ce8f040d747df83.svg",
+    "category": "Storage"
+  },
+  {
+    "id": "globalaccelerator",
+    "name": "Global Accelerator",
+    "description": "Global Accelerator is a traffic manager that helps you improve the availability and performance of your internet applications for your global customers",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/globalaccelerator/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/CNTRZ6RSNWYG3KSMXFOHJNZEADIRTJFGTAZ7FUZHCORNXDU7VVJA/icon/84f2861fc6ad8707385b731297675055-4bd7304a9b7c77757b2c019bd10ac242.svg",
+    "category": "Networking & Content Delivery"
+  },
+  {
+    "id": "groundstation",
+    "name": "Ground Station",
+    "description": "AWS Ground Station makes it easy to downlink data and command and control satellites using fully managed, self-service ground station antennas.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/groundstation/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/ZX5KEACU2TRKF5XQAVBFN6Q5COUJPU7RWOK52WVPRG7DZA2QQ5NQ/icon/5b04848fc41724b2fff0cef3593d3b31-d46968b0f77ffd1eeea7a70ce681c2f9.svg",
+    "category": "Satellite"
+  },
+  {
+    "id": "guardduty",
+    "name": "GuardDuty",
+    "description": "Managed threat detection service to continuously monitor and protect your AWS accounts and the applications and services running within them.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/guardduty/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/VMS67IG2AGFGD5B24VSJ6ZS5Z3CMS3R5A2IEKNVLWYEAMK5Y7PFA/icon/3d24fd7adfd7b875b35d7c65717053ec-b542cbdbe19324db9581dcf5558b2b77.svg",
+    "category": "Security, Identity, & Compliance"
+  },
+  {
+    "id": "iam",
+    "name": "IAM",
+    "description": "AWS Identity and Access Management (IAM) lets you securely control access to AWS services and resources.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/iam/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/STFYE4KUQFFP2JZ2KOHPEHBH4BDHCX3ZIEKWLMGPOXOLYRC4QUDQ/icon/0ebc580ae6450fce8762fad1bff32e7b-0841c1f0e7c5788b88d07a7dbcaceb6e.svg",
+    "category": "Security, Identity, & Compliance"
+  },
+  {
+    "id": "singlesignon",
+    "name": "IAM Identity Center",
+    "description": "Use IAM Identity Center to connect an existing directory or use the built-in Identity Center directory to manage user access to AWS accounts and cloud applications.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/singlesignon/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/HO7L7EF5K5RONI4EDMYKMTQFF2J3KTWWKAMKFXXPIQ43QLSNUF6A/icon/b5164fbdf0a4526876438e688f5e4130-8f4c3d179652d29309b38012bd392a52.svg",
+    "category": "Security, Identity, & Compliance"
+  },
+  {
+    "id": "incidents",
+    "name": "Incident Manager",
+    "description": "Automated incident response plans in AWS Systems Manager.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/systems-manager/incidents/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/3SBEAE6A3SCAPJBLTRMAADHGVM3EWCEQDCRQGXFGBCGRVK6JD5OA/icon/f9f2f371c69fa3032ff4a121c9bcf316-95729efc2d0f77d7c7d48656a0585dff.svg",
+    "category": "Management & Governance"
+  },
+  {
+    "id": "composer",
+    "name": "Infrastructure Composer",
+    "description": "AWS Application Composer enables developers to visually compose and configure AWS services into modern applications backed by infrastructure-as-code.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/composer/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/MQUC6GMZNINQJ4DP2VXCFLPKYPRLJXOYA2UQOG3QB7YKPHWF2JWQ/icon/04d8b0d72264ac23a02fdafcc5fb364e-115ebff08616e4f2af188e76a87b006c.svg",
+    "category": "Developer Tools"
+  },
+  {
+    "id": "iot",
+    "name": "IoT Core",
+    "description": "AWS IoT is a managed cloud service that lets connected devices easily and securely interact with cloud applications and other devices.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/iot/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/7PETF7EPPYZQODQGTIELOLD2LZYAGVWEFQ67UUWHOL4TE3MBTOIA/icon/97c209ca505f2958db30a42135afab5c-e87a3a6af0fa6e7b59029cb17597d326.svg",
+    "category": "Internet of Things"
+  },
+  {
+    "id": "devicedefender",
+    "name": "IoT Device Defender",
+    "description": "Secure your fleet of connected IoT devices",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/devicedefender/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/Q6H6VQY5DFJHV77QW3ID62KZQ7IEIG7ROPA7PYJ3BAH6PSKILQQQ/icon/42e9b51cc63d085a0b45d1b7e1c5f195-6dab572eb1db16b26ee98f1001f04e97.svg",
+    "category": "Internet of Things"
+  },
+  {
+    "id": "iotdm",
+    "name": "IoT Device Management",
+    "description": "AWS IoT Device Management lets you securely onboard, organize, monitor, and remotely manage your IoT devices at scale.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/iotdm/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/SNDOPGKXF6SDDYQLLUNF6NFV3435A7A4O6Y7W64GR5U67X4V4L7A/icon/5559879a9af5845faacf9b443c26dd13-25b88e75b0c9c32b135b3220d5ebde76.svg",
+    "category": "Internet of Things"
+  },
+  {
+    "id": "greengrass",
+    "name": "IoT Greengrass",
+    "description": "AWS Greengrass extends AWS onto your devices, so they can act locally on the data they generate, while still taking advantage of the cloud.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/greengrass/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/KXRJMDP6PK7PNDTCPUFQU3FUE7FIXWWXYNPE7ZYE2THYNABG4BYA/icon/67bcb9695330ca0f2437abb36fc54103-1b5211836d3aa117a28ccf8ca3982b97.svg",
+    "category": "Internet of Things"
+  },
+  {
+    "id": "iotsitewise",
+    "name": "IoT SiteWise",
+    "description": "AWS IoT SiteWise is a digital transformation service that makes it easy and cost effective to put operators in charge of the data they use most.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/iotsitewise/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/NLGS2UKKOQ5FHKJNKXTTD4SIHT4AONDEQS22CZZXV6JNRSIKY2OQ/icon/0fb6b3218ce915c8f9a8a1daa95f9aca-ba570f012439d25278e5f04ed2ed404e.svg",
+    "category": "Internet of Things"
+  },
+  {
+    "id": "iottwinmaker",
+    "name": "IoT TwinMaker",
+    "description": "AWS IoT TwinMaker makes it faster and easier to create digital twins of real-world systems and apply them to monitor and optimize operations",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/iottwinmaker/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/IHTXFGDGVLCOX2QKVZ7W4OCR3IJCE32DIOFLZLLXFVJXEMSOQU3A/icon/e1778dc97d846ad2c4285c57466b38d4-c0f812c89e212541aa7f2fd005ecb26a.svg",
+    "category": "Internet of Things"
+  },
+  {
+    "id": "kms",
+    "name": "Key Management Service",
+    "description": "Centralized Generation and Management of Encryption Keys to Control Access to Stored Data Across AWS.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/kms/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/L3ONEMDEGZR46KTINMPXVIPMVV3SVNCU3JL2PB3RGDY22SNRXHJA/icon/4951a865fa68d758b42a9cef50ae168a-88cc389f0bffefa8034ab2023186acde.svg",
+    "category": "Security, Identity, & Compliance"
+  },
+  {
+    "id": "kinesis",
+    "name": "Kinesis",
+    "description": "Amazon Kinesis services make it easy to work with real-time streaming data in the AWS cloud.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/kinesis/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/MQSI4Q6HFYDHAJS3YI6RE42W2RXYKF5Z47PEWJH74VR4AUFC3LYA/icon/988287f7a1eb966ffc4e19bdbdeec7c3-a2004c84c8d3476ac6ad6485f44e9d1b.svg",
+    "category": "Analytics"
+  },
+  {
+    "id": "kinesisvideo",
+    "name": "Kinesis Video Streams",
+    "description": "Capture, process, and store video streams for analytics and machine learning.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/kinesisvideo/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/JDPA7L6VAJNHE2U5LVHHWGNI6G2ELHH2F2WLDAIFM2Z332EYAKMQ/icon/018939c8c177f3847e934587b0852eb0-bd836609bc4cb0ac28504ecbf0178e22.svg",
+    "category": "Media Services"
+  },
+  {
+    "id": "lambda",
+    "name": "Lambda",
+    "description": "AWS Lambda is a compute service that runs your code in response to events and automatically manages the compute resources for you.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/lambda/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/BMZQS7MWY7VIUF7PXETK3ULHIXZQQOURXD3AK46KD7UE6WMRLUSA/icon/945f3fc449518a73b9f5f32868db466c-926961f91b072604c42b7f39ce2eaf1c.svg",
+    "category": "Compute"
+  },
+  {
+    "id": "launchwizard",
+    "name": "Launch Wizard",
+    "description": "AWS Launch Wizard guides you through the sizing, configuration and deployment of enterprise applications such as SAP and complex workloads such as Active Directory following AWS cloud best practices",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/launchwizard/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/EIUVEURX6E4EPGYJZYKX4IQYXLWSYD4HJMGCW35PNG73RFZKCNKA/icon/6e9e16955bd76c1d3a9996e0d6d3ad15-04cfc8c62f597690680d948b366980cf.svg",
+    "category": "Management & Governance"
+  },
+  {
+    "id": "webapp",
+    "name": "Lightsail",
+    "description": "Amazon Lightsail is the easiest way to run virtual private servers on AWS and offers predictable pricing starting at $5 per month.",
+    "consoleUrl": "https://lightsail.aws.amazon.com/ls/webapp/home",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/FOO337ZH3CDETU5GJRPXZZLLRBDMENCMDLZC3SEPB7ZTZDREDCHQ/icon/7177e919b32ad97825f95e902595014b-1594766d92813b5baeb706c453f91de0.svg",
+    "category": "Compute"
+  },
+  {
+    "id": "mwaa",
+    "name": "Managed Apache Airflow",
+    "description": "Run Apache Airflow without provisioning or managing servers.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/mwaa/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/7YSCD2MEQ4LY56SHLVS6JOG3FAIHVVKDJIWVUQ6MK4DOHJ2DNNOA/icon/pinwheel-8e5556eddda3135e1970fa648ffa3c10.svg",
+    "category": "Application Integration"
+  },
+  {
+    "id": "flink",
+    "name": "Managed Apache Flink",
+    "description": "Amazon Managed Service for Apache Flink makes it easy for you to to build and run stream processing applications, and analyze streaming data in real time with Apache Flink.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/flink/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/NDKRDWB6DZJDWA5K7GTBZMHABZFW4GAPFKYW7LLAYLKP3KRY7OKQ/icon/68c03a76152dc53fdd2c7c7ab07f2721-40d698583cdda02861b87d1296035834.svg",
+    "category": "Analytics"
+  },
+  {
+    "id": "managedservices",
+    "name": "Managed Services",
+    "description": "AWS MS provides infrastructure operations and IT management processes for enterprises running AWS.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/managedservices/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/ECW4NRPA3UITMWFL6MK5M6EHGNNFSNJ66MRRWP3QWSJJ3J2NOTUA/icon/fd16e436798538092d6458b0b6e0e904-b56baa54eb850f8e031400e85a6614c1.svg",
+    "category": "Customer Enablement"
+  },
+  {
+    "id": "mediaconnect",
+    "name": "MediaConnect",
+    "description": "AWS Elemental MediaConnect is a reliable, secure, and flexible live video transport service for high-quality contribution and global sharing.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/mediaconnect/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/QU4WH2UK64JNG7SWJSXQBTKFDUW6MS52VFTEEOT7TVIWDYDRHHYA/icon/565a71e200b4c4cc0d8c9cc41f6057fd-68409f271f563781e9ff620e3e3b9b95.svg",
+    "category": "Media Services"
+  },
+  {
+    "id": "mediaconvert",
+    "name": "MediaConvert",
+    "description": "AWS Elemental MediaConvert is a file-based video conversion service that transforms media into formats required by broadcast and multiscreen devices",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/mediaconvert/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/7GBBITV5DHGUNZBZXWQCNBJ63ZKPEASN4CNBQQJW3MD6PTJJ22HA/icon/6504dca33006ddabb02017e39abc15b7-964cd2f4aa024daa9b3f8662b2128eaa.svg",
+    "category": "Media Services"
+  },
+  {
+    "id": "medialive",
+    "name": "MediaLive",
+    "description": "AWS Elemental MediaLive is a video service that allows easy and reliable creation of live outputs for broadcast and streaming delivery",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/medialive/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/UJSAT42KWROWBHHIBBBU7UTTFSGNLJ4A3YCGDKAH6TYFIARKXYZQ/icon/60c7d91a76abb6b37ffb1350754b66a0-60231c5e064d7c3fc8c6cdd0ac4c6955.svg",
+    "category": "Media Services"
+  },
+  {
+    "id": "mediapackage",
+    "name": "MediaPackage",
+    "description": "AWS Elemental MediaPackage is a format conversion service that delivers live and on-demand video to many devices from a single source.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/mediapackage/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/6XUVASES3OKJBBE46YH4IF6X6STKVKLKVWWV2CLLR33B6TTJQBGA/icon/4077abd3524fcf578abb766cf0cf7061-647d905ad0987689c43fb1b2d4f0a936.svg",
+    "category": "Media Services"
+  },
+  {
+    "id": "mediastore",
+    "name": "MediaStore",
+    "description": "AWS Elemental MediaStore is an AWS storage service optimized for media. It gives you the performance, consistency, and low latency required to deliver live and on-demand video content at scale.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/mediastore/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/SS6Q5MFUM4DCLVJTVWDCZYSGI7455CQV6F7UVCH5MGK7DX5KRLOA/icon/bd1d80bda8755eb0916f8869c4f4dd29-74944f51dacc8b930846de632c12ea19.svg",
+    "category": "Media Services"
+  },
+  {
+    "id": "mediatailor",
+    "name": "MediaTailor",
+    "description": "AWS Elemental MediaTailor is a channel assembly and personalised ad-insertion service for over-the-top (OTT) video and audio applications.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/mediatailor/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/XTS23YGR2M25FJW4M23ISTOE5BLIXT6SRCR7NLE54RWKY7OVZTGA/icon/7a749b4dedc5e96555aacf9ca1184d74-7d67256c41f44fe86854c4acf0da628f.svg",
+    "category": "Media Services"
+  },
+  {
+    "id": "msk",
+    "name": "MSK",
+    "description": "Amazon Managed Streaming for Kafka makes it easy for you to migrate, build, and run real-time streaming applications on Apache Kafka by managing Kafka's cluster infrastructure for you.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/msk/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/5JFWVQHSVDPPOFZPVWUF7PVA35VGBBF6VISBUTAHUYLFF3FBAPAQ/icon/68b38c3a81772f89eec6834dd51be0f6-09238be90746d8ec9b91c98a3287e91c.svg",
+    "category": "Analytics"
+  },
+  {
+    "id": "neptune",
+    "name": "Neptune",
+    "description": "Amazon Neptune is a fast, reliable, fully-managed graph database service that makes it easy to build and run applications that work with highly connected datasets.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/neptune/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/4RG3BOKAQC73HQ3MPMK2XT57K4Z7NW7RYPZP3JXPUJRTSE4JBCIQ/icon/5060341c21f82c70e928bceed3d45419-c17cc9858b04ee9a1abf0b612247f67f.svg",
+    "category": "Database"
+  },
+  {
+    "id": "odb",
+    "name": "Oracle Database@AWS",
+    "description": "Lift and shift Exadata workloads and rapidly innovate with the broad portfolio of AWS services",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/odb/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/YMZWZQQGLSXJW2COEUOJCSSUHO5VFBKZL5ZPT6K7M3HKCNR3ZUMA/icon/715a6cc5ac42e6b32d2a900b62ffcd11-d861f87962d85e99d65767feea31d912.svg",
+    "category": "Database"
+  },
+  {
+    "id": "pcs",
+    "name": "Parallel Computing Service",
+    "description": "AWS Parallel Computing Service (AWS PCS) is a managed service that makes it easier for you to run and scale your high performance computing (HPC) workloads and build scientific and engineering models on AWS using Slurm.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/pcs/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/FRT22SUI44GOUSJXHVTZRJWBNXGHM775HR7GICKVDT7UVKSMME7A/icon/e5c3539589167bad72cf3f5d4b2c849c-4b84ce96219678b1fa4cf1f3792112bb.svg",
+    "category": "Compute"
+  },
+  {
+    "id": "qs",
+    "name": "QuickSight",
+    "description": "Amazon QuickSight is a fast, business analytics service at 1/10ᵗʰ the cost of traditional BI solutions.",
+    "consoleUrl": "https://quicksight.aws.amazon.com",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/H3TNEHARXNUN6MWH5QPXN55MFMTMCD4X6WRI52QG2IVLHQC5PYIQ/icon/ca51fb32b9ada19604fe8d4c13809710-a3a147ad5b919f7e4970c3e09326da12.svg",
+    "category": "Analytics"
+  },
+  {
+    "id": "rbin",
+    "name": "Recycle Bin",
+    "description": "Use Recycle Bin to protect your business-critical resources from accidental deletion. With Recycle Bin, you specify a configurable retention period within which you can recover these resources after they have been deleted.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/rbin/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/IKS5WLZJH6TTEULDPBARRVGGMV4ARHQGWNOLDQZ4TRGS77ZGGL3A/icon/51483f8824ebfb4bbcbed61298ce61e5-115e9cca37ecc8a4751d8c5ecfdbc757.svg",
+    "category": "Storage"
+  },
+  {
+    "id": "rosa",
+    "name": "Red Hat OpenShift Service on AWS",
+    "description": "Red Hat OpenShift Service on AWS allows you to deploy fully operational and managed Red Hat OpenShift clusters while leveraging the full breadth and depth of AWS.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/rosa/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/2BB2FA42OZZIJ5Q6KHFCLBHTLWKUZ4F3TLZZ57UVCTDPVBS3ST3Q/icon/f6c2547c39848e2caf690641863a0463-48673d60d69a76c40ff4c9421ee3faa5.svg",
+    "category": "Containers"
+  },
+  {
+    "id": "ram",
+    "name": "Resource Access Manager",
+    "description": "AWS Resource Access Manager (RAM) enables you to easily and securely share AWS resources with any AWS account, or within your AWS Organization",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/ram/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/LZ32ZTNH3FUWYQMBPP2HOHVUQQP6J3RPX6IZYVPTTPA5WUBCL3RQ/icon/4641999a7679fcaef2df0e26d11e3c72-b664e6a363ea2ad1b434eb8525e02e77.svg",
+    "category": "Security, Identity, & Compliance"
+  },
+  {
+    "id": "resource-groups",
+    "name": "Resource Groups & Tag Editor",
+    "description": "AWS Resource Groups lets you organize your AWS resources. Includes Tag Editor to manage tags.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/resource-groups/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/DQY5CVIOWPIN57F3IFA35FTFS4P3UMZTC3BTVHRHN3DYS6LB4GGA/icon/9d0ab658d6a74be651de4f37a28630f0-570c32c7680f5343d686bfcf91e11b61.svg",
+    "category": "Management & Governance"
+  },
+  {
+    "id": "rtbfabric",
+    "name": "RTB Fabric",
+    "description": "AWS RTB Fabric is a fully managed service for real-time bidding that enables advertising buyers and sellers to connect and send OpenRTB requests or responses—using an optimized, private network.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/rtbfabric/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/VVT75XXUWAQ5Z7PQ3LFHRLHJ2GZMDM6B7AKGJ26YICKMJP3LK2YA/icon/cbb146d963c652f5817d2454ba09cfd7-5b3edf010c03632b0125dee0edaea44d.svg",
+    "category": "Networking & Content Delivery"
+  },
+  {
+    "id": "s3",
+    "name": "S3",
+    "description": "Amazon Simple Storage Service (S3) provides easy-to-use object storage to store and retrieve any amount of data in the cloud.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/s3/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/DKY2SIL5N3MJQCULDNOQE7TKLNQIUXRSOHBJKJGQAHLZO7TLH3TQ/icon/c0828e0381730befd1f7a025057c74fb-43acc0496e64afba82dbc9ab774dc622.svg",
+    "category": "Storage"
+  },
+  {
+    "id": "glacier",
+    "name": "S3 Glacier",
+    "description": "Amazon S3 Glacier provides secure and durable storage for data archiving and backup. We recommend that you use the S3 Glacier Deep Archive or S3 Glacier Flexible Retrieval storage classes in Amazon S3, which provide enhanced functionality for data management and cost optimisation.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/glacier/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/K3LGQFZWOPDJMH33OATLFJXX42YU6MJMGLJQ73ATWAFCP4ZNUJQQ/icon/4326f5fa12ca85c921c7d3278cfd68d5-f62e082cf1b2c8f4ecefebfa1237fb33.svg",
+    "category": "Storage"
+  },
+  {
+    "id": "secretsmanager",
+    "name": "Secrets Manager",
+    "description": "Easily rotate, manage, and retrieve database credentials, API keys, and other secrets through their lifecycle.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/secretsmanager/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/JVAZC3MGFO75SWTKDTNZ6JAPAZXP5HIWUBGFCJYM67A7IARW6PHQ/icon/8915d768b4680de51126e0bf60a2a5d7-9ce11337c80efcb3442238d27794ee30.svg",
+    "category": "Security, Identity, & Compliance"
+  },
+  {
+    "id": "securityhub",
+    "name": "Security Hub CSPM",
+    "description": "Automated security checks across your AWS environment. ",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/securityhub/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/6FM4IP2IDZ55D4NFGU4VIBLKIISVP5CQ4FCV4VO4DER4WNNEF5OQ/icon/92c91c100a8046a3d959e049a57db0f1-d28639ea30ae50d43171326a9d5b30e5.svg",
+    "category": "Security, Identity, & Compliance"
+  },
+  {
+    "id": "securitylake",
+    "name": "Security Lake",
+    "description": "Amazon Security Lake automatically centralizes security data from cloud, on-premises, and custom sources into a purpose-built data lake stored in your account. Security Lake makes it easier to analyze security data, so you can get a more complete understanding of your security across the entire organization and improve the protection of your workloads, applications, and data. Security Lake automatically gathers and manages all your security data across accounts and regions, and you can use your preferred analytics tools while retaining control and ownership of your security data. Security Lake has adopted the Open Cybersecurity Schema Framework (OCSF), an open industry standard, making it easier to normalize and combine security data from AWS and a broad range of enterprise security data sources. Now, your analysts and engineers can get broad visibility to investigate and respond to security events and improve your security across the cloud and on-premises.\n",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/securitylake/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/RHRF7EEH2T7P5P2A56RHSBNOHWI5FSJRQLC2EH6BS4IVHDHHXTDQ/icon/2fe7cec3131fa9662906ecfb2eac8a49-916eaa36eae1b745ee9147f5dde7669e.svg",
+    "category": "Security, Identity, & Compliance"
+  },
+  {
+    "id": "serverlessrepo",
+    "name": "Serverless Application Repository",
+    "description": "Discover and deploy serverless applications or publish and share applications, publicly or privately.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/serverlessrepo/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/Z7OLXPK5ZUFFB2E4MUNKBFOQAKSUEO5IVJHIH57K5FJZDTSPCD6A/icon/901aea6aa1385e8dedb9e28d05d44668-6bbe4e13588800be3557840fd32e16e1.svg",
+    "category": "Compute"
+  },
+  {
+    "id": "servicecatalog",
+    "name": "Service Catalog",
+    "description": "AWS Service Catalog allows you to centrally manage approved cloud resources and achieve consistent goverance of your infrastructure as code (IaC) templates",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/servicecatalog/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/LTLWENW4RYNZ353LMTVLYDUISSFOD66NPM7HLFY7S6NP33343BDA/icon/3ce147e72f59b6dda4fe73822844d181-570c32c7680f5343d686bfcf91e11b61.svg",
+    "category": "Management & Governance"
+  },
+  {
+    "id": "servicequotas",
+    "name": "Service Quotas",
+    "description": "View and manage your AWS service quotas from a central location",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/servicequotas/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/PTETAPROMHHVRHZRZLX7DVKA6KKPN3AQATDIZ7EPO3RCSJMRHN6Q/icon/a22f9f155a576a08f0f9810afaf54538-210331d740c65a191f186532d206fcd2.svg",
+    "category": "Management & Governance"
+  },
+  {
+    "id": "v3",
+    "name": "Simple Notification Service",
+    "description": "Amazon Simple Notification Service (SNS) lets you publish messages to subscribers or other applications.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/sns/v3/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/MW4GDEWKEYFO66RNNDQN5WY7CUZ7HOR4RUQV6KKJYMDG7PPKOSIQ/icon/6002c6713f40e8a35d365605542e72b0-03c2386fb392e0d689e45d9b4f683a8d.svg",
+    "category": "Application Integration"
+  },
+  {
+    "id": "states",
+    "name": "Step Functions",
+    "description": "AWS Step Functions makes it easy to coordinate the components of distributed applications using visual workflows.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/states/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/WKES4YGUN26CG7OZDJFJVLFQE4D4R2SPFB7MJZ4BV2XWL65A4IKA/icon/34d955a0df5f7af9c9b4e4dccb3c3564-b81a255cd22d2aa9087aed8ea35861c1.svg",
+    "category": "Application Integration"
+  },
+  {
+    "id": "storagegateway",
+    "name": "Storage Gateway",
+    "description": "AWS Storage Gateway securely integrates on-premises IT environments with cloud storage for backup and disaster recovery.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/storagegateway/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/FEQOWXJSTHAOXXHGIHW2DHD4N4AJQZ7QIHEY6WX5E6LJBRE2B44A/icon/6e57963f170fcf163d7a0362ab3aa560-475c7af9547c560c673fa2266ae7f440.svg",
+    "category": "Storage"
+  },
+  {
+    "id": "support",
+    "name": "Support",
+    "description": "Contact AWS for technical and account support.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/support/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/SKFRJQ4BC5FOFICO3GPELI7QEDY2MWGQSPEDYXHRC3E3XO34WS6Q/icon/434990c8a25d2be94863561ae98bd682-56e2a04c8228085bcd5d2a39a35cf0d9.svg",
+    "category": "Customer Enablement"
+  },
+  {
+    "id": "systems-manager",
+    "name": "Systems Manager",
+    "description": "AWS Systems Manager is a unified interface that centralizes operational data from multiple AWS services and automates tasks across AWS resources.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/systems-manager/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/BX5GHDFHDNT62AAQ3LUPDPWNFQOTOSEMWNPXLYXUNWH2UM5QX5UQ/icon/b5c87c140628d6200f5ffeae85895b67-eed4319c5eaa4b84741dd26adcad7c1a.svg",
+    "category": "Management & Governance"
+  },
+  {
+    "id": "trustedadvisor",
+    "name": "Trusted Advisor",
+    "description": "AWS Trusted Advisor evaluates your AWS account with automated best practice checks and provides cloud optimization recommendations to reduce costs, optimize performance, improve resilience, increase security, and monitor service quotas.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/trustedadvisor/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/ADHYCG7KO4WUTR446N3FYWE5NHZXUEFG5FTYWCYFVLUDW3B5HKVA/icon/fec8f2a3f2e808ccb17c4d278b4fa469-8cfd22457dc442d9d951175754b6b2e1.svg",
+    "category": "Management & Governance"
+  },
+  {
+    "id": "vpc",
+    "name": "VPC",
+    "description": "Amazon Virtual Private Cloud (VPC) lets you launch AWS resources in a private, isolated cloud.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/vpc/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/HLWK65QMJM2I2JS7MFNDL3GYWYC7SUVMYOXC7I4RXZJ2LZVOHB4Q/icon/3918767c49f0151791236f3b99d1ce7c-13bf23cb4a6d38bb77b1a9030fe9d925.svg",
+    "category": "Networking & Content Delivery"
+  },
+  {
+    "id": "wafv2-pro",
+    "name": "WAF & Shield",
+    "description": "AWS WAF (Web Application Firewall) protects web applications from attack by providing web traffic filtering against common web exploits like SQL injection.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/wafv2-pro/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/5SVKS5E43SSQ3U2P4PHMGZW2OB3MYWK6BKW4AB3XM5SCCG2YD2XQ/icon/c743f6c69347b64850327e356f9e55f4-049868fe370f260d7efa3170efb113c3.svg",
+    "category": "Security, Identity, & Compliance"
+  },
+  {
+    "id": "appstream2",
+    "name": "WorkSpaces Applications",
+    "description": "Amazon WorkSpaces Applications allows you to stream desktop applications securely to any web browser.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/appstream2/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/CKNELFUGG6OXSP35Y6VMVOL3TQQWNDW574Z47NFNHZET4PN7K3TA/icon/a0ffb9e7fe4139fc285daa7409719a8a-db6c8a302a449a02de61152d4e914b3d.svg",
+    "category": "End User Computing"
+  },
+  {
+    "id": "workspaces-web",
+    "name": "WorkSpaces Secure Browser",
+    "description": "Enable secure access to internal websites and SaaS applications from existing browsers.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/workspaces-web/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/EQISDKYDDUHQ5O76IQ6JORWEL5V2ARQOXRCZOOYKYJIQ3X4LHXEA/icon/0896deef1bb2b68f858e6729c5957195-18d824eb1931822d3b3ef7169e74fa53.svg",
+    "category": "End User Computing"
+  },
+  {
+    "id": "workspaces-thin-client",
+    "name": "WorkSpaces Thin Client",
+    "description": "Amazon WorkSpaces Thin Client maximizes end-user and IT staff productivity—supporting a wide range of end users with cost-effective, secure, easy-to-manage access to virtual desktops.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/workspaces-thin-client/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/FNQXSXE767W7DSPFX54C3RJXI4O6BQX64UZHK3IG4TCJ6ZK6MCRA/icon/4545e51aba6d28e35f0ac30d0d61db8f-fe9031e7c7c4c11a9c697b7e41dba19c.svg",
+    "category": "End User Computing"
+  },
+  {
+    "id": "xray",
+    "name": "X-Ray",
+    "description": "AWS X-Ray helps developers analyze and debug production, distributed applications.",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/xray/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/B43BXHEJBM3QP4JBAQUYV43E2JK2K2RFHKQNYXF2ZYBL73RMG76A/icon/32599e5387251a477e16894dca7417bf-86e0d8e9d79a1de9db3d29757776e420.svg",
+    "category": "Developer Tools"
   }
 ]

@@ -26,13 +26,29 @@ describe('Real AWS Services Dataset Validation (219 Services)', () => {
   });
 
   describe('Rule 4: Service ID Extraction via /<serviceId>/home', () => {
-    it('all 219 real console URLs must strictly conform to /<serviceId>/home pattern', () => {
-      for (const service of REAL_AWS_SERVICES) {
+    it('standard console URLs (216 services) must strictly conform to /<serviceId>/home pattern', () => {
+      const STANDALONE_SERVICES = new Set(['chime', 'amazon_quick_suite', 'iq', 'qs']);
+      const standardServices = REAL_AWS_SERVICES.filter((s) => !STANDALONE_SERVICES.has(s.id));
+
+      expect(standardServices.length).toBe(216);
+
+      for (const service of standardServices) {
         const urlObj = new URL(service.consoleUrl);
         const match = urlObj.pathname.match(/\/([^\/]+)\/home/);
         expect(match, `Failed on service ${service.id}: ${service.consoleUrl}`).not.toBeNull();
         expect(match![1].toLowerCase()).toBe(service.id.toLowerCase());
       }
+    });
+
+    it('identifies standalone external AWS services (e.g. chime, quicksight, iq)', () => {
+      const standalone = REAL_AWS_SERVICES.filter((s) => !s.consoleUrl.includes('/home'));
+      expect(standalone.length).toBe(4);
+      expect(standalone.map((s) => s.id).sort()).toEqual([
+        'amazon_quick_suite',
+        'chime',
+        'iq',
+        'qs'
+      ]);
     });
   });
 
