@@ -1,0 +1,1734 @@
+[
+  {
+    "id": "iam",
+    "name": "IAM",
+    "description": "Manage access to AWS resources",
+    "consoleUrl": "https://us-east-1.console.aws.amazon.com/iam/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/STFYE4KUQFFP2JZ2KOHPEHBH4BDHCX3ZIEKWLMGPOXOLYRC4QUDQ/icon/0ebc580ae6450fce8762fad1bff32e7b-0841c1f0e7c5788b88d07a7dbcaceb6e.svg"
+  },
+  {
+    "id": "vpc",
+    "name": "VPC",
+    "description": "Isolated Cloud Resources",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/vpc/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/HLWK65QMJM2I2JS7MFNDL3GYWYC7SUVMYOXC7I4RXZJ2LZVOHB4Q/icon/3918767c49f0151791236f3b99d1ce7c-13bf23cb4a6d38bb77b1a9030fe9d925.svg"
+  },
+  {
+    "id": "fsx",
+    "name": "FSx",
+    "description": "Fully managed third-party file systems optimized for a variety of workloads",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/fsx/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/CLJE4ERTEKC75CF46XRDOHY6UW4PAKGOL3H5ETBZHQO3LB5FD7HA/icon/fea0543b0b4b9d4c240c6219de0db41c-23eb23b7479038064ce8f040d747df83.svg"
+  },
+  {
+    "id": "dynamodbv2",
+    "name": "DynamoDB",
+    "description": "Managed NoSQL Database",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/dynamodbv2/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/AN2R6BU3DBLYCROPWJWYQWM62AYYLMXTM5V7AHNGQIU34L2VIEEA/icon/6f419a45e63123b4c16bd679549610f6-87862c68693445999110bbd6a467ce88.svg"
+  },
+  {
+    "id": "appstream2",
+    "name": "WorkSpaces Applications",
+    "description": "Stream desktop applications securely to any web browser",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/appstream2/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/CKNELFUGG6OXSP35Y6VMVOL3TQQWNDW574Z47NFNHZET4PN7K3TA/icon/a0ffb9e7fe4139fc285daa7409719a8a-db6c8a302a449a02de61152d4e914b3d.svg"
+  },
+  {
+    "id": "lambda",
+    "name": "Lambda",
+    "description": "Run code without thinking about servers",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/lambda/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/BMZQS7MWY7VIUF7PXETK3ULHIXZQQOURXD3AK46KD7UE6WMRLUSA/icon/945f3fc449518a73b9f5f32868db466c-926961f91b072604c42b7f39ce2eaf1c.svg"
+  },
+  {
+    "id": "secretsmanager",
+    "name": "Secrets Manager",
+    "description": "Easily rotate, manage, and retrieve secrets throughout their lifecycle",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/secretsmanager/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/JVAZC3MGFO75SWTKDTNZ6JAPAZXP5HIWUBGFCJYM67A7IARW6PHQ/icon/8915d768b4680de51126e0bf60a2a5d7-9ce11337c80efcb3442238d27794ee30.svg"
+  },
+  {
+    "id": "cloudwatch",
+    "name": "CloudWatch",
+    "description": "Monitor Resources and Applications",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/cloudwatch/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/CX6QBE6PRZYY4R3LVRUGVYCKEYSXHAEJLUVNJVMT5MOLELYXPPGQ/icon/8f57ebd825a828e205b2dde223ba17e4-6af63a22dc297f8041286760ee8cd2c9.svg"
+  },
+  {
+    "id": "systems-manager",
+    "name": "Systems Manager",
+    "description": "AWS Systems Manager is a Central Place to View and Manage AWS Resources",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/systems-manager/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/BX5GHDFHDNT62AAQ3LUPDPWNFQOTOSEMWNPXLYXUNWH2UM5QX5UQ/icon/b5c87c140628d6200f5ffeae85895b67-eed4319c5eaa4b84741dd26adcad7c1a.svg"
+  },
+  {
+    "id": "s3",
+    "name": "S3",
+    "description": "Scalable Storage in the Cloud",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/s3/home?region=ap-southeast-2",
+    "iconUrl": "https://a.b.cdn.console.awsstatic.com/a/v1/DKY2SIL5N3MJQCULDNOQE7TKLNQIUXRSOHBJKJGQAHLZO7TLH3TQ/icon/c0828e0381730befd1f7a025057c74fb-43acc0496e64afba82dbc9ab774dc622.svg"
+  },
+  {
+    "id": "ec2",
+    "name": "EC2",
+    "description": "Virtual Servers in the Cloud",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/ec2/home?region=ap-southeast-2",
+    "iconUrl": null
+  },
+  {
+    "id": "codebuild",
+    "name": "CodeBuild",
+    "description": "Build and Test Code",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/codesuite/codebuild/home?region=ap-southeast-2",
+    "iconUrl": null
+  },
+  {
+    "id": "cloudshell",
+    "name": "cloudshell",
+    "description": "CloudShell",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/cloudshell/home?region=ap-southeast-2",
+    "iconUrl": null
+  },
+  {
+    "id": "support",
+    "name": "Support Center",
+    "description": "",
+    "consoleUrl": "https://support.console.aws.amazon.com/support/home?region=ap-southeast-2",
+    "iconUrl": null
+  },
+  {
+    "id": "settings",
+    "name": "See all user settings",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/settings/home?region=ap-southeast-2",
+    "iconUrl": null
+  },
+  {
+    "id": "billing",
+    "name": "Manage Regions",
+    "description": "",
+    "consoleUrl": "https://us-east-1.console.aws.amazon.com/billing/home?region=ap-southeast-2#/account?AWS-Regions",
+    "iconUrl": null
+  },
+  {
+    "id": "awsglobalview",
+    "name": "Manage Local Zones",
+    "description": "",
+    "consoleUrl": "https://us-east-1.console.aws.amazon.com/awsglobalview/home?region=ap-southeast-2#RegionsAndZones:tabId=lz",
+    "iconUrl": null
+  },
+  {
+    "id": "v2",
+    "name": "Organization",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/organizations/v2/home?region=ap-southeast-2",
+    "iconUrl": null
+  },
+  {
+    "id": "servicequotas",
+    "name": "Service Quotas",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/servicequotas/home?region=ap-southeast-2",
+    "iconUrl": null
+  },
+  {
+    "id": "costmanagement",
+    "name": "Billing and Cost Management",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/costmanagement/home?region=ap-southeast-2#/",
+    "iconUrl": null
+  },
+  {
+    "id": "webapp",
+    "name": "Lightsail",
+    "description": "",
+    "consoleUrl": "https://lightsail.aws.amazon.com/ls/webapp/home",
+    "iconUrl": null,
+    "category": "Compute"
+  },
+  {
+    "id": "batch",
+    "name": "Batch",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/batch/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Compute"
+  },
+  {
+    "id": "elasticbeanstalk",
+    "name": "Elastic Beanstalk",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/elasticbeanstalk/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Compute"
+  },
+  {
+    "id": "serverlessrepo",
+    "name": "Serverless Application Repository",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/serverlessrepo/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Compute"
+  },
+  {
+    "id": "outposts",
+    "name": "AWS Outposts",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/outposts/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Compute"
+  },
+  {
+    "id": "imagebuilder",
+    "name": "EC2 Image Builder",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/imagebuilder/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Compute"
+  },
+  {
+    "id": "apprunner",
+    "name": "AWS App Runner",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/apprunner/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Compute"
+  },
+  {
+    "id": "pcs",
+    "name": "Parallel Computing Service",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/pcs/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Compute"
+  },
+  {
+    "id": "ec2globalview",
+    "name": "AWS Global View",
+    "description": "",
+    "consoleUrl": "https://console.aws.amazon.com/ec2globalview/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Compute"
+  },
+  {
+    "id": "eks",
+    "name": "Elastic Kubernetes Service",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/eks/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Containers"
+  },
+  {
+    "id": "rosa",
+    "name": "Red Hat OpenShift Service on AWS",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/rosa/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Containers"
+  },
+  {
+    "id": "ecr",
+    "name": "Elastic Container Registry",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/ecr/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Containers"
+  },
+  {
+    "id": "efs",
+    "name": "EFS",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/efs/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Storage"
+  },
+  {
+    "id": "glacier",
+    "name": "S3 Glacier",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/glacier/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Storage"
+  },
+  {
+    "id": "storagegateway",
+    "name": "Storage Gateway",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/storagegateway/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Storage"
+  },
+  {
+    "id": "backup",
+    "name": "AWS Backup",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/backup/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Storage"
+  },
+  {
+    "id": "rbin",
+    "name": "Recycle Bin",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/rbin/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Storage"
+  },
+  {
+    "id": "drs",
+    "name": "AWS Elastic Disaster Recovery",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/drs/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Storage"
+  },
+  {
+    "id": "rds",
+    "name": "Aurora and RDS",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/rds/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Database"
+  },
+  {
+    "id": "elasticache",
+    "name": "ElastiCache",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/elasticache/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Database"
+  },
+  {
+    "id": "neptune",
+    "name": "Neptune",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/neptune/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Database"
+  },
+  {
+    "id": "docdb",
+    "name": "Amazon DocumentDB",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/docdb/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Database"
+  },
+  {
+    "id": "timestream",
+    "name": "Amazon Timestream",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/timestream/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Database"
+  },
+  {
+    "id": "dsql",
+    "name": "Aurora DSQL",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/dsql/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Database"
+  },
+  {
+    "id": "memorydb",
+    "name": "Amazon MemoryDB",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/memorydb/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Database"
+  },
+  {
+    "id": "odb",
+    "name": "Oracle Database@AWS",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/odb/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Database"
+  },
+  {
+    "id": "migrationhub",
+    "name": "AWS Migration Hub",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/migrationhub/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Migration & Transfer"
+  },
+  {
+    "id": "mgn",
+    "name": "AWS Transform MGN",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/mgn/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Migration & Transfer"
+  },
+  {
+    "id": "discovery",
+    "name": "Application Discovery Service",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/discovery/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Migration & Transfer"
+  },
+  {
+    "id": "transfer",
+    "name": "AWS Transfer Family",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/transfer/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Migration & Transfer"
+  },
+  {
+    "id": "snowfamily",
+    "name": "AWS Snow Family",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/snowfamily/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Migration & Transfer"
+  },
+  {
+    "id": "datasync",
+    "name": "DataSync",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/datasync/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Migration & Transfer"
+  },
+  {
+    "id": "transform",
+    "name": "AWS Transform",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/transform/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Migration & Transfer"
+  },
+  {
+    "id": "m2",
+    "name": "AWS Mainframe Modernization",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/m2/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Migration & Transfer"
+  },
+  {
+    "id": "evs",
+    "name": "Amazon Elastic VMware Service",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/evs/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Migration & Transfer"
+  },
+  {
+    "id": "v4",
+    "name": "CloudFront",
+    "description": "",
+    "consoleUrl": "https://console.aws.amazon.com/cloudfront/v4/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Networking & Content Delivery"
+  },
+  {
+    "id": "apigateway",
+    "name": "API Gateway",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/apigateway/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Networking & Content Delivery"
+  },
+  {
+    "id": "appmesh",
+    "name": "AWS App Mesh",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/appmesh/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Networking & Content Delivery"
+  },
+  {
+    "id": "globalaccelerator",
+    "name": "Global Accelerator",
+    "description": "",
+    "consoleUrl": "https://console.aws.amazon.com/globalaccelerator/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Networking & Content Delivery"
+  },
+  {
+    "id": "datatransferterminal",
+    "name": "AWS Data Transfer Terminal",
+    "description": "",
+    "consoleUrl": "https://console.aws.amazon.com/datatransferterminal/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Networking & Content Delivery"
+  },
+  {
+    "id": "route53globalresolver",
+    "name": "Amazon Route 53 Global Resolver",
+    "description": "",
+    "consoleUrl": "https://console.aws.amazon.com/route53globalresolver/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Networking & Content Delivery"
+  },
+  {
+    "id": "cloudmap",
+    "name": "AWS Cloud Map",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/cloudmap/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Networking & Content Delivery"
+  },
+  {
+    "id": "rtbfabric",
+    "name": "RTB Fabric",
+    "description": "",
+    "consoleUrl": "https://console.aws.amazon.com/rtbfabric/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Networking & Content Delivery"
+  },
+  {
+    "id": "route53recovery",
+    "name": "Application Recovery Controller",
+    "description": "",
+    "consoleUrl": "https://console.aws.amazon.com/route53recovery/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Networking & Content Delivery"
+  },
+  {
+    "id": "codecommit",
+    "name": "CodeCommit",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/codesuite/codecommit/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Developer Tools"
+  },
+  {
+    "id": "codedeploy",
+    "name": "CodeDeploy",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/codesuite/codedeploy/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Developer Tools"
+  },
+  {
+    "id": "codepipeline",
+    "name": "CodePipeline",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/codesuite/codepipeline/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Developer Tools"
+  },
+  {
+    "id": "cloud9",
+    "name": "Cloud9",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/cloud9/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Developer Tools"
+  },
+  {
+    "id": "xray",
+    "name": "X-Ray",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/xray/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Developer Tools"
+  },
+  {
+    "id": "fis",
+    "name": "AWS FIS",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/fis/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Developer Tools"
+  },
+  {
+    "id": "composer",
+    "name": "Infrastructure Composer",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/composer/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Developer Tools"
+  },
+  {
+    "id": "appstudio",
+    "name": "AWS App Studio",
+    "description": "",
+    "consoleUrl": "https://console.aws.amazon.com/appstudio/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Developer Tools"
+  },
+  {
+    "id": "aidevops",
+    "name": "AWS DevOps Agent",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/aidevops/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Developer Tools"
+  },
+  {
+    "id": "appconfig",
+    "name": "AWS AppConfig",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/systems-manager/appconfig/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Developer Tools"
+  },
+  {
+    "id": "codeartifact",
+    "name": "CodeArtifact",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/codesuite/codeartifact/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Developer Tools"
+  },
+  {
+    "id": "developer",
+    "name": "Amazon Q Developer",
+    "description": "",
+    "consoleUrl": "https://console.aws.amazon.com/amazonq/developer/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Developer Tools"
+  },
+  {
+    "id": "codecatalyst",
+    "name": "Amazon CodeCatalyst",
+    "description": "",
+    "consoleUrl": "https://console.aws.amazon.com/codecatalyst/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Developer Tools"
+  },
+  {
+    "id": "managedservices",
+    "name": "Managed Services",
+    "description": "",
+    "consoleUrl": "https://console.aws.amazon.com/managedservices/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Customer Enablement"
+  },
+  {
+    "id": "activate",
+    "name": "Activate for Startups",
+    "description": "",
+    "consoleUrl": "https://console.aws.amazon.com/activate/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Customer Enablement"
+  },
+  {
+    "id": "repost-private",
+    "name": "AWS re:Post Private",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/repost-private/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Customer Enablement"
+  },
+  {
+    "id": "managedblockchain",
+    "name": "Amazon Managed Blockchain",
+    "description": "",
+    "consoleUrl": "https://console.aws.amazon.com/managedblockchain/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Blockchain"
+  },
+  {
+    "id": "groundstation",
+    "name": "Ground Station",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/groundstation/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Satellite"
+  },
+  {
+    "id": "braket",
+    "name": "Amazon Braket",
+    "description": "",
+    "consoleUrl": "https://console.aws.amazon.com/braket/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Quantum Technologies"
+  },
+  {
+    "id": "awsautoscaling",
+    "name": "AWS Auto Scaling",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/awsautoscaling/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Management & Governance"
+  },
+  {
+    "id": "cloudformation",
+    "name": "CloudFormation",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/cloudformation/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Management & Governance"
+  },
+  {
+    "id": "config",
+    "name": "AWS Config",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/config/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Management & Governance"
+  },
+  {
+    "id": "servicecatalog",
+    "name": "Service Catalog",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/servicecatalog/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Management & Governance"
+  },
+  {
+    "id": "trustedadvisor",
+    "name": "Trusted Advisor",
+    "description": "",
+    "consoleUrl": "https://console.aws.amazon.com/trustedadvisor/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Management & Governance"
+  },
+  {
+    "id": "controltower",
+    "name": "Control Tower",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/controltower/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Management & Governance"
+  },
+  {
+    "id": "wellarchitected",
+    "name": "AWS Well-Architected Tool",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/wellarchitected/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Management & Governance"
+  },
+  {
+    "id": "chatbot",
+    "name": "Amazon Q Developer in chat applications (previously AWS Chatbot)",
+    "description": "",
+    "consoleUrl": "https://console.aws.amazon.com/chatbot/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Management & Governance"
+  },
+  {
+    "id": "launchwizard",
+    "name": "Launch Wizard",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/launchwizard/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Management & Governance"
+  },
+  {
+    "id": "compute-optimizer",
+    "name": "AWS Compute Optimizer",
+    "description": "",
+    "consoleUrl": "https://console.aws.amazon.com/compute-optimizer/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Management & Governance"
+  },
+  {
+    "id": "resource-groups",
+    "name": "Resource Groups & Tag Editor",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/resource-groups/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Management & Governance"
+  },
+  {
+    "id": "grafana",
+    "name": "Amazon Grafana",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/grafana/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Management & Governance"
+  },
+  {
+    "id": "prometheus",
+    "name": "Amazon Prometheus",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/prometheus/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Management & Governance"
+  },
+  {
+    "id": "incidents",
+    "name": "Incident Manager",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/systems-manager/incidents/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Management & Governance"
+  },
+  {
+    "id": "awsforsap",
+    "name": "AWS for SAP",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/awsforsap/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Management & Governance"
+  },
+  {
+    "id": "health",
+    "name": "AWS Health Dashboard",
+    "description": "",
+    "consoleUrl": "https://health.console.aws.amazon.com/health/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Management & Governance"
+  },
+  {
+    "id": "proton",
+    "name": "AWS Proton",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/proton/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Management & Governance"
+  },
+  {
+    "id": "sustainability",
+    "name": "AWS Sustainability",
+    "description": "",
+    "consoleUrl": "https://console.aws.amazon.com/sustainability/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Management & Governance"
+  },
+  {
+    "id": "notifications",
+    "name": "AWS User Notifications",
+    "description": "",
+    "consoleUrl": "https://console.aws.amazon.com/notifications/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Management & Governance"
+  },
+  {
+    "id": "partnercentral",
+    "name": "AWS Partner Central",
+    "description": "",
+    "consoleUrl": "https://console.aws.amazon.com/partnercentral/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Management & Governance"
+  },
+  {
+    "id": "cloudtrailv2",
+    "name": "CloudTrail",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/cloudtrailv2/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Management & Governance"
+  },
+  {
+    "id": "license-manager",
+    "name": "AWS License Manager",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/license-manager/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Management & Governance"
+  },
+  {
+    "id": "resource-explorer",
+    "name": "AWS Resource Explorer",
+    "description": "",
+    "consoleUrl": "https://resource-explorer.console.aws.amazon.com/resource-explorer/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Management & Governance"
+  },
+  {
+    "id": "kinesisvideo",
+    "name": "Kinesis Video Streams",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/kinesisvideo/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Media Services"
+  },
+  {
+    "id": "mediaconvert",
+    "name": "MediaConvert",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/mediaconvert/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Media Services"
+  },
+  {
+    "id": "medialive",
+    "name": "MediaLive",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/medialive/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Media Services"
+  },
+  {
+    "id": "mediapackage",
+    "name": "MediaPackage",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/mediapackage/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Media Services"
+  },
+  {
+    "id": "mediastore",
+    "name": "MediaStore",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/mediastore/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Media Services"
+  },
+  {
+    "id": "mediatailor",
+    "name": "MediaTailor",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/mediatailor/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Media Services"
+  },
+  {
+    "id": "elemental-appliances-software",
+    "name": "Elemental Appliances & Software",
+    "description": "",
+    "consoleUrl": "https://console.aws.amazon.com/elemental-appliances-software/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Media Services"
+  },
+  {
+    "id": "ivs",
+    "name": "Amazon Interactive Video Service",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/ivs/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Media Services"
+  },
+  {
+    "id": "elemental-inference",
+    "name": "Elemental Inference",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/elemental-inference/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Media Services"
+  },
+  {
+    "id": "deadlinecloud",
+    "name": "AWS Deadline Cloud",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/deadlinecloud/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Media Services"
+  },
+  {
+    "id": "mediaconnect",
+    "name": "MediaConnect",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/mediaconnect/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Media Services"
+  },
+  {
+    "id": "sagemaker",
+    "name": "Amazon SageMaker AI",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/sagemaker/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Machine Learning"
+  },
+  {
+    "id": "a2i",
+    "name": "Amazon Augmented AI",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/a2i/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Machine Learning"
+  },
+  {
+    "id": "codeguru",
+    "name": "Amazon CodeGuru",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/codeguru/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Machine Learning"
+  },
+  {
+    "id": "devops-guru",
+    "name": "Amazon DevOps Guru",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/devops-guru/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Machine Learning"
+  },
+  {
+    "id": "comprehend",
+    "name": "Amazon Comprehend",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/comprehend/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Machine Learning"
+  },
+  {
+    "id": "forecast",
+    "name": "Amazon Forecast",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/forecast/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Machine Learning"
+  },
+  {
+    "id": "frauddetector",
+    "name": "Amazon Fraud Detector",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/frauddetector/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Machine Learning"
+  },
+  {
+    "id": "kendra",
+    "name": "Amazon Kendra",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/kendra/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Machine Learning"
+  },
+  {
+    "id": "personalize",
+    "name": "Amazon Personalize",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/personalize/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Machine Learning"
+  },
+  {
+    "id": "polly",
+    "name": "Amazon Polly",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/polly/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Machine Learning"
+  },
+  {
+    "id": "rekognition",
+    "name": "Amazon Rekognition",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/rekognition/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Machine Learning"
+  },
+  {
+    "id": "textract",
+    "name": "Amazon Textract",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/textract/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Machine Learning"
+  },
+  {
+    "id": "transcribe",
+    "name": "Amazon Transcribe",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/transcribe/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Machine Learning"
+  },
+  {
+    "id": "translate",
+    "name": "Amazon Translate",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/translate/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Machine Learning"
+  },
+  {
+    "id": "monitron",
+    "name": "Amazon Monitron",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/monitron/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Machine Learning"
+  },
+  {
+    "id": "healthlake",
+    "name": "AWS HealthLake",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/healthlake/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Machine Learning"
+  },
+  {
+    "id": "lookoutequipment",
+    "name": "Amazon Lookout for Equipment",
+    "description": "",
+    "consoleUrl": "https://console.aws.amazon.com/lookoutequipment/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Machine Learning"
+  },
+  {
+    "id": "business",
+    "name": "Amazon Q Business",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/amazonq/business/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Machine Learning"
+  },
+  {
+    "id": "bedrock-mantle",
+    "name": "Amazon Bedrock (mantle endpoint)",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/bedrock-mantle/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Machine Learning"
+  },
+  {
+    "id": "agent-registry",
+    "name": "AWS Agent Registry",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/agent-registry/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Machine Learning"
+  },
+  {
+    "id": "claude-platform",
+    "name": "Claude Platform on AWS",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/claude-platform/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Machine Learning"
+  },
+  {
+    "id": "omics",
+    "name": "AWS HealthOmics",
+    "description": "",
+    "consoleUrl": "https://console.aws.amazon.com/omics/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Machine Learning"
+  },
+  {
+    "id": "nova-act",
+    "name": "Amazon Nova Act",
+    "description": "",
+    "consoleUrl": "https://console.aws.amazon.com/nova-act/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Machine Learning"
+  },
+  {
+    "id": "bedrock",
+    "name": "Amazon Bedrock",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/bedrock/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Machine Learning"
+  },
+  {
+    "id": "bedrock-agentcore",
+    "name": "Amazon Bedrock AgentCore",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/bedrock-agentcore/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Machine Learning"
+  },
+  {
+    "id": "amazonq",
+    "name": "Amazon Q",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/amazonq/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Machine Learning"
+  },
+  {
+    "id": "comprehendmedical",
+    "name": "Amazon Comprehend Medical",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/comprehendmedical/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Machine Learning"
+  },
+  {
+    "id": "lexv2",
+    "name": "Amazon Lex",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/lexv2/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Machine Learning"
+  },
+  {
+    "id": "biodiscovery",
+    "name": "Amazon Bio Discovery",
+    "description": "",
+    "consoleUrl": "https://console.aws.amazon.com/biodiscovery/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Machine Learning"
+  },
+  {
+    "id": "medical-imaging",
+    "name": "AWS HealthImaging",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/medical-imaging/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Machine Learning"
+  },
+  {
+    "id": "athena",
+    "name": "Athena",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/athena/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Analytics"
+  },
+  {
+    "id": "redshiftv2",
+    "name": "Amazon Redshift",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/redshiftv2/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Analytics"
+  },
+  {
+    "id": "cloudsearchv2",
+    "name": "CloudSearch",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/cloudsearchv2/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Analytics"
+  },
+  {
+    "id": "aos",
+    "name": "Amazon OpenSearch Service",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/aos/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Analytics"
+  },
+  {
+    "id": "kinesis",
+    "name": "Kinesis",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/kinesis/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Analytics"
+  },
+  {
+    "id": "dataexchange",
+    "name": "AWS Data Exchange",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/dataexchange/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Analytics"
+  },
+  {
+    "id": "lakeformation",
+    "name": "AWS Lake Formation",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/lakeformation/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Analytics"
+  },
+  {
+    "id": "msk",
+    "name": "MSK",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/msk/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Analytics"
+  },
+  {
+    "id": "databrew",
+    "name": "AWS Glue DataBrew",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/databrew/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Analytics"
+  },
+  {
+    "id": "finspace",
+    "name": "Amazon FinSpace",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/finspace/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Analytics"
+  },
+  {
+    "id": "flink",
+    "name": "Managed Apache Flink",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/flink/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Analytics"
+  },
+  {
+    "id": "emr",
+    "name": "EMR",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/emr/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Analytics"
+  },
+  {
+    "id": "cleanrooms",
+    "name": "AWS Clean Rooms",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/cleanrooms/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Analytics"
+  },
+  {
+    "id": "datazone",
+    "name": "Amazon SageMaker",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/datazone/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Analytics"
+  },
+  {
+    "id": "entityresolution",
+    "name": "AWS Entity Resolution",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/entityresolution/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Analytics"
+  },
+  {
+    "id": "glue",
+    "name": "AWS Glue",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/glue/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Analytics"
+  },
+  {
+    "id": "firehose",
+    "name": "Amazon Data Firehose",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/firehose/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Analytics"
+  },
+  {
+    "id": "ram",
+    "name": "Resource Access Manager",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/ram/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Security, Identity, & Compliance"
+  },
+  {
+    "id": "guardduty",
+    "name": "GuardDuty",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/guardduty/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Security, Identity, & Compliance"
+  },
+  {
+    "id": "macie",
+    "name": "Amazon Macie",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/macie/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Security, Identity, & Compliance"
+  },
+  {
+    "id": "singlesignon",
+    "name": "IAM Identity Center",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/singlesignon/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Security, Identity, & Compliance"
+  },
+  {
+    "id": "acm",
+    "name": "Certificate Manager",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/acm/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Security, Identity, & Compliance"
+  },
+  {
+    "id": "kms",
+    "name": "Key Management Service",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/kms/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Security, Identity, & Compliance"
+  },
+  {
+    "id": "cloudhsm",
+    "name": "CloudHSM",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/cloudhsm/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Security, Identity, & Compliance"
+  },
+  {
+    "id": "directoryservicev2",
+    "name": "Directory Service",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/directoryservicev2/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Security, Identity, & Compliance"
+  },
+  {
+    "id": "fmsv2",
+    "name": "AWS Firewall Manager",
+    "description": "",
+    "consoleUrl": "https://console.aws.amazon.com/wafv2/fmsv2/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Security, Identity, & Compliance"
+  },
+  {
+    "id": "detective",
+    "name": "Detective",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/detective/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Security, Identity, & Compliance"
+  },
+  {
+    "id": "signer",
+    "name": "AWS Signer",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/signer/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Security, Identity, & Compliance"
+  },
+  {
+    "id": "securitylake",
+    "name": "Security Lake",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/securitylake/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Security, Identity, & Compliance"
+  },
+  {
+    "id": "securityagent",
+    "name": "AWS Security Agent (now part of AWS Continuum)",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/securityagent/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Security, Identity, & Compliance"
+  },
+  {
+    "id": "verifiedpermissions",
+    "name": "Amazon Verified Permissions",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/verifiedpermissions/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Security, Identity, & Compliance"
+  },
+  {
+    "id": "auditmanager",
+    "name": "AWS Audit Manager",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/auditmanager/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Security, Identity, & Compliance"
+  },
+  {
+    "id": "securityhub",
+    "name": "Security Hub CSPM",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/securityhub/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Security, Identity, & Compliance"
+  },
+  {
+    "id": "wafv2-pro",
+    "name": "WAF & Shield",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/wafv2-pro/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Security, Identity, & Compliance"
+  },
+  {
+    "id": "acm-pca",
+    "name": "AWS Private Certificate Authority",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/acm-pca/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Security, Identity, & Compliance"
+  },
+  {
+    "id": "payment-cryptography",
+    "name": "AWS Payment Cryptography",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/payment-cryptography/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Security, Identity, & Compliance"
+  },
+  {
+    "id": "security-ir",
+    "name": "AWS Security Incident Response",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/security-ir/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Security, Identity, & Compliance"
+  },
+  {
+    "id": "marketplace",
+    "name": "AWS Marketplace",
+    "description": "",
+    "consoleUrl": "https://console.aws.amazon.com/marketplace/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Cloud Financial Management"
+  },
+  {
+    "id": "billingconductor",
+    "name": "AWS Billing Conductor",
+    "description": "",
+    "consoleUrl": "https://console.aws.amazon.com/billingconductor/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Cloud Financial Management"
+  },
+  {
+    "id": "finops-agent",
+    "name": "AWS FinOps Agent",
+    "description": "",
+    "consoleUrl": "https://console.aws.amazon.com/finops-agent/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Cloud Financial Management"
+  },
+  {
+    "id": "amplify",
+    "name": "AWS Amplify",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/amplify/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Front-end Web & Mobile"
+  },
+  {
+    "id": "appsync",
+    "name": "AWS AppSync",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/appsync/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Front-end Web & Mobile"
+  },
+  {
+    "id": "devicefarm",
+    "name": "Device Farm",
+    "description": "",
+    "consoleUrl": "https://console.aws.amazon.com/devicefarm/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Front-end Web & Mobile"
+  },
+  {
+    "id": "location",
+    "name": "Amazon Location Service",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/location/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Front-end Web & Mobile"
+  },
+  {
+    "id": "states",
+    "name": "Step Functions",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/states/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Application Integration"
+  },
+  {
+    "id": "appflow",
+    "name": "Amazon AppFlow",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/appflow/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Application Integration"
+  },
+  {
+    "id": "amazon-mq",
+    "name": "Amazon MQ",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/amazon-mq/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Application Integration"
+  },
+  {
+    "id": "v3",
+    "name": "Simple Notification Service",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/sns/v3/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Application Integration"
+  },
+  {
+    "id": "mwaa",
+    "name": "Managed Apache Airflow",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/mwaa/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Application Integration"
+  },
+  {
+    "id": "b2bi",
+    "name": "AWS B2B Data Interchange",
+    "description": "",
+    "consoleUrl": "https://console.aws.amazon.com/b2bi/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Application Integration"
+  },
+  {
+    "id": "events",
+    "name": "Amazon EventBridge",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/events/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Application Integration"
+  },
+  {
+    "id": "ses",
+    "name": "Amazon Simple Email Service",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/ses/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Business Applications"
+  },
+  {
+    "id": "zocalo",
+    "name": "Amazon WorkDocs",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/zocalo/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Business Applications"
+  },
+  {
+    "id": "connect-health",
+    "name": "Amazon Connect Health",
+    "description": "",
+    "consoleUrl": "https://console.aws.amazon.com/connect-health/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Business Applications"
+  },
+  {
+    "id": "talent",
+    "name": "Amazon Connect Talent",
+    "description": "",
+    "consoleUrl": "https://console.aws.amazon.com/connect/v2/talent/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Business Applications"
+  },
+  {
+    "id": "scn",
+    "name": "Amazon Connect Decisions",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/scn/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Business Applications"
+  },
+  {
+    "id": "pinpointv2",
+    "name": "Amazon Pinpoint",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/pinpointv2/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Business Applications"
+  },
+  {
+    "id": "wickr",
+    "name": "AWS Wickr",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/wickr/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Business Applications"
+  },
+  {
+    "id": "appfabric",
+    "name": "AWS AppFabric",
+    "description": "",
+    "consoleUrl": "https://console.aws.amazon.com/appfabric/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Business Applications"
+  },
+  {
+    "id": "end-user-messaging",
+    "name": "AWS End User Messaging",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/end-user-messaging/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Business Applications"
+  },
+  {
+    "id": "chime-sdk",
+    "name": "Amazon Chime SDK",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/chime-sdk/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Business Applications"
+  },
+  {
+    "id": "workspaces-thin-client",
+    "name": "WorkSpaces Thin Client",
+    "description": "",
+    "consoleUrl": "https://console.aws.amazon.com/workspaces-thin-client/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "End User Computing"
+  },
+  {
+    "id": "workspaces-web",
+    "name": "WorkSpaces Secure Browser",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/workspaces-web/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "End User Computing"
+  },
+  {
+    "id": "devicedefender",
+    "name": "IoT Device Defender",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/devicedefender/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Internet of Things"
+  },
+  {
+    "id": "iotdm",
+    "name": "IoT Device Management",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/iotdm/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Internet of Things"
+  },
+  {
+    "id": "greengrass",
+    "name": "IoT Greengrass",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/greengrass/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Internet of Things"
+  },
+  {
+    "id": "iotsitewise",
+    "name": "IoT SiteWise",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/iotsitewise/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Internet of Things"
+  },
+  {
+    "id": "iot",
+    "name": "IoT Core",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/iot/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Internet of Things"
+  },
+  {
+    "id": "iottwinmaker",
+    "name": "IoT TwinMaker",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/iottwinmaker/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Internet of Things"
+  },
+  {
+    "id": "iotfleetwise",
+    "name": "AWS IoT FleetWise",
+    "description": "",
+    "consoleUrl": "https://console.aws.amazon.com/iotfleetwise/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Internet of Things"
+  },
+  {
+    "id": "gameliftservers",
+    "name": "Amazon GameLift Servers",
+    "description": "",
+    "consoleUrl": "https://ap-southeast-2.console.aws.amazon.com/gameliftservers/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Game Development"
+  },
+  {
+    "id": "gameliftstreams",
+    "name": "Amazon GameLift Streams",
+    "description": "",
+    "consoleUrl": "https://console.aws.amazon.com/gameliftstreams/home?region=ap-southeast-2",
+    "iconUrl": null,
+    "category": "Game Development"
+  }
+]
