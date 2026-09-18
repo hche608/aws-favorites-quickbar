@@ -701,3 +701,8 @@ $RECYCLE.BIN/
 # End of https://www.toptal.com/developers/gitignore/api/java,node,linux,macos,maven,python,windows,powershell,intellij+all,visualstudiocode,ansible,ansibletower,terraform,terragrunt,jmeter,packer,pycharm+all
 **/.terraform.lock.hcl
 **/*.key
+
+# E2E Test Persistent Profiles & Reports (Local AWS Sessions)
+.e2e-profile/
+test-results/
+playwright-report/

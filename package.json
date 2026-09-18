@@ -16,6 +16,9 @@
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "test:verbose": "vitest run --reporter=verbose",
+    "test:e2e": "make build-chrome && playwright test",
+    "test:e2e:login": "make build-chrome && tsx scripts/e2e-login.ts",
+    "test:e2e:ui": "make build-chrome && playwright test --ui",
     "lint": "eslint src/**/*.ts",
     "lint:fix": "eslint src/**/*.ts --fix",
     "format": "prettier --write \"src/**/*.ts\" \"tests/**/*.ts\" \"scripts/**/*.ts\" \"*.mjs\"",
@@ -28,6 +31,7 @@
     "security-check": "tsx scripts/security-check.ts"
   },
   "devDependencies": {
+    "@playwright/test": "^1.63.0",
     "@types/chrome": "^0.3.0",
     "@types/firefox-webext-browser": "^143.0.0",
     "@types/node": "^26.6.1",
