@@ -13,19 +13,18 @@ describe('Region Detection', () => {
 
   afterEach(() => {
     localStorage.clear();
-    jest.clearAllMocks();
+    vi.unstubAllGlobals();
+    vi.clearAllMocks();
   });
 
   // Helper to mock location.search
-  // In Jest 30 / newer jsdom, window.location is fully locked down.
-  // We mock the global URLSearchParams to control what detectRegion reads.
   const mockLocation = (search: string, throwOnAccess = false) => {
     if (throwOnAccess) {
-      jest.spyOn(global, 'URLSearchParams').mockImplementation(() => {
+      vi.stubGlobal('URLSearchParams', function () {
         throw new Error('URL parsing error');
       });
     } else {
-      jest.spyOn(global, 'URLSearchParams').mockImplementation(() => {
+      const mockClass = function () {
         const params = new Map<string, string>();
         const stripped = search.startsWith('?') ? search.slice(1) : search;
         if (stripped) {
@@ -39,8 +38,9 @@ describe('Region Detection', () => {
         return {
           get: (key: string) => params.get(key) ?? null,
           has: (key: string) => params.has(key)
-        } as any;
-      });
+        };
+      };
+      vi.stubGlobal('URLSearchParams', mockClass);
     }
   };
 

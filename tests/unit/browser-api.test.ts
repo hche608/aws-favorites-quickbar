@@ -5,8 +5,7 @@
 
 import { storage, runtime, tabs, getBrowserType } from '../../src/browser-api';
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const { setupChromeMocks, setupFirefoxMocks, clearAllBrowserMocks } = require('../helpers/mocks');
+import { setupChromeMocks, setupFirefoxMocks, clearAllBrowserMocks } from '../helpers/mocks';
 
 // Extend chrome types to include our mock data property
 declare global {

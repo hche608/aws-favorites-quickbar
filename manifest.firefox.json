@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "AWS Favorites Quickbar",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Automatically populate AWS Console favorites bar with your favorite services and recently visited services",
   "permissions": ["storage"],
   "host_permissions": ["https://*.console.aws.amazon.com/*"],

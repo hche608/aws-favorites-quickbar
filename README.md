@@ -1,6 +1,6 @@
 # AWS Favorites Quickbar
 
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue.svg)](https://www.typescriptlang.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-6.x-blue.svg)](https://www.typescriptlang.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 A cross-browser extension for Chrome and Firefox that automatically populates the AWS Console favorites bar with your configured favorite services and recently visited services. Built with TypeScript for type safety and maintainability.
@@ -112,9 +112,8 @@ aws-favorites-quickbar/
 ├── popup.css             # Popup UI styles
 ├── icons/                # Extension icons
 ├── tsconfig.json         # TypeScript configuration
-├── tsconfig.test.json    # TypeScript test configuration
-├── jest.config.ts        # Jest test configuration (TypeScript)
-├── eslint.config.ts      # ESLint configuration (TypeScript)
+├── vitest.config.mjs     # Vitest test configuration (ESM)
+├── eslint.config.mjs     # ESLint configuration (ESM)
 ├── .prettierrc.json      # Prettier formatting rules
 ├── Makefile              # Build automation
 └── README.md             # This file
@@ -195,17 +194,14 @@ The codebase is written in TypeScript with strict type checking enabled. Key Typ
 
 #### TypeScript Configuration
 
-The project uses two TypeScript configurations:
+The project uses a unified TypeScript configuration:
 
-- `tsconfig.json`: Main configuration for source code compilation
+- `tsconfig.json`: Single configuration for source code compilation and testing
   - Target: ES2020
   - Module: ES2020
   - Strict mode enabled
   - Source maps generated
-  
-- `tsconfig.test.json`: Extended configuration for tests
-  - Includes test files and helpers
-  - Additional type definitions for Jest
+  - Type definitions for Chrome and Vitest globals (`vitest/globals`)
 
 #### Type Checking
 
@@ -481,17 +477,17 @@ Duration: 27.81s
 ### Tools & Configuration
 
 **Static Analysis Tools:**
-- **TypeScript** (^5.9.3) - Type checking with strict mode
-- **ESLint** (^9.39.1) - Code quality and best practices
-- **Prettier** (^3.1.1) - Code formatting
+- **TypeScript** (^6.0.3) - Type checking with strict mode
+- **ESLint** (^10.10.0) - Code quality and best practices
+- **Prettier** (^3.9.8) - Code formatting
 - **Madge** (^8.0.0) - Dependency analysis
-- **Jest** (^29.7.0) - Testing framework
+- **Vitest** (^5.0.1) - Lightning-fast ESM testing framework with V8 coverage
 
 **Configuration Files:**
 - `tsconfig.json` - TypeScript compiler configuration
-- `eslint.config.ts` - ESLint rules (TypeScript config)
+- `eslint.config.mjs` - ESLint rules (ESM config)
 - `.prettierrc.json` - Prettier formatting rules
-- `jest.config.ts` - Jest testing configuration (TypeScript config)
+- `vitest.config.mjs` - Vitest testing configuration (ESM config)
 - `scripts/security-check.ts` - Comprehensive security check script
 
 ### Security Features

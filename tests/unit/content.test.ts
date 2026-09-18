@@ -6,68 +6,68 @@
  */
 
 // Mock all dependencies before importing
-jest.mock('../../src/utils/dom', () => ({
-  waitForDOMReady: jest.fn().mockResolvedValue(undefined),
-  waitForElement: jest.fn().mockResolvedValue(null),
-  isAWSConsolePage: jest.fn().mockReturnValue(false),
-  isAWSConsoleHomepage: jest.fn().mockReturnValue(false),
-  location: { getHostname: jest.fn(), getPathname: jest.fn() }
+vi.mock('../../src/utils/dom', () => ({
+  waitForDOMReady: vi.fn().mockResolvedValue(undefined),
+  waitForElement: vi.fn().mockResolvedValue(null),
+  isAWSConsolePage: vi.fn().mockReturnValue(false),
+  isAWSConsoleHomepage: vi.fn().mockReturnValue(false),
+  location: { getHostname: vi.fn(), getPathname: vi.fn() }
 }));
 
-jest.mock('../../src/utils/storage', () => ({
-  saveServicesToStorage: jest.fn(),
-  loadServicesFromStorage: jest.fn().mockReturnValue(undefined)
+vi.mock('../../src/utils/storage', () => ({
+  saveServicesToStorage: vi.fn(),
+  loadServicesFromStorage: vi.fn().mockReturnValue(undefined)
 }));
 
-jest.mock('../../src/utils/region', () => ({
-  detectRegion: jest.fn().mockReturnValue('us-east-1')
+vi.mock('../../src/utils/region', () => ({
+  detectRegion: vi.fn().mockReturnValue('us-east-1')
 }));
 
-jest.mock('../../src/services/icon-extractor', () => ({
-  extractIconUrlsFromConsole: jest.fn().mockResolvedValue({})
+vi.mock('../../src/services/icon-extractor', () => ({
+  extractIconUrlsFromConsole: vi.fn().mockResolvedValue({})
 }));
 
-jest.mock('../../src/services/icon-validator', () => ({
-  isValidIconUrl: jest.fn().mockResolvedValue(true),
-  updateServiceIcons: jest.fn().mockResolvedValue([])
+vi.mock('../../src/services/icon-validator', () => ({
+  isValidIconUrl: vi.fn().mockResolvedValue(true),
+  updateServiceIcons: vi.fn().mockResolvedValue([])
 }));
 
-jest.mock('../../src/services/recently-visited-parser', () => ({
-  waitForRecentlyVisitedWidget: jest.fn().mockResolvedValue(false),
-  parseRecentlyVisited: jest.fn().mockResolvedValue([])
+vi.mock('../../src/services/recently-visited-parser', () => ({
+  waitForRecentlyVisitedWidget: vi.fn().mockResolvedValue(false),
+  parseRecentlyVisited: vi.fn().mockResolvedValue([])
 }));
 
-jest.mock('../../src/services/service-merger', () => ({
-  mergeServices: jest.fn().mockReturnValue([])
+vi.mock('../../src/services/service-merger', () => ({
+  mergeServices: vi.fn().mockReturnValue([])
 }));
 
-jest.mock('../../src/quickbar/injector', () => ({
-  injectServices: jest.fn().mockResolvedValue(true)
+vi.mock('../../src/quickbar/injector', () => ({
+  injectServices: vi.fn().mockResolvedValue(true)
 }));
 
-jest.mock('../../src/settings', () => ({
-  loadSettings: jest.fn().mockResolvedValue({
+vi.mock('../../src/settings', () => ({
+  loadSettings: vi.fn().mockResolvedValue({
     favoriteIds: [],
     maxServices: 10,
     visualMode: 'light'
   }),
-  applyVisualMode: jest.fn().mockResolvedValue(undefined)
+  applyVisualMode: vi.fn().mockResolvedValue(undefined)
 }));
 
-jest.mock('../../src/browser-api', () => ({
+vi.mock('../../src/browser-api', () => ({
   runtime: {
     onMessage: {
-      addListener: jest.fn()
+      addListener: vi.fn()
     }
   },
   storage: {
     local: {
-      get: jest.fn().mockResolvedValue({}),
-      set: jest.fn().mockResolvedValue(undefined)
+      get: vi.fn().mockResolvedValue({}),
+      set: vi.fn().mockResolvedValue(undefined)
     },
     sync: {
-      get: jest.fn().mockResolvedValue({}),
-      set: jest.fn().mockResolvedValue(undefined)
+      get: vi.fn().mockResolvedValue({}),
+      set: vi.fn().mockResolvedValue(undefined)
     }
   }
 }));
@@ -101,19 +101,17 @@ describe('Content Script', () => {
     });
   });
 
-  it('should register a message listener on import', () => {
+  it('should register a message listener on import', async () => {
     // Re-import to trigger module execution
-    jest.isolateModules(() => {
-      require('../../src/content');
-    });
+    vi.resetModules();
+    await import('../../src/content');
 
     expect(runtime.onMessage.addListener).toHaveBeenCalledWith(expect.any(Function));
   });
 
   it('should call init on import', async () => {
-    jest.isolateModules(() => {
-      require('../../src/content');
-    });
+    vi.resetModules();
+    await import('../../src/content');
 
     // Wait for async init to complete
     await new Promise((resolve) => setTimeout(resolve, 10));
@@ -124,9 +122,8 @@ describe('Content Script', () => {
   it('should exit early when not on AWS Console page', async () => {
     (isAWSConsolePage as jest.Mock).mockReturnValue(false);
 
-    jest.isolateModules(() => {
-      require('../../src/content');
-    });
+    vi.resetModules();
+    await import('../../src/content');
 
     await new Promise((resolve) => setTimeout(resolve, 10));
 
@@ -144,9 +141,8 @@ describe('Content Script', () => {
       visualMode: 'dark'
     });
 
-    jest.isolateModules(() => {
-      require('../../src/content');
-    });
+    vi.resetModules();
+    await import('../../src/content');
 
     await new Promise((resolve) => setTimeout(resolve, 50));
 
@@ -189,9 +185,8 @@ describe('Content Script', () => {
       }
     ]);
 
-    jest.isolateModules(() => {
-      require('../../src/content');
-    });
+    vi.resetModules();
+    await import('../../src/content');
 
     await new Promise((resolve) => setTimeout(resolve, 50));
 
@@ -219,9 +214,8 @@ describe('Content Script', () => {
       visualMode: 'light'
     });
 
-    jest.isolateModules(() => {
-      require('../../src/content');
-    });
+    vi.resetModules();
+    await import('../../src/content');
 
     await new Promise((resolve) => setTimeout(resolve, 50));
 
@@ -249,9 +243,8 @@ describe('Content Script', () => {
     (waitForElement as jest.Mock).mockResolvedValue(document.createElement('ol'));
     (injectServices as jest.Mock).mockResolvedValue(true);
 
-    jest.isolateModules(() => {
-      require('../../src/content');
-    });
+    vi.resetModules();
+    await import('../../src/content');
 
     await new Promise((resolve) => setTimeout(resolve, 100));
 
@@ -273,9 +266,8 @@ describe('Content Script', () => {
     (waitForElement as jest.Mock).mockResolvedValue(document.createElement('ol'));
     (injectServices as jest.Mock).mockResolvedValue(true);
 
-    jest.isolateModules(() => {
-      require('../../src/content');
-    });
+    vi.resetModules();
+    await import('../../src/content');
 
     await new Promise((resolve) => setTimeout(resolve, 100));
 
@@ -295,9 +287,8 @@ describe('Content Script', () => {
     (waitForElement as jest.Mock).mockResolvedValue(document.createElement('ol'));
     (injectServices as jest.Mock).mockResolvedValue(false);
 
-    jest.isolateModules(() => {
-      require('../../src/content');
-    });
+    vi.resetModules();
+    await import('../../src/content');
 
     await new Promise((resolve) => setTimeout(resolve, 100));
 
@@ -305,11 +296,10 @@ describe('Content Script', () => {
   });
 
   describe('message handler', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       // Import to register the handler
-      jest.isolateModules(() => {
-        require('../../src/content');
-      });
+      vi.resetModules();
+      await import('../../src/content');
     });
 
     it('should handle updateQuickbar message', async () => {
