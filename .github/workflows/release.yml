@@ -20,6 +20,7 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
   release:
@@ -69,15 +70,28 @@ jobs:
         run: |
           npm run check:all
 
-      - name: Commit & Tag
+      - name: Commit, Tag & Open Sync PR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add package.json package-lock.json manifest.json manifest.firefox.json
           git commit -m "chore(release): release ${{ steps.version.outputs.tag }}"
           git tag -a "${{ steps.version.outputs.tag }}" -m "Release ${{ steps.version.outputs.tag }}"
-          git push origin HEAD:${{ github.ref_name }}
+
+          # Push the release tag directly to remote
           git push origin "${{ steps.version.outputs.tag }}"
+
+          # Sync version bump commit to a branch and open a PR into main
+          BRANCH="release/${{ steps.version.outputs.tag }}"
+          git checkout -b "$BRANCH"
+          git push -u origin "$BRANCH"
+          gh pr create \
+            --title "chore(release): bump version to ${{ steps.version.outputs.tag }}" \
+            --body "Automated version bump for release ${{ steps.version.outputs.tag }}." \
+            --base main \
+            --head "$BRANCH" || true
 
       - name: Build Extension Packages
         run: |
