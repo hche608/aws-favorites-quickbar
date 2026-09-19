@@ -4,12 +4,28 @@ import { setE2EFavorites, setE2ECachedServices, waitForInjectionStatus } from '.
 import { REAL_AWS_SERVICES, getRealServices } from '../helpers/real-services';
 
 /**
- * Fisher-Yates shuffle algorithm for unbiased random permutation.
+ * Simple seeded PRNG (mulberry32) for reproducible randomized tests.
+ */
+function seededRandom(seed: number): () => number {
+  return () => {
+    seed |= 0;
+    seed = (seed + 0x6d2b79f5) | 0;
+    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+const TEST_SEED = Date.now();
+const rng = seededRandom(TEST_SEED);
+
+/**
+ * Fisher-Yates shuffle algorithm using seeded PRNG for reproducibility.
  */
 function shuffle<T>(array: T[]): T[] {
   const result = [...array];
   for (let i = result.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
+    const j = Math.floor(rng() * (i + 1));
     [result[i], result[j]] = [result[j], result[i]];
   }
   return result;
@@ -35,6 +51,7 @@ test.describe('Quickbar Full 220-Service Pool Random Stress Testing', () => {
   }) => {
     // 1. Ensure AWS Console is loaded and session is valid
     await ensureAwsLoggedIn(page);
+    console.log(`🎲 Random seed: ${TEST_SEED} (use this to reproduce failures)`);
 
     // 2. Pre-seed local storage with all 220 services
     const allServices = getRealServices();

@@ -433,14 +433,29 @@ playwright-report/
 
 ---
 
-## 6. 实施路线建议 (Phase-by-Phase)
+## 6. 实施路线与落地成果 (Phase-by-Phase)
 
-1. **第一阶段：环境验证与登录感知（原型跑通）**
-   - 编写 `helpers/browser-launcher.ts` 与 `helpers/auth.ts`。
-   - 验证打开本地 Chrome、保留 AWS 登录态并识别 `/home` 页面。
-2. **第二阶段：核心 Quickbar 注入断言**
-   - 自动化验证控制台顶栏中的自定义 Quickbar 元素挂载。
-3. **第三阶段：Popup 交互与视觉截屏**
-   - 实现独立打开 `popup.html` 的测试与深/浅色模式截图对比。
-4. **第四阶段：Firefox 跨端适配与命令集成**
-   - 补全 Firefox 环境的自动化启动与多浏览器回归。
+1. **第一阶段：环境验证与登录感知（原型跑通）** — ✅ **已完成**
+   - 编写 `tests/e2e/helpers/auth.ts` 与 `tests/e2e/fixtures.ts`。
+   - 验证打开本地 Chrome、持久化保留 AWS 会话态并自动感知 `/home`。
+   - 自动检测并完成控制台原生 "Console Home" 顶栏图钉的自动固定。
+
+2. **第二阶段：核心 Quickbar 注入断言** — ✅ **已完成**
+   - 实现 [quickbar-mount.spec.ts](file:///Users/hche608/Documents/Personal/aws-favorites-quickbar/tests/e2e/quickbar-mount.spec.ts)，验证原生样式克隆注入。
+   - 跨服务导航测试 [recently-visited-navigation.spec.ts](file:///Users/hche608/Documents/Personal/aws-favorites-quickbar/tests/e2e/recently-visited-navigation.spec.ts)。
+   - 跨 Tab 实时同步测试 [cross-tab-sync.spec.ts](file:///Users/hche608/Documents/Personal/aws-favorites-quickbar/tests/e2e/cross-tab-sync.spec.ts)。
+
+3. **第三阶段：Popup 交互与视觉截屏** — ✅ **已完成**
+   - 交互功能测试 [popup.spec.ts](file:///Users/hche608/Documents/Personal/aws-favorites-quickbar/tests/e2e/popup.spec.ts)（Pin/Unpin、搜索、拖拽排序、maxServices）。
+   - 主题联动测试 [theme.spec.ts](file:///Users/hche608/Documents/Personal/aws-favorites-quickbar/tests/e2e/theme.spec.ts)（模拟原生 radio 点击与样式切换）。
+   - 视觉截屏对比 [popup-visual.spec.ts](file:///Users/hche608/Documents/Personal/aws-favorites-quickbar/tests/e2e/popup-visual.spec.ts)（Dark / Light 模式高保真对比）。
+
+4. **第四阶段：Firefox 产物验证与跨平台集成** — ✅ **已完成**
+   - 实现 [firefox.spec.ts](file:///Users/hche608/Documents/Personal/aws-favorites-quickbar/tests/e2e/firefox.spec.ts) 验证 Firefox MV3 清单规范与 AMO 打包合规。
+   - 实现 [firefox-visual.spec.ts](file:///Users/hche608/Documents/Personal/aws-favorites-quickbar/tests/e2e/firefox-visual.spec.ts) 自动化验证 Firefox 产物渲染。
+   - （注：真实 Firefox 引擎由于 macOS 27 沙盒问题 [Playwright #42082](https://github.com/microsoft/playwright/issues/42082) 目前采用 `npm run run:firefox` 进行独立验证）。
+
+5. **第五阶段：测试 Review 与覆盖缺口加固** — ✅ **已完成**
+   - 新增 [coverage-gaps.spec.ts](file:///Users/hche608/Documents/Personal/aws-favorites-quickbar/tests/e2e/coverage-gaps.spec.ts) 专项补充：首次启动 (Gap 1)、Rule 4 嵌套服务 ID (Gap 2)、Rule 3 no-native-pin 告警联动 (Gap 3)、updateQuickbar 热更新消息通道 (Gap 4)、Storage 生命周期持久化 (Gap 5)。
+   - 随机测试引入确定性 Seed PRNG (mulberry32) 确保 100% 可重复回放。
+   - 现已达成全套件 14 个测试文件、34 个端到端测试用例全面覆盖。

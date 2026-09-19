@@ -1,3 +1,71 @@
+/* ==========================================================================
+   AWS Favorites Quickbar — Modern Extension Popup Stylesheet
+   Supports Dark (default) and Light themes via CSS variables
+   ========================================================================== */
+
+:root,
+[data-theme="dark"] {
+  --bg-base: #0f141c;
+  --bg-surface: #161f2c;
+  --bg-card: #1b2535;
+  --bg-card-hover: #222f42;
+  --bg-card-selected: #242c38;
+  --bg-input: #121924;
+  --border-subtle: #273447;
+  --border-hover: #374860;
+  --border-active: #ff9900;
+  --text-main: #f3f5f7;
+  --text-secondary: #9aa7b5;
+  --text-muted: #6b7888;
+  --aws-orange: #ff9900;
+  --aws-orange-hover: #ec7211;
+  --aws-orange-soft: rgba(255, 153, 0, 0.12);
+  --aws-orange-glow: rgba(255, 153, 0, 0.25);
+  --info-bg: #0e2742;
+  --info-border: #164f80;
+  --info-text: #69b3f0;
+  --badge-bg: rgba(255, 153, 0, 0.15);
+  --badge-border: rgba(255, 153, 0, 0.35);
+  --badge-text: #ff9900;
+  --badge-limit-bg: #ec7211;
+  --badge-limit-text: #ffffff;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-card: 0 2px 6px rgba(0, 0, 0, 0.25);
+  --scrollbar-thumb: #2d3b4e;
+  --scrollbar-thumb-hover: #3d4f68;
+}
+
+[data-theme="light"] {
+  --bg-base: #f8f9fa;
+  --bg-surface: #ffffff;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f3f5f7;
+  --bg-card-selected: #fff9f0;
+  --bg-input: #ffffff;
+  --border-subtle: #e1e4ea;
+  --border-hover: #c9ced8;
+  --border-active: #ff9900;
+  --text-main: #16191f;
+  --text-secondary: #545b64;
+  --text-muted: #879596;
+  --aws-orange: #ff9900;
+  --aws-orange-hover: #ec7211;
+  --aws-orange-soft: rgba(255, 153, 0, 0.1);
+  --aws-orange-glow: rgba(255, 153, 0, 0.2);
+  --info-bg: #e8f4fd;
+  --info-border: #0073bb;
+  --info-text: #0073bb;
+  --badge-bg: #fdf3e5;
+  --badge-border: #f9ce91;
+  --badge-text: #b35900;
+  --badge-limit-bg: #ec7211;
+  --badge-limit-text: #ffffff;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --shadow-card: 0 1px 4px rgba(0, 0, 0, 0.08);
+  --scrollbar-thumb: #d5dbdb;
+  --scrollbar-thumb-hover: #aab7b8;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -5,12 +73,14 @@
 }
 
 body {
-  width: 400px;
-  min-height: 500px;
+  width: 420px;
+  height: 560px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  font-size: 14px;
-  color: #232f3e;
-  background: #ffffff;
+  font-size: 13px;
+  color: var(--text-main);
+  background-color: var(--bg-base);
+  overflow: hidden;
+  user-select: none;
 }
 
 .container {
@@ -19,179 +89,413 @@ body {
   height: 100%;
 }
 
-header {
-  padding: 16px;
-  background: linear-gradient(135deg, #232f3e 0%, #3c4e63 100%);
-  color: white;
-  border-bottom: 3px solid #ff9900;
-}
-
-h1 {
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 4px;
-}
-
-.subtitle {
-  font-size: 12px;
-  opacity: 0.9;
-}
-
-.search-container {
+/* ==========================================================================
+   Header
+   ========================================================================== */
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   padding: 12px 16px;
-  border-bottom: 1px solid #e0e0e0;
+  background: linear-gradient(135deg, #131924 0%, #1e2838 100%);
+  color: #ffffff;
+  border-bottom: 2px solid var(--aws-orange);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.header-branding {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-icon-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: rgba(255, 153, 0, 0.15);
+  border: 1px solid rgba(255, 153, 0, 0.3);
+  border-radius: 8px;
+  color: var(--aws-orange);
+}
+
+.header-title-group h1 {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+  color: #ffffff;
+  line-height: 1.2;
+}
+
+.header-title-group .subtitle {
+  font-size: 11px;
+  color: #9ba7b6;
+  line-height: 1.2;
+  margin-top: 2px;
+}
+
+.favorites-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  background: var(--badge-bg);
+  color: var(--badge-text);
+  border: 1px solid var(--badge-border);
+  letter-spacing: 0.3px;
+  transition: all 0.2s ease;
+}
+
+.favorites-badge.limit-reached {
+  background: var(--badge-limit-bg);
+  border-color: var(--badge-limit-bg);
+  color: var(--badge-limit-text);
+  box-shadow: 0 0 8px rgba(236, 114, 17, 0.4);
+}
+
+/* ==========================================================================
+   Search Container
+   ========================================================================== */
+.search-container {
+  padding: 10px 14px;
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.search-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  position: absolute;
+  left: 10px;
+  color: var(--text-muted);
+  pointer-events: none;
 }
 
 #searchInput {
   width: 100%;
-  padding: 8px 12px;
-  border: 1px solid #d5dbdb;
-  border-radius: 4px;
-  font-size: 14px;
+  padding: 8px 32px 8px 34px;
+  background: var(--bg-input);
+  color: var(--text-main);
+  border: 1px solid var(--border-subtle);
+  border-radius: 6px;
+  font-size: 13px;
   outline: none;
-  transition: border-color 0.2s;
+  transition: all 0.2s ease;
 }
 
 #searchInput:focus {
-  border-color: #ff9900;
+  border-color: var(--aws-orange);
+  box-shadow: 0 0 0 3px var(--aws-orange-glow);
 }
 
+#searchInput::placeholder {
+  color: var(--text-muted);
+}
+
+.clear-search-btn {
+  position: absolute;
+  right: 8px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: none;
+  background: var(--text-muted);
+  color: var(--bg-base);
+  font-size: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.clear-search-btn:hover {
+  background: var(--text-secondary);
+}
+
+/* ==========================================================================
+   Info Banner (Native Pin Requirement)
+   ========================================================================== */
+.info-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 8px 14px 0 14px;
+  padding: 8px 12px;
+  background-color: var(--info-bg);
+  border-left: 3px solid var(--info-border);
+  border-radius: 4px;
+  font-size: 12px;
+  color: var(--info-text);
+  line-height: 1.4;
+}
+
+.info-banner-icon {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.info-banner-content strong {
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   Settings Toolbar
+   ========================================================================== */
+.settings-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 14px;
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border-subtle);
+  gap: 12px;
+}
+
+.settings-container {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.settings-container label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.settings-container input[type="number"] {
+  width: 54px;
+  padding: 4px 6px;
+  background: var(--bg-input);
+  color: var(--text-main);
+  border: 1px solid var(--border-subtle);
+  border-radius: 4px;
+  font-size: 12px;
+  text-align: center;
+  font-weight: 600;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.settings-container input[type="number"]:focus {
+  border-color: var(--aws-orange);
+  box-shadow: 0 0 0 2px var(--aws-orange-glow);
+}
+
+.settings-container select {
+  padding: 4px 8px;
+  background: var(--bg-input);
+  color: var(--text-main);
+  border: 1px solid var(--border-subtle);
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.settings-container select:focus {
+  border-color: var(--aws-orange);
+  box-shadow: 0 0 0 2px var(--aws-orange-glow);
+}
+
+/* ==========================================================================
+   Service List & Service Items
+   ========================================================================== */
 .service-list {
   flex: 1;
   overflow-y: auto;
-  padding: 8px;
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Custom modern scrollbar */
+.service-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.service-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.service-list::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 3px;
+}
+
+.service-list::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
 }
 
 .service-item {
   display: flex;
   align-items: center;
-  padding: 10px 12px;
-  margin-bottom: 4px;
-  border-radius: 4px;
+  padding: 7px 10px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: background-color 0.15s, border-color 0.15s, transform 0.1s;
   user-select: none;
 }
 
 .service-item:hover {
-  background-color: #f5f5f5;
+  background: var(--bg-card-hover);
+  border-color: var(--border-hover);
+  transform: translateY(-1px);
 }
 
 .service-item.selected {
-  background-color: #e8f4f8;
-  border-left: 3px solid #ff9900;
+  background: var(--bg-card-selected);
+  border-color: var(--border-subtle);
+  border-left: 3px solid var(--aws-orange);
 }
 
 .service-item input[type="checkbox"] {
-  margin-right: 10px;
+  accent-color: var(--aws-orange);
+  width: 15px;
+  height: 15px;
   cursor: pointer;
+  margin-right: 4px;
+}
+
+.service-icon {
+  width: 20px;
+  height: 20px;
+  margin-left: 4px;
+  margin-right: 8px;
+  object-fit: contain;
+  flex-shrink: 0;
 }
 
 .service-name {
+  flex: 1;
+  font-size: 12.5px;
   font-weight: 500;
-  color: #232f3e;
+  color: var(--text-main);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
+.service-id-badge {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 10px;
+  color: var(--text-muted);
+  background: var(--aws-orange-soft);
+  border: 1px solid var(--border-subtle);
+  padding: 1px 5px;
+  border-radius: 4px;
+  margin-left: 6px;
+  flex-shrink: 0;
+}
+
+.drag-grip {
+  font-size: 13px;
+  color: var(--text-muted);
+  opacity: 0.5;
+  margin-left: 6px;
+  cursor: grab;
+  line-height: 1;
+  user-select: none;
+  transition: opacity 0.15s;
+}
+
+.service-item:hover .drag-grip {
+  opacity: 1;
+  color: var(--aws-orange);
+}
+
+/* ==========================================================================
+   Drag & Drop Styles
+   ========================================================================== */
+.service-item[draggable="true"] {
+  cursor: grab;
+}
+
+.service-item[draggable="true"]:active {
+  cursor: grabbing;
+}
+
+.service-item.dragging {
+  opacity: 0.45;
+  background-color: var(--bg-card-hover);
+  transform: scale(0.98);
+}
+
+.service-item.drag-over {
+  border-top: 2px solid var(--aws-orange);
+  margin-top: 2px;
+}
+
+/* ==========================================================================
+   Empty & Error States
+   ========================================================================== */
 .empty-state,
 .error-state {
-  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
   text-align: center;
-  color: #666;
+  color: var(--text-secondary);
 }
 
-.empty-state p {
-  margin-bottom: 8px;
+.state-icon {
+  margin-bottom: 12px;
+  color: var(--text-muted);
+}
+
+.state-icon.error-icon {
+  color: #d13212;
+}
+
+.state-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 4px;
 }
 
 .hint {
   font-size: 12px;
-  color: #999;
+  color: var(--text-muted);
+  max-width: 260px;
+  line-height: 1.4;
 }
 
 .error-state button {
-  margin-top: 12px;
-  padding: 8px 16px;
-  background-color: #ff9900;
-  color: white;
+  margin-top: 16px;
+  padding: 7px 18px;
+  background: linear-gradient(180deg, var(--aws-orange) 0%, var(--aws-orange-hover) 100%);
+  color: #ffffff;
   border: none;
   border-radius: 4px;
+  font-size: 12.5px;
+  font-weight: 600;
   cursor: pointer;
-  font-size: 14px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  transition: filter 0.15s, transform 0.1s;
 }
 
 .error-state button:hover {
-  background-color: #ec7211;
+  filter: brightness(1.08);
+  transform: translateY(-1px);
 }
 
-/* Drag and drop styles */
-.service-item[draggable="true"] {
-  cursor: move;
-}
-
-.service-item.dragging {
-  opacity: 0.4;
-  background-color: #f0f0f0;
-}
-
-.service-item.drag-over {
-  border-top: 3px solid #ff9900;
-  margin-top: 3px;
-}
-
-/* Settings container */
-.settings-container {
-  padding: 12px 16px;
-  background: #f5f5f5;
-  border-bottom: 1px solid #ddd;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.settings-container label {
-  font-size: 13px;
-  color: #333;
-  font-weight: 500;
-}
-
-.settings-container input[type="number"] {
-  width: 60px;
-  padding: 6px 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 13px;
-  text-align: center;
-}
-
-.settings-container input[type="number"]:focus {
-  outline: none;
-  border-color: #FF9900;
-  box-shadow: 0 0 0 2px rgba(255, 153, 0, 0.1);
-}
-
-.settings-container select {
-  padding: 6px 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 13px;
-  background: white;
-  cursor: pointer;
-}
-
-.settings-container select:focus {
-  outline: none;
-  border-color: #FF9900;
-  box-shadow: 0 0 0 2px rgba(255, 153, 0, 0.1);
-}
-
-.info-banner {
-  margin: 0 16px 0 16px;
-  padding: 10px 12px;
-  background-color: #e8f4fd;
-  border-left: 3px solid #0073bb;
-  border-radius: 4px;
-  font-size: 13px;
-  color: #0073bb;
-  text-align: left;
+.error-state button:active {
+  transform: translateY(0);
 }

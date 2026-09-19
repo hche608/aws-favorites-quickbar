@@ -102,7 +102,9 @@ aws-favorites-quickbar/
 │   │   ├── recently-visited-parser.ts # Scrapes Recently Visited widget (strict /<id>/home)
 │   │   ├── icon-extractor.ts     # Extracts console icon URLs (strict /<id>/home)
 │   │   ├── icon-validator.ts     # Validates SVG/HTTPS icon URLs
-│   │   └── service-merger.ts     # Merges pinned + recent items with deduplication
+│   │   ├── service-merger.ts     # Merges pinned + recent items with deduplication
+│   │   ├── service-icons.ts      # Built-in CDN icons catalog for 220 AWS services
+│   │   └── default-icons.json    # Static icon fallback map for instantaneous rendering
 │   ├── quickbar/
 │   │   ├── css-extractor.ts      # Scrapes CSS class names from 1st native favorite
 │   │   ├── dom-builder.ts        # Builds DOM nodes using extracted classes
@@ -116,8 +118,9 @@ aws-favorites-quickbar/
 │       ├── service-list-renderer.ts # Renders list with drag-and-drop support
 │       └── drag-drop.ts          # HTML5 drag-and-drop reordering handler
 ├── tests/
-│   ├── unit/                     # Unit test suites mirroring src/
-│   ├── integration/              # End-to-end workflow & property tests
+│   ├── unit/                     # Unit test suites mirroring src/ (Vitest)
+│   ├── integration/              # End-to-end workflow & property tests (Vitest)
+│   ├── e2e/                      # Browser E2E & visual regression tests (Playwright, 14 specs, 34 tests)
 │   └── helpers/                  # Test DOM, mock storage, & mock browser APIs
 ├── manifest.json                 # Manifest V3 configuration for Chrome
 ├── manifest.firefox.json         # Manifest V3 overrides for Firefox (gecko ID)
@@ -172,3 +175,60 @@ npm run lint:fix
 - ❌ **Do not use fallback defaults for undefined storage**: `loadUserFavorites()` returning `undefined` means first launch; do not return an empty array silently inside the storage helper.
 - ❌ **Do not exceed 300 LOC**: If a module approaches 300 lines, extract helper logic into a sub-module.
 - ❌ **Do not rely on hardcoded class names**: AWS Console frequently hashes/changes Polaris class names. Always use `css-extractor.ts`.
+
+---
+
+## 8. E2E Testing Strategy & Known Limitations
+
+### Chrome — Fully Automated (Playwright)
+
+All Chrome E2E tests run via Playwright with a persistent Chrome profile (`.e2e-profile/chrome`) and the extension loaded via `--load-extension`. The suite spans **14 spec files (34 tests)** covering:
+- **Core workflows**: Quickbar injection (`quickbar-mount.spec.ts`), popup interactions (`popup.spec.ts`), cross-tab synchronization (`cross-tab-sync.spec.ts`), theme switching (`theme.spec.ts`), navigation across Console services (`recently-visited-navigation.spec.ts`).
+- **Visual regression**: Dark/Light visual screenshots (`popup-visual.spec.ts`, `firefox-visual.spec.ts`).
+- **Stress testing**: Randomized subsets & 220-service catalog pool testing with seeded PRNG (mulberry32) for deterministic reproduction (`quickbar-random.spec.ts`, `quickbar-pool-random.spec.ts`).
+- **Architectural rules & gap hardening**: First-launch undefined handling (Rule 1), nested service IDs (Rule 4), `no-native-pin` popup warning linkage (Rule 3), runtime `updateQuickbar` message channel, and storage lifecycle persistence (`coverage-gaps.spec.ts`).
+
+```bash
+npm run test:e2e          # Build + run all Playwright E2E tests
+npm run test:e2e:login    # Interactive browser helper to refresh AWS Console login
+npx playwright test       # Run E2E tests only (assumes dist/chrome exists)
+```
+
+### Firefox — Manual Verification (web-ext)
+
+> **⚠️ Known Issue: [Playwright #42082](https://github.com/microsoft/playwright/issues/42082)**
+>
+> Playwright cannot launch Firefox on **macOS 27** ("Golden Gate"). The macOS kernel-level sandbox kills Firefox's `plugin-container` child process with **signal 9** (`SIGKILL`). This affects both Playwright's bundled Nightly and the system-installed Firefox, in both headless and headed modes. The error is:
+>
+> ```
+> sandbox_extension_issue_file_to_process failed for
+>   .../plugin-container.app: 1 (Operation not permitted)
+> [Parent, IPC I/O Parent] WARNING: process exited on signal 9
+> ```
+>
+> **Chromium and WebKit are unaffected.** This is purely a Firefox + macOS 27 sandbox incompatibility.
+
+Until Playwright resolves #42082, Firefox E2E testing is done manually:
+
+```bash
+npm run run:firefox       # Build + launch system Firefox with extension via web-ext
+```
+
+Existing automated Firefox tests (`tests/e2e/firefox.spec.ts`, `tests/e2e/firefox-visual.spec.ts`) validate the **Firefox distribution artifacts** (manifest, AMO linting, DOM structure, visual screenshots) using Playwright's Chromium engine to load the `dist/firefox/` build output. These are **not** true Firefox-engine tests but ensure packaging correctness.
+
+**When #42082 is resolved:** migrate Firefox E2E to use `firefox.launchPersistentContext()` with the profile at `.e2e-profile/firefox` pre-loaded with the extension (`aws-favorites-quickbar@8its.pixel`).
+
+---
+
+## 9. Dependency Limitations & Upstream Blockers
+
+### TypeScript v7 Incompatibility (`@typescript-eslint`)
+
+> **⚠️ Known Issue: [@typescript-eslint #10940](https://github.com/typescript-eslint/typescript-eslint/issues/10940)**
+>
+> The project currently runs on **TypeScript v6 (`^6.0.3`)**. Upgrading to **TypeScript v7 (`^7.0.2`)** is blocked by the ESLint tooling ecosystem:
+>
+> - **Source code & tests**: Fully compatible. Compiles with 0 errors on TS 7 (`tsc --noEmit`), and all 441 unit/integration tests pass.
+> - **Blocker**: `@typescript-eslint/parser` and `@typescript-eslint/eslint-plugin` (v8.70.0) strictly enforce `typescript: ">=4.8.4 <6.1.0"`. Running `eslint` under TS 7 throws a fatal error (`Error: typescript-eslint does not support TS 7.0.`) because TS 7 overhauled the internal compiler architecture.
+>
+> **When to upgrade:** Re-evaluate upgrading to TS 7 once `@typescript-eslint` officially releases support for TypeScript >= 7.1 (tracked in issue #10940).

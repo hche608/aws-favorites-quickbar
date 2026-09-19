@@ -62,19 +62,29 @@ export async function getE2EStorage(
 
 /**
  * Waits for injectionStatus to be set in local storage by the content script.
+ * Uses a single page instance for the entire polling loop to reduce overhead.
  */
 export async function waitForInjectionStatus(
   context: BrowserContext,
   extensionId: string,
   timeoutMs: number = 20_000
 ): Promise<string> {
+  const page = await context.newPage();
+  await page.goto(`chrome-extension://${extensionId}/popup.html`);
+
   const startTime = Date.now();
+  let result = '';
   while (Date.now() - startTime < timeoutMs) {
-    const data = await getE2EStorage(context, extensionId, 'local');
+    const data = await page.evaluate(async () => {
+      return await chrome.storage.local.get('injectionStatus');
+    });
     if (data?.injectionStatus) {
-      return data.injectionStatus;
+      result = data.injectionStatus;
+      break;
     }
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    await page.waitForTimeout(1000);
   }
-  return '';
+
+  await page.close();
+  return result;
 }

@@ -22,7 +22,10 @@ vi.mock('../../src/popup/search', () => ({
 vi.mock('../../src/popup/ui-state', () => ({
   showErrorState: vi.fn(),
   updateEmptyState: vi.fn(),
-  showStorageWarning: vi.fn()
+  showStorageWarning: vi.fn(),
+  setPopupTheme: vi.fn(),
+  updateFavoritesBadge: vi.fn(),
+  setupClearSearchButton: vi.fn()
 }));
 
 vi.mock('../../src/popup/service-list-renderer', () => ({

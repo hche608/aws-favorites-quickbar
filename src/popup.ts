@@ -18,30 +18,23 @@ import {
   saveVisualMode
 } from './popup/storage';
 import { searchServices } from './popup/search';
-import { showErrorState, updateEmptyState, showStorageWarning } from './popup/ui-state';
+import {
+  showErrorState,
+  updateEmptyState,
+  showStorageWarning,
+  setPopupTheme,
+  updateFavoritesBadge,
+  setupClearSearchButton
+} from './popup/ui-state';
 import { renderServiceList, isServiceSelected } from './popup/service-list-renderer';
 import { createServiceClickHandler } from './popup/service-click-handler';
 import { tabs, storage } from './browser-api';
 import { Service, VisualMode, STORAGE_DEFAULTS } from './types';
 
-/**
- * All available services loaded from cache
- */
 let allServices: Service[] = [];
-
-/**
- * Current user-selected favorite service IDs
- */
 let currentFavorites: string[] = [];
-
-/**
- * Services filtered by current search query
- */
 let filteredServices: Service[] = [];
 
-/**
- * DOM element references
- */
 let serviceListElement: HTMLElement;
 let searchInputElement: HTMLInputElement;
 let emptyStateElement: HTMLElement;
@@ -50,15 +43,11 @@ let retryButtonElement: HTMLElement;
 let maxServicesInputElement: HTMLInputElement;
 let visualModeSelectElement: HTMLSelectElement;
 let pinningNoteElement: HTMLElement;
+let favoritesBadgeElement: HTMLElement | null;
+let clearSearchBtnElement: HTMLElement | null;
 
 /**
  * Initializes the popup UI
- *
- * This function:
- * 1. Gets references to DOM elements
- * 2. Loads settings (maxServices, visualMode)
- * 3. Sets up event listeners
- * 4. Loads and renders the service list
  */
 async function initializePopup(): Promise<void> {
   serviceListElement = document.getElementById('serviceList')!;
@@ -69,17 +58,26 @@ async function initializePopup(): Promise<void> {
   maxServicesInputElement = document.getElementById('maxServicesInput') as HTMLInputElement;
   visualModeSelectElement = document.getElementById('visualModeSelect') as HTMLSelectElement;
   pinningNoteElement = document.getElementById('pinningNote')!;
+  favoritesBadgeElement = document.getElementById('favoritesBadge');
+  clearSearchBtnElement = document.getElementById('clearSearchBtn');
+
+  setupClearSearchButton(searchInputElement, clearSearchBtnElement, () => {
+    filteredServices = allServices;
+    renderServices();
+  });
 
   await loadSettingsIntoUI();
 
-  // Initialize service click handler
   handleServiceClick = createServiceClickHandler(
     (serviceId: string) => isServiceSelected(serviceId, currentFavorites),
     () => currentFavorites,
     (favorites: string[]) => {
       currentFavorites = favorites;
     },
-    () => renderServices()
+    () => {
+      renderServices();
+      notifyContentScripts();
+    }
   );
 
   setupEventListeners();
@@ -107,12 +105,11 @@ async function loadSettingsIntoUI(): Promise<void> {
   if (visualModeSelectElement) {
     visualModeSelectElement.value = visualMode;
   }
+  setPopupTheme(visualMode);
 }
 
 /**
  * Saves the max services setting to storage and notifies content scripts
- *
- * @param value - The maximum number of services to display
  */
 async function saveMaxServicesSetting(value: number): Promise<void> {
   await saveMaxServices(value);
@@ -121,10 +118,9 @@ async function saveMaxServicesSetting(value: number): Promise<void> {
 
 /**
  * Saves the visual mode setting to storage and notifies content scripts
- *
- * @param mode - The visual mode to apply ('light' or 'dark')
  */
 async function saveVisualModeSetting(mode: VisualMode): Promise<void> {
+  setPopupTheme(mode);
   await saveVisualMode(mode);
   await notifyContentScripts();
 }
@@ -155,6 +151,7 @@ function setupEventListeners(): void {
       const value = parseInt(target.value, 10);
       if (value >= 1 && value <= 50) {
         saveMaxServicesSetting(value);
+        updateFavoritesBadge(favoritesBadgeElement, currentFavorites.length, value);
       }
     });
   }
@@ -245,6 +242,8 @@ async function updatePinningNote(): Promise<void> {
  */
 function renderServices(): void {
   updatePinningNote();
+  const maxLimit = parseInt(maxServicesInputElement?.value || '10', 10);
+  updateFavoritesBadge(favoritesBadgeElement, currentFavorites.length, maxLimit);
   renderServiceList(
     serviceListElement,
     filteredServices,

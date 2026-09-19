@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,41 +8,74 @@
 </head>
 <body>
   <div class="container">
-    <header>
-      <h1>AWS Favorites</h1>
-      <p class="subtitle">Configure your favorite AWS services</p>
+    <header class="app-header">
+      <div class="header-branding">
+        <div class="header-icon-box">
+          <svg class="header-icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+          </svg>
+        </div>
+        <div class="header-title-group">
+          <h1>AWS Favorites</h1>
+          <p class="subtitle">Quickbar Management</p>
+        </div>
+      </div>
+      <div class="header-badge-wrapper">
+        <span id="favoritesBadge" class="favorites-badge" title="Active favorites / quickbar limit">0 / 10</span>
+      </div>
     </header>
 
     <div class="search-container">
-      <input 
-        type="text" 
-        id="searchInput" 
-        placeholder="Search services..." 
-        autocomplete="off"
-      >
+      <div class="search-input-wrapper">
+        <svg class="search-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input 
+          type="text" 
+          id="searchInput" 
+          placeholder="Search AWS services by name or ID..." 
+          autocomplete="off"
+          spellcheck="false"
+        >
+        <button type="button" id="clearSearchBtn" class="clear-search-btn" title="Clear search" style="display: none;">
+          ✕
+        </button>
+      </div>
     </div>
 
     <div id="pinningNote" class="info-banner" style="display: none;">
-      <strong>Note:</strong> You must pin at least one service manually in the AWS Console for the quickbar injection to work.
+      <div class="info-banner-icon">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+        </svg>
+      </div>
+      <div class="info-banner-content">
+        <strong>Note:</strong> You must pin at least one service manually in the AWS Console for the quickbar injection to work.
+      </div>
     </div>
 
-    <div class="settings-container">
-      <label for="maxServicesInput">Max services in quickbar:</label>
-      <input 
-        type="number" 
-        id="maxServicesInput" 
-        min="1" 
-        max="50" 
-        value="10"
-      >
-    </div>
+    <div class="settings-toolbar">
+      <div class="settings-container">
+        <label for="maxServicesInput">Quickbar Limit:</label>
+        <div class="input-stepper">
+          <input 
+            type="number" 
+            id="maxServicesInput" 
+            min="1" 
+            max="50" 
+            value="10"
+          >
+        </div>
+      </div>
 
-    <div class="settings-container">
-      <label for="visualModeSelect">Visual mode:</label>
-      <select id="visualModeSelect">
-        <option value="light">Light</option>
-        <option value="dark" selected>Dark</option>
-      </select>
+      <div class="settings-container">
+        <label for="visualModeSelect">Theme:</label>
+        <select id="visualModeSelect">
+          <option value="light">Light</option>
+          <option value="dark" selected>Dark</option>
+        </select>
+      </div>
     </div>
 
     <div id="serviceList" class="service-list">
@@ -50,13 +83,26 @@
     </div>
 
     <div id="emptyState" class="empty-state" style="display: none;">
-      <p>No favorites pinned yet.</p>
-      <p class="hint">Search and click services above to pin them to your favorites.</p>
+      <div class="state-icon">
+        <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.5">
+          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+        </svg>
+      </div>
+      <p class="state-title">No favorites pinned yet</p>
+      <p class="hint">Search and check services to pin them to your cross-account AWS quickbar.</p>
     </div>
 
     <div id="errorState" class="error-state" style="display: none;">
-      <p>Failed to load services.</p>
-      <button id="retryButton">Retry</button>
+      <div class="state-icon error-icon">
+        <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+      </div>
+      <p class="state-title">Failed to load services</p>
+      <p class="error-message hint">Visit the AWS Console homepage to populate services.</p>
+      <button id="retryButton">Retry Loading</button>
     </div>
   </div>
 

@@ -80,3 +80,61 @@ export function showStorageWarning(message: string): void {
     }
   }, 5000);
 }
+
+/**
+ * Sets the active popup UI theme (light or dark)
+ * @param mode - The visual mode ('light' | 'dark')
+ */
+export function setPopupTheme(mode: 'light' | 'dark'): void {
+  document.documentElement.setAttribute('data-theme', mode);
+}
+
+/**
+ * Updates the favorites count badge in the header
+ * @param badgeElement - The badge DOM element
+ * @param count - Current number of pinned favorites
+ * @param max - Maximum allowed quickbar services
+ */
+export function updateFavoritesBadge(
+  badgeElement: HTMLElement | null,
+  count: number,
+  max: number
+): void {
+  if (!badgeElement) {
+    return;
+  }
+  badgeElement.textContent = `${count} / ${max}`;
+  if (count >= max) {
+    badgeElement.classList.add('limit-reached');
+  } else {
+    badgeElement.classList.remove('limit-reached');
+  }
+}
+
+/**
+ * Sets up a clear button for the search input
+ * @param input - The search input element
+ * @param clearBtn - The clear button element
+ * @param onClear - Callback invoked after input is cleared
+ */
+export function setupClearSearchButton(
+  input: HTMLInputElement,
+  clearBtn: HTMLElement | null,
+  onClear: () => void
+): void {
+  if (!clearBtn) {
+    return;
+  }
+
+  const updateVisibility = () => {
+    clearBtn.style.display = input.value.length > 0 ? 'flex' : 'none';
+  };
+
+  input.addEventListener('input', updateVisibility);
+  clearBtn.addEventListener('click', () => {
+    input.value = '';
+    updateVisibility();
+    input.focus();
+    onClear();
+  });
+}

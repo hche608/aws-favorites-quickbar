@@ -3,7 +3,18 @@ import { ensureAwsLoggedIn } from './helpers/auth';
 import * as fs from 'fs';
 import * as path from 'path';
 
-test('scrape all services with 100% icon coverage from AWS ConsoleNavService', async ({ page }) => {
+/**
+ * DATA COLLECTION TOOL — Not a standard test.
+ *
+ * Scrapes the full AWS service catalog from a live Console session.
+ * Run manually when you need to refresh tests/e2e/fixtures/all-services.json:
+ *   npx playwright test scrape-all-services --headed
+ *
+ * Skipped by default in automated runs because it requires a live AWS login.
+ */
+test.skip('scrape all services with 100% icon coverage from AWS ConsoleNavService', async ({
+  page
+}) => {
   await ensureAwsLoggedIn(page);
   await page.waitForTimeout(2000);
 
