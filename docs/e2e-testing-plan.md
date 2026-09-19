@@ -459,3 +459,4 @@ playwright-report/
    - 新增 [coverage-gaps.spec.ts](file:///Users/hche608/Documents/Personal/aws-favorites-quickbar/tests/e2e/coverage-gaps.spec.ts) 专项补充：首次启动 (Gap 1)、Rule 4 嵌套服务 ID (Gap 2)、Rule 3 no-native-pin 告警联动 (Gap 3)、updateQuickbar 热更新消息通道 (Gap 4)、Storage 生命周期持久化 (Gap 5)。
    - 随机测试引入确定性 Seed PRNG (mulberry32) 确保 100% 可重复回放。
    - 现已达成全套件 14 个测试文件、34 个端到端测试用例全面覆盖。
+   - 详尽缺陷复盘请参见 [E2E 测试缺陷发现与排查报告 (docs/e2e-bug-findings-report.md)](./e2e-bug-findings-report.md)。

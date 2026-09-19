@@ -412,6 +412,8 @@ Each property-based test runs 100+ iterations with randomly generated inputs to 
 
 **Integration Tests**: Test complete workflows from initialization to final DOM state, simulating real user interactions with typed test data.
 
+**End-to-End (E2E) Tests**: Powered by Playwright to validate real-browser execution against live AWS Console sessions and extension popups. See [E2E Testing Plan](docs/e2e-testing-plan.md) and [E2E Bug Findings Report](docs/e2e-bug-findings-report.md) for architecture, test matrix, and defect retrospectives.
+
 ### Writing Tests
 
 When adding new features:
