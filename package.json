@@ -1,6 +1,6 @@
 {
   "name": "aws-favorites-quickbar",
-  "version": "1.4.1",
+  "version": "1.4.2-rc.1",
   "description": "Chrome extension to populate AWS Console favorites bar",
   "author": "8its.pixel@gmail.com",
   "scripts": {
