@@ -30,7 +30,8 @@
     "check:unused": "npx ts-prune",
     "check:circular": "npx madge --circular --extensions ts src/",
     "check:all": "npm run type-check && npm run lint && npm run format:check && npm test",
-    "security-check": "tsx scripts/security-check.ts"
+    "security-check": "tsx scripts/security-check.ts",
+    "version:bump": "tsx scripts/bump-version.ts"
   },
   "devDependencies": {
     "@playwright/test": "^1.63.0",
