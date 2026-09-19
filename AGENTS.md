@@ -80,7 +80,7 @@ Every modification to this repository **must** adhere to these 6 principles:
 
 ```
 aws-favorites-quickbar/
-├── .kiro/specs/                  # Original design and requirements specifications
+├── docs/                         # Architecture design, testing specs, requirements, and E2E reports
 ├── changelogs/                   # Version release notes (e.g., v1.3.0.md, v1.4.0.md, v1.4.1.md)
 ├── scripts/
 │   ├── bundle.ts                 # esbuild bundler script (supports dev and prod)

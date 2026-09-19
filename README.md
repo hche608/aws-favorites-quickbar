@@ -305,7 +305,7 @@ These tests verify:
 
 - **[AGENTS.md](AGENTS.md)** — Architectural invariants, non-negotiable rules, and reference guide for AI coding assistants and developers.
 - **[changelogs/](changelogs/)** — Version release history and release notes.
-- **`.kiro/specs/`** — Original requirements, design documents, and correctness properties.
+- **[docs/](docs/)** — Architecture design ([design.md](docs/design.md)), testing specifications ([testing.md](docs/testing.md)), product requirements ([requirements.md](docs/requirements.md)), E2E plan ([e2e-testing-plan.md](docs/e2e-testing-plan.md)), and defect retrospectives ([e2e-bug-findings-report.md](docs/e2e-bug-findings-report.md)).
 
 ## Testing
 
@@ -645,24 +645,15 @@ When releasing updates:
 
 ## Project History
 
-### Spec-Driven Development
+### Spec-Driven Documentation
 
-This project follows a spec-driven development approach with detailed specifications in `.kiro/specs/`:
+This project maintains thorough specifications and technical architecture under [`docs/`](docs/):
 
-- **aws-favorites-quickbar/** - Main feature specification
-  - 17 requirements covering TypeScript and Firefox support
-  - Comprehensive design with architecture and components
-  - 20 implementation phases (all complete)
-
-- **test-coverage/** - Testing specification
-  - 8 test-related requirements
-  - Test strategy and architecture
-  - Property-based testing approach
-
-All specifications include:
-- Requirements with acceptance criteria
-- Design documents with correctness properties
-- Implementation tasks with requirement traceability
+- **[docs/design.md](docs/design.md)** — Core system architecture, non-negotiable rules, dual storage model, and component design.
+- **[docs/testing.md](docs/testing.md)** — Comprehensive multi-tier test pyramid, Vitest unit & property tests, and Playwright E2E suites.
+- **[docs/requirements.md](docs/requirements.md)** — Product requirements and acceptance criteria for cross-account persistence, theme synchronization, and quickbar injection.
+- **[docs/e2e-testing-plan.md](docs/e2e-testing-plan.md)** — Detailed E2E test plan, execution matrix, and Phase 1–5 delivery outcomes.
+- **[docs/e2e-bug-findings-report.md](docs/e2e-bug-findings-report.md)** — Deep-dive postmortem on 9 critical bugs identified and resolved during E2E automation.
 
 ## Contributing
 
