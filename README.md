@@ -305,7 +305,7 @@ These tests verify:
 
 - **[AGENTS.md](AGENTS.md)** — Architectural invariants, non-negotiable rules, and reference guide for AI coding assistants and developers.
 - **[changelogs/](changelogs/)** — Version release history and release notes.
-- **[docs/](docs/)** — Architecture design ([design.md](docs/design.md)), testing specifications ([testing.md](docs/testing.md)), product requirements ([requirements.md](docs/requirements.md)), E2E plan ([e2e-testing-plan.md](docs/e2e-testing-plan.md)), and defect retrospectives ([e2e-bug-findings-report.md](docs/e2e-bug-findings-report.md)).
+- **[docs/](docs/)** — Numbered documentation suite: [01-requirements.md](docs/01-requirements.md), [02-architecture.md](docs/02-architecture.md), [03-testing.md](docs/03-testing.md), [04-e2e-spec.md](docs/04-e2e-spec.md), and [05-postmortem.md](docs/05-postmortem.md).
 
 ## Testing
 
@@ -412,7 +412,7 @@ Each property-based test runs 100+ iterations with randomly generated inputs to 
 
 **Integration Tests**: Test complete workflows from initialization to final DOM state, simulating real user interactions with typed test data.
 
-**End-to-End (E2E) Tests**: Powered by Playwright to validate real-browser execution against live AWS Console sessions and extension popups. See [E2E Testing Plan](docs/e2e-testing-plan.md) and [E2E Bug Findings Report](docs/e2e-bug-findings-report.md) for architecture, test matrix, and defect retrospectives.
+**End-to-End (E2E) Tests**: Powered by Playwright to validate real-browser execution against live AWS Console sessions and extension popups. See [04-e2e-spec.md](docs/04-e2e-spec.md) and [05-postmortem.md](docs/05-postmortem.md) for architecture, test matrix, and defect retrospectives.
 
 ### Writing Tests
 
@@ -649,11 +649,11 @@ When releasing updates:
 
 This project maintains thorough specifications and technical architecture under [`docs/`](docs/):
 
-- **[docs/design.md](docs/design.md)** — Core system architecture, non-negotiable rules, dual storage model, and component design.
-- **[docs/testing.md](docs/testing.md)** — Comprehensive multi-tier test pyramid, Vitest unit & property tests, and Playwright E2E suites.
-- **[docs/requirements.md](docs/requirements.md)** — Product requirements and acceptance criteria for cross-account persistence, theme synchronization, and quickbar injection.
-- **[docs/e2e-testing-plan.md](docs/e2e-testing-plan.md)** — Detailed E2E test plan, execution matrix, and Phase 1–5 delivery outcomes.
-- **[docs/e2e-bug-findings-report.md](docs/e2e-bug-findings-report.md)** — Deep-dive postmortem on 9 critical bugs identified and resolved during E2E automation.
+- **[docs/01-requirements.md](docs/01-requirements.md)** — Product requirements and acceptance criteria for cross-account persistence, theme synchronization, and quickbar injection.
+- **[docs/02-architecture.md](docs/02-architecture.md)** — Core system architecture, non-negotiable rules, dual storage model, and component design.
+- **[docs/03-testing.md](docs/03-testing.md)** — Comprehensive multi-tier test pyramid, Vitest unit & property tests, and Playwright E2E suites.
+- **[docs/04-e2e-spec.md](docs/04-e2e-spec.md)** — Detailed E2E test specification, execution matrix, and Phase 1–5 delivery outcomes.
+- **[docs/05-postmortem.md](docs/05-postmortem.md)** — Deep-dive postmortem on 9 critical bugs identified and resolved during E2E automation.
 
 ## Contributing
 
