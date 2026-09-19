@@ -1,0 +1,133 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g. 1.4.2 or v1.4.2)'
+        required: true
+        type: string
+      prerelease:
+        description: 'Mark as a pre-release'
+        required: false
+        default: false
+        type: boolean
+      draft:
+        description: 'Create as draft release'
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build & Publish Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Parse & Validate Version
+        id: version
+        run: |
+          RAW_VERSION="${{ inputs.version }}"
+          CLEAN_VERSION="${RAW_VERSION#v}"
+          TAG="v${CLEAN_VERSION}"
+
+          if [[ ! "$CLEAN_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9.]+)?$ ]]; then
+            echo "::error::Invalid version format: $RAW_VERSION. Must follow semver (e.g. 1.4.2 or v1.4.2)."
+            exit 1
+          fi
+
+          if git rev-parse "$TAG" >/dev/null 2>&1 || git ls-remote --tags origin "refs/tags/$TAG" | grep -q "$TAG"; then
+            echo "::error::Git tag $TAG already exists on local or remote!"
+            exit 1
+          fi
+
+          echo "clean_version=${CLEAN_VERSION}" >> "$GITHUB_OUTPUT"
+          echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
+
+      - name: Bump Version in Files
+        run: |
+          npm run version:bump -- ${{ steps.version.outputs.clean_version }}
+
+      - name: Run Quality Gate & Tests
+        run: |
+          npm run check:all
+
+      - name: Commit & Tag
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package.json package-lock.json manifest.json manifest.firefox.json
+          git commit -m "chore(release): release ${{ steps.version.outputs.tag }}"
+          git tag -a "${{ steps.version.outputs.tag }}" -m "Release ${{ steps.version.outputs.tag }}"
+          git push origin HEAD:${{ github.ref_name }}
+          git push origin "${{ steps.version.outputs.tag }}"
+
+      - name: Build Extension Packages
+        run: |
+          make build-all
+
+      - name: Prepare Release Artifacts & Checksums
+        run: |
+          VERSION="${{ steps.version.outputs.clean_version }}"
+          cp aws-favorites-quickbar-chrome.zip "aws-favorites-quickbar-chrome-v${VERSION}.zip"
+          cp aws-favorites-quickbar-firefox.zip "aws-favorites-quickbar-firefox-v${VERSION}.zip"
+          sha256sum aws-favorites-quickbar-*.zip > SHA256SUMS.txt
+
+      - name: Check Changelog
+        id: notes
+        run: |
+          TAG="${{ steps.version.outputs.tag }}"
+          CHANGELOG_FILE="changelogs/${TAG}.md"
+          if [ -f "$CHANGELOG_FILE" ]; then
+            echo "Found changelog file at $CHANGELOG_FILE"
+            echo "changelog_path=${CHANGELOG_FILE}" >> "$GITHUB_OUTPUT"
+          else
+            echo "No changelog file found at $CHANGELOG_FILE. GitHub will generate release notes."
+            echo "changelog_path=" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Publish GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ steps.version.outputs.tag }}
+          CHANGELOG_PATH: ${{ steps.notes.outputs.changelog_path }}
+          IS_PRERELEASE: ${{ inputs.prerelease }}
+          IS_DRAFT: ${{ inputs.draft }}
+        run: |
+          ARGS=("$TAG" --title "Release $TAG" --generate-notes)
+
+          if [ -n "$CHANGELOG_PATH" ] && [ -f "$CHANGELOG_PATH" ]; then
+            ARGS+=(--notes-file "$CHANGELOG_PATH")
+          fi
+
+          if [ "$IS_PRERELEASE" = "true" ]; then
+            ARGS+=(--prerelease)
+          fi
+
+          if [ "$IS_DRAFT" = "true" ]; then
+            ARGS+=(--draft)
+          fi
+
+          gh release create "${ARGS[@]}" \
+            aws-favorites-quickbar-chrome.zip \
+            aws-favorites-quickbar-firefox.zip \
+            "aws-favorites-quickbar-chrome-v${{ steps.version.outputs.clean_version }}.zip" \
+            "aws-favorites-quickbar-firefox-v${{ steps.version.outputs.clean_version }}.zip" \
+            SHA256SUMS.txt

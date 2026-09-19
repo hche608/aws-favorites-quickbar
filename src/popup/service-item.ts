@@ -6,6 +6,7 @@
  */
 
 import { Service, PLACEHOLDER_ICON_URL } from '../types';
+import { resolveServiceIcon } from '../services/service-icons';
 
 /**
  * Event handlers for service item interactions
@@ -84,8 +85,9 @@ export function createServiceItem(
   iconImg.style.marginLeft = '8px';
   iconImg.style.objectFit = 'contain';
 
-  if (service.iconUrl) {
-    iconImg.src = service.iconUrl;
+  const iconUrl = resolveServiceIcon(service.id, service.iconUrl);
+  if (iconUrl) {
+    iconImg.src = iconUrl;
   } else {
     iconImg.src = PLACEHOLDER_ICON_URL;
   }
@@ -100,9 +102,23 @@ export function createServiceItem(
   nameSpan.className = 'service-name';
   nameSpan.textContent = service.name;
 
+  const idBadge = document.createElement('span');
+  idBadge.className = 'service-id-badge';
+  idBadge.textContent = service.id;
+
   item.appendChild(checkbox);
   item.appendChild(iconImg);
   item.appendChild(nameSpan);
+  item.appendChild(idBadge);
+
+  if (isDraggable) {
+    const dragGrip = document.createElement('span');
+    dragGrip.className = 'drag-grip';
+    dragGrip.title = 'Drag to reorder';
+    dragGrip.setAttribute('aria-label', 'Drag to reorder');
+    dragGrip.textContent = '⋮⋮';
+    item.appendChild(dragGrip);
+  }
 
   item.addEventListener('click', (e) => handlers.onClick(e, service.id));
   checkbox.addEventListener('click', (e) => {

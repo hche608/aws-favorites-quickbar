@@ -16,6 +16,11 @@
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "test:verbose": "vitest run --reporter=verbose",
+    "test:e2e": "make build-chrome && playwright test",
+    "test:e2e:login": "make build-chrome && tsx scripts/e2e-login.ts",
+    "test:e2e:ui": "make build-chrome && playwright test --ui",
+    "preview:firefox": "make build-firefox && open -a Firefox \"file://$(pwd)/dist/firefox/popup.html\"",
+    "run:firefox": "make build-firefox && npx web-ext run --source-dir dist/firefox",
     "lint": "eslint src/**/*.ts",
     "lint:fix": "eslint src/**/*.ts --fix",
     "format": "prettier --write \"src/**/*.ts\" \"tests/**/*.ts\" \"scripts/**/*.ts\" \"*.mjs\"",
@@ -25,9 +30,11 @@
     "check:unused": "npx ts-prune",
     "check:circular": "npx madge --circular --extensions ts src/",
     "check:all": "npm run type-check && npm run lint && npm run format:check && npm test",
-    "security-check": "tsx scripts/security-check.ts"
+    "security-check": "tsx scripts/security-check.ts",
+    "version:bump": "tsx scripts/bump-version.ts"
   },
   "devDependencies": {
+    "@playwright/test": "^1.63.0",
     "@types/chrome": "^0.3.0",
     "@types/firefox-webext-browser": "^143.0.0",
     "@types/node": "^26.6.1",

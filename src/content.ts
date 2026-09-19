@@ -34,6 +34,7 @@ import { injectServices } from './quickbar/injector';
 import { runtime, storage as browserStorage } from './browser-api';
 import { Service } from './types';
 import { loadSettings, applyVisualMode } from './settings';
+import { resolveServiceIcon } from './services/service-icons';
 
 /**
  * CSS selectors for the AWS Console quickbar element.
@@ -78,7 +79,7 @@ function buildUserFavorites(
     return {
       id: id,
       name: displayName,
-      iconUrl: null,
+      iconUrl: resolveServiceIcon(id, null),
       consoleUrl: `https://${region}.console.aws.amazon.com/${id}/home?region=${region}`,
       source: 'user' as const
     };

@@ -17,8 +17,11 @@ npm run build:chrome
 # Build for Firefox
 npm run build:firefox
 
-# Run tests
+# Run unit & integration tests
 npm test
+
+# Run E2E tests (Playwright with persistent Chrome session)
+npm run test:e2e
 
 # Run all security and quality checks
 npm run security-check
@@ -34,7 +37,7 @@ npm run security-check
 - 🎨 Drag-and-drop reordering of favorites
 - 💾 Persistent storage across browser sessions
 - 🔒 100% TypeScript with strict type safety
-- ✅ Comprehensive test coverage (377 tests, 79% coverage)
+- ✅ Comprehensive test coverage (441 unit/integration tests + 34 E2E tests, 94%+ coverage)
 - 🛡️ Zero security vulnerabilities
 - 🌐 Cross-browser compatible (Chrome & Firefox)
 
@@ -90,13 +93,15 @@ aws-favorites-quickbar/
 │   ├── browser-storage.ts # Browser storage utilities
 │   ├── content.ts        # Content script for DOM manipulation
 │   ├── popup.ts          # Popup UI logic
+│   ├── settings.ts       # Settings & visualMode theme synchronization
 │   ├── utils/            # Utility modules (DOM, storage, region)
-│   ├── services/         # Service modules (icon extraction, parsing, merging)
+│   ├── services/         # Service modules (icon extraction, 220-service CDN icons, parsing, merging)
 │   ├── quickbar/         # Quickbar modules (CSS extraction, DOM building, injection)
 │   └── popup/            # Popup modules (storage, search, UI state, drag-drop)
 ├── tests/                # Test suite
-│   ├── unit/             # Unit tests
-│   ├── integration/      # Integration tests
+│   ├── unit/             # Unit tests (Vitest)
+│   ├── integration/      # Integration workflow tests (Vitest)
+│   ├── e2e/              # Browser E2E & visual regression tests (Playwright, 14 specs, 34 tests)
 │   └── helpers/          # Test utilities and fixtures
 ├── dist/                 # Compiled JavaScript output (generated)
 │   ├── chrome/           # Chrome build output
@@ -300,7 +305,7 @@ These tests verify:
 
 - **[AGENTS.md](AGENTS.md)** — Architectural invariants, non-negotiable rules, and reference guide for AI coding assistants and developers.
 - **[changelogs/](changelogs/)** — Version release history and release notes.
-- **`.kiro/specs/`** — Original requirements, design documents, and correctness properties.
+- **[docs/](docs/)** — Numbered documentation suite: [01-requirements.md](docs/01-requirements.md), [02-architecture.md](docs/02-architecture.md), [03-testing.md](docs/03-testing.md), [04-e2e-spec.md](docs/04-e2e-spec.md), and [05-postmortem.md](docs/05-postmortem.md).
 
 ## Testing
 
@@ -349,7 +354,7 @@ Coverage reports are generated in the `coverage/` directory. Open `coverage/inde
 tests/
 ├── unit/              # Unit tests for individual modules (TypeScript)
 │   ├── utils/         # DOM, storage, region utilities
-│   ├── services/      # Icon extraction, validation, parsing, merging
+│   ├── services/      # Icon extraction, validation, 220 CDN icons catalog, parsing, merging
 │   ├── quickbar/      # CSS extraction, DOM building, injection
 │   └── popup/         # Popup storage, search, UI state, drag-drop
 ├── integration/       # End-to-end workflow tests (TypeScript)
@@ -360,6 +365,22 @@ tests/
 │   ├── service-pinning-toggle.test.ts
 │   ├── drag-drop-persistence.test.ts
 │   └── error-scenarios.test.ts
+├── e2e/               # Browser E2E & visual regression tests (Playwright)
+│   ├── helpers/       # AWS auth session & storage helper utilities
+│   ├── fixtures.ts    # Persistent Chrome context fixture
+│   ├── auth-check.spec.ts               # Session & extension load check
+│   ├── quickbar-mount.spec.ts           # Navbar injection verification
+│   ├── popup.spec.ts                    # UI click, search & pin interaction
+│   ├── popup-visual.spec.ts             # Dark/Light visual regression
+│   ├── cross-tab-sync.spec.ts           # Real-time multi-tab sync
+│   ├── theme.spec.ts                    # VisualMode theme toggle simulation
+│   ├── edge-cases.spec.ts               # Boundaries & error states
+│   ├── recently-visited-navigation.spec.ts # Multi-service navigation
+│   ├── quickbar-random.spec.ts          # Dynamic random subset stress test
+│   ├── quickbar-pool-random.spec.ts     # 220-service pool seeded stress test
+│   ├── coverage-gaps.spec.ts            # First-launch, Rule 4 nested IDs, linkage
+│   ├── firefox.spec.ts                  # Firefox AMO packaging verification
+│   └── firefox-visual.spec.ts           # Firefox visual artifact inspection
 ├── helpers/           # Test utilities and fixtures (TypeScript)
 │   ├── mocks.ts       # Chrome API and DOM mocks with types
 │   ├── fixtures.ts    # Sample data generators with types
@@ -390,6 +411,8 @@ tests/
 Each property-based test runs 100+ iterations with randomly generated inputs to ensure correctness across the entire input space.
 
 **Integration Tests**: Test complete workflows from initialization to final DOM state, simulating real user interactions with typed test data.
+
+**End-to-End (E2E) Tests**: Powered by Playwright to validate real-browser execution against live AWS Console sessions and extension popups. See [04-e2e-spec.md](docs/04-e2e-spec.md) and [05-postmortem.md](docs/05-postmortem.md) for architecture, test matrix, and defect retrospectives.
 
 ### Writing Tests
 
@@ -449,10 +472,10 @@ npm run check:all           # Type check + lint + format + tests
 
 ✅ **All checks passing:**
 - **Type Safety:** 0 errors, strict mode enabled
-- **Code Quality:** 0 errors, 13 warnings (non-critical)
-- **Security:** 0 vulnerabilities in 493 packages
+- **Code Quality:** 0 errors, 0 warnings
+- **Security:** 0 vulnerabilities
 - **Circular Dependencies:** 0 found
-- **Tests:** 377 passing, 0 failures
+- **Tests:** 441 unit & integration tests passing (34 files), 0 failures; 34 E2E tests passing
 - **Code Formatting:** All files properly formatted
 
 **Comprehensive Check:**
@@ -622,24 +645,15 @@ When releasing updates:
 
 ## Project History
 
-### Spec-Driven Development
+### Spec-Driven Documentation
 
-This project follows a spec-driven development approach with detailed specifications in `.kiro/specs/`:
+This project maintains thorough specifications and technical architecture under [`docs/`](docs/):
 
-- **aws-favorites-quickbar/** - Main feature specification
-  - 17 requirements covering TypeScript and Firefox support
-  - Comprehensive design with architecture and components
-  - 20 implementation phases (all complete)
-
-- **test-coverage/** - Testing specification
-  - 8 test-related requirements
-  - Test strategy and architecture
-  - Property-based testing approach
-
-All specifications include:
-- Requirements with acceptance criteria
-- Design documents with correctness properties
-- Implementation tasks with requirement traceability
+- **[docs/01-requirements.md](docs/01-requirements.md)** — Product requirements and acceptance criteria for cross-account persistence, theme synchronization, and quickbar injection.
+- **[docs/02-architecture.md](docs/02-architecture.md)** — Core system architecture, non-negotiable rules, dual storage model, and component design.
+- **[docs/03-testing.md](docs/03-testing.md)** — Comprehensive multi-tier test pyramid, Vitest unit & property tests, and Playwright E2E suites.
+- **[docs/04-e2e-spec.md](docs/04-e2e-spec.md)** — Detailed E2E test specification, execution matrix, and Phase 1–5 delivery outcomes.
+- **[docs/05-postmortem.md](docs/05-postmortem.md)** — Deep-dive postmortem on 9 critical bugs identified and resolved during E2E automation.
 
 ## Contributing
 

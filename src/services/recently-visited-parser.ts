@@ -5,6 +5,7 @@
  */
 
 import { Service } from '../types';
+import { resolveServiceIcon } from './service-icons';
 
 interface ServiceWithSource extends Service {
   source?: 'user' | 'recent';
@@ -216,7 +217,7 @@ function extractServiceFromLink(
     return {
       id: serviceId,
       name: name,
-      iconUrl: iconUrl || null,
+      iconUrl: resolveServiceIcon(serviceId, iconUrl),
       consoleUrl: url,
       source: 'recent'
     };

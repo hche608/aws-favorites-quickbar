@@ -38,27 +38,6 @@ jobs:
           name: coverage-report
           path: coverage/
 
-  build:
-    name: Build Extensions
-    runs-on: ubuntu-latest
-    needs: [lint, test]
-    steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-node@v7
-        with:
-          node-version: 24
-          cache: npm
-      - run: npm ci
-      - run: make build-all
-      - uses: actions/upload-artifact@v7
-        with:
-          name: dist-chrome
-          path: dist/chrome/
-      - uses: actions/upload-artifact@v7
-        with:
-          name: dist-firefox
-          path: dist/firefox/
-
   security:
     name: Security Audit
     runs-on: ubuntu-latest
