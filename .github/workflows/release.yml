@@ -100,8 +100,8 @@ jobs:
       - name: Prepare Release Artifacts & Checksums
         run: |
           VERSION="${{ steps.version.outputs.clean_version }}"
-          cp aws-favorites-quickbar-chrome.zip "aws-favorites-quickbar-chrome-v${VERSION}.zip"
-          cp aws-favorites-quickbar-firefox.zip "aws-favorites-quickbar-firefox-v${VERSION}.zip"
+          mv aws-favorites-quickbar-chrome.zip "aws-favorites-quickbar-chrome-v${VERSION}.zip"
+          mv aws-favorites-quickbar-firefox.zip "aws-favorites-quickbar-firefox-v${VERSION}.zip"
           sha256sum aws-favorites-quickbar-*.zip > SHA256SUMS.txt
 
       - name: Check Changelog
@@ -140,8 +140,7 @@ jobs:
           fi
 
           gh release create "${ARGS[@]}" \
-            aws-favorites-quickbar-chrome.zip \
-            aws-favorites-quickbar-firefox.zip \
             "aws-favorites-quickbar-chrome-v${{ steps.version.outputs.clean_version }}.zip" \
             "aws-favorites-quickbar-firefox-v${{ steps.version.outputs.clean_version }}.zip" \
             SHA256SUMS.txt
+
