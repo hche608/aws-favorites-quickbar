@@ -20,8 +20,10 @@ import {
   waitForElement,
   isAWSConsolePage,
   isAWSConsoleHomepage,
-  location
+  location,
+  parseServiceIdFromUrl
 } from './utils/dom';
+
 import { saveServicesToStorage, loadServicesFromStorage } from './utils/storage';
 import { detectRegion } from './utils/region';
 import { extractIconUrlsFromConsole } from './services/icon-extractor';
@@ -145,11 +147,7 @@ async function init(): Promise<void> {
   } else {
     const cachedServices = loadServicesFromStorage();
     const pathname = typeof location.getPathname === 'function' ? location.getPathname() || '' : '';
-    const currentServiceMatch = pathname.match(/\/([^\/]+)\/home/);
-    const currentServiceId =
-      currentServiceMatch && currentServiceMatch[1].toLowerCase() !== 'console'
-        ? currentServiceMatch[1].toLowerCase()
-        : null;
+    const currentServiceId = parseServiceIdFromUrl(pathname);
 
     const cachedMap: Record<string, Service> = {};
     if (cachedServices !== undefined) {
@@ -170,13 +168,22 @@ async function init(): Promise<void> {
       currentServiceId &&
       !settings.favoriteIds.some((id) => id.toLowerCase() === currentServiceId)
     ) {
+      let homePath = `${currentServiceId}/home`;
+      if (currentServiceId === 'route53' || currentServiceId === 'connect') {
+        homePath = `${currentServiceId}/v2/home`;
+      } else if (currentServiceId === 'sns') {
+        homePath = `${currentServiceId}/v3/home`;
+      } else if (currentServiceId === 'cloudfront') {
+        homePath = `${currentServiceId}/v4/home`;
+      }
       const active: Service = cachedMap[currentServiceId] || {
         id: currentServiceId,
         name: formatServiceName(currentServiceId),
         iconUrl: resolveServiceIcon(currentServiceId, null),
-        consoleUrl: `https://${region}.console.aws.amazon.com/${currentServiceId}/home?region=${region}`,
+        consoleUrl: `https://${region}.console.aws.amazon.com/${homePath}?region=${region}`,
         source: 'recent'
       };
+
       recentServices = [
         active,
         ...recentServices.filter((s) => s.id.toLowerCase() !== currentServiceId)

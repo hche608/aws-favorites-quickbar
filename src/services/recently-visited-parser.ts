@@ -6,6 +6,8 @@
 
 import { Service } from '../types';
 import { resolveServiceIcon } from './service-icons';
+import { formatServiceName } from './service-catalog';
+import { parseServiceIdFromUrl } from '../utils/dom';
 
 interface ServiceWithSource extends Service {
   source?: 'user' | 'recent';
@@ -194,14 +196,13 @@ function extractServiceFromLink(
       url = `https://${window.location.hostname}${url}`;
     }
 
-    const urlObj = new URL(url);
-    const homeMatch = urlObj.pathname.match(/\/([^\/]+)\/home/);
-    if (!homeMatch) {
+    const serviceId = parseServiceIdFromUrl(url);
+    if (!serviceId) {
       return null;
     }
 
-    const serviceId = homeMatch[1];
-    const name = link.textContent?.trim() || serviceId;
+    const rawName = link.textContent?.trim();
+    const name = rawName && rawName.length > 0 ? rawName : formatServiceName(serviceId);
 
     if (!iconUrl) {
       const img =

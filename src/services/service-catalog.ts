@@ -77,12 +77,23 @@ export function getCatalogServices(): Service[] {
     return cachedCatalog;
   }
 
-  cachedCatalog = Object.entries(DEFAULT_ICON_MAP).map(([id, iconUrl]) => ({
-    id,
-    name: formatServiceName(id),
-    iconUrl,
-    consoleUrl: `https://console.aws.amazon.com/${id}/home`
-  }));
+  cachedCatalog = Object.entries(DEFAULT_ICON_MAP).map(([id, iconUrl]) => {
+    let homePath = `${id}/home`;
+    if (id === 'route53' || id === 'connect') {
+      homePath = `${id}/v2/home`;
+    } else if (id === 'sns') {
+      homePath = `${id}/v3/home`;
+    } else if (id === 'cloudfront') {
+      homePath = `${id}/v4/home`;
+    }
+
+    return {
+      id,
+      name: formatServiceName(id),
+      iconUrl,
+      consoleUrl: `https://console.aws.amazon.com/${homePath}`
+    };
+  });
 
   return cachedCatalog;
 }

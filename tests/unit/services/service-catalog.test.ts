@@ -45,6 +45,26 @@ describe('service-catalog', () => {
       const second = getCatalogServices();
       expect(first).toBe(second);
     });
+
+    it('should configure versioned console URLs for services like route53, connect, sns, and cloudfront', () => {
+      const services = getCatalogServices();
+      const route53 = services.find((s) => s.id === 'route53');
+      expect(route53).toBeDefined();
+      expect(route53?.name).toBe('Route 53');
+      expect(route53?.consoleUrl).toBe('https://console.aws.amazon.com/route53/v2/home');
+
+      const connect = services.find((s) => s.id === 'connect');
+      expect(connect).toBeDefined();
+      expect(connect?.consoleUrl).toBe('https://console.aws.amazon.com/connect/v2/home');
+
+      const sns = services.find((s) => s.id === 'sns');
+      expect(sns).toBeDefined();
+      expect(sns?.consoleUrl).toBe('https://console.aws.amazon.com/sns/v3/home');
+
+      const cloudfront = services.find((s) => s.id === 'cloudfront');
+      expect(cloudfront).toBeDefined();
+      expect(cloudfront?.consoleUrl).toBe('https://console.aws.amazon.com/cloudfront/v4/home');
+    });
   });
 
   describe('getUnifiedSearchPool', () => {

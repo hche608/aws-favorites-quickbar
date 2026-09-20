@@ -101,3 +101,39 @@ export function isAWSConsoleHomepage(): boolean {
   const pathname = location.getPathname();
   return pathname === '/' || pathname === '/console/home';
 }
+
+/**
+ * Extracts canonical AWS service ID from a console URL or pathname.
+ *
+ * Conforms to Rule 4 while properly handling version subpaths (e.g. /route53/v2/home -> route53,
+ * /codesuite/codebuild/home -> codebuild, /sns/v3/home -> sns, /s3/home -> s3).
+ *
+ * @param urlOrPath - AWS console URL or pathname string
+ * @returns Lowercase service ID, or null if no valid service home path
+ */
+export function parseServiceIdFromUrl(urlOrPath: string | null | undefined): string | null {
+  if (!urlOrPath || typeof urlOrPath !== 'string') {
+    return null;
+  }
+
+  let pathname = urlOrPath;
+  if (urlOrPath.includes('://')) {
+    try {
+      pathname = new URL(urlOrPath).pathname;
+    } catch {
+      return null;
+    }
+  }
+
+  const match = pathname.match(/\/([^\/]+)(?:\/v\d+)?\/home/);
+  if (!match) {
+    return null;
+  }
+
+  const candidate = match[1].toLowerCase();
+  if (candidate === 'console') {
+    return null;
+  }
+
+  return candidate;
+}

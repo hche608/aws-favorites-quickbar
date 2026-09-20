@@ -6,13 +6,18 @@
  */
 
 // Mock all dependencies before importing
-vi.mock('../../src/utils/dom', () => ({
-  waitForDOMReady: vi.fn().mockResolvedValue(undefined),
-  waitForElement: vi.fn().mockResolvedValue(null),
-  isAWSConsolePage: vi.fn().mockReturnValue(false),
-  isAWSConsoleHomepage: vi.fn().mockReturnValue(false),
-  location: { getHostname: vi.fn(), getPathname: vi.fn() }
-}));
+vi.mock('../../src/utils/dom', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('../../src/utils/dom')>();
+  return {
+    ...actual,
+    waitForDOMReady: vi.fn().mockResolvedValue(undefined),
+    waitForElement: vi.fn().mockResolvedValue(null),
+    isAWSConsolePage: vi.fn().mockReturnValue(false),
+    isAWSConsoleHomepage: vi.fn().mockReturnValue(false),
+    location: { getHostname: vi.fn(), getPathname: vi.fn() },
+    parseServiceIdFromUrl: vi.fn((url) => actual.parseServiceIdFromUrl(url))
+  };
+});
 
 vi.mock('../../src/utils/storage', () => ({
   saveServicesToStorage: vi.fn(),
