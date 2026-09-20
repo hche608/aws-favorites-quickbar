@@ -78,18 +78,22 @@
       </div>
     </div>
 
-    <div id="serviceList" class="service-list">
-      <!-- Services will be dynamically loaded here -->
+    <div id="emptyState" class="empty-state" style="display: none;">
+      <div class="empty-state-inner">
+        <div class="state-icon">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+          </svg>
+        </div>
+        <div class="empty-state-content">
+          <p class="state-title">No favorites pinned yet</p>
+          <p class="hint">Search and check services below to pin them to your cross-account AWS quickbar.</p>
+        </div>
+      </div>
     </div>
 
-    <div id="emptyState" class="empty-state" style="display: none;">
-      <div class="state-icon">
-        <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.5">
-          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-        </svg>
-      </div>
-      <p class="state-title">No favorites pinned yet</p>
-      <p class="hint">Search and check services to pin them to your cross-account AWS quickbar.</p>
+    <div id="serviceList" class="service-list">
+      <!-- Services will be dynamically loaded here -->
     </div>
 
     <div id="errorState" class="error-state" style="display: none;">
