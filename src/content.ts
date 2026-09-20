@@ -19,7 +19,8 @@ import {
   waitForDOMReady,
   waitForElement,
   isAWSConsolePage,
-  isAWSConsoleHomepage
+  isAWSConsoleHomepage,
+  location
 } from './utils/dom';
 import { saveServicesToStorage, loadServicesFromStorage } from './utils/storage';
 import { detectRegion } from './utils/region';
@@ -35,6 +36,7 @@ import { runtime, storage as browserStorage } from './browser-api';
 import { Service } from './types';
 import { loadSettings, applyVisualMode } from './settings';
 import { resolveServiceIcon } from './services/service-icons';
+import { formatServiceName } from './services/service-catalog';
 
 /**
  * CSS selectors for the AWS Console quickbar element.
@@ -120,7 +122,15 @@ async function init(): Promise<void> {
     const widgetLoaded = await waitForRecentlyVisitedWidget();
 
     if (widgetLoaded) {
-      recentServices = await parseRecentlyVisited();
+      const scrapedServices = await parseRecentlyVisited();
+      const previousCached = loadServicesFromStorage();
+      const previousRecents = previousCached
+        ? previousCached.filter((s) => s.source === 'recent')
+        : [];
+      recentServices = mergeServices([], [...scrapedServices, ...previousRecents]);
+      if (recentServices.length > 50) {
+        recentServices = recentServices.slice(0, 50);
+      }
 
       const recentMap: Record<string, Service> = {};
       for (const s of recentServices) {
@@ -134,15 +144,19 @@ async function init(): Promise<void> {
     }
   } else {
     const cachedServices = loadServicesFromStorage();
+    const pathname = typeof location.getPathname === 'function' ? location.getPathname() || '' : '';
+    const currentServiceMatch = pathname.match(/\/([^\/]+)\/home/);
+    const currentServiceId =
+      currentServiceMatch && currentServiceMatch[1].toLowerCase() !== 'console'
+        ? currentServiceMatch[1].toLowerCase()
+        : null;
 
+    const cachedMap: Record<string, Service> = {};
     if (cachedServices !== undefined) {
-      const cachedMap: Record<string, Service> = {};
       for (const s of cachedServices) {
         cachedMap[s.id.toLowerCase()] = s;
       }
-
       userFavorites = buildUserFavorites(settings.favoriteIds, cachedMap, region);
-
       recentServices = cachedServices.filter(
         (s) =>
           s.source === 'recent' &&
@@ -150,6 +164,27 @@ async function init(): Promise<void> {
       );
     } else {
       userFavorites = buildUserFavorites(settings.favoriteIds, {}, region);
+    }
+
+    if (
+      currentServiceId &&
+      !settings.favoriteIds.some((id) => id.toLowerCase() === currentServiceId)
+    ) {
+      const active: Service = cachedMap[currentServiceId] || {
+        id: currentServiceId,
+        name: formatServiceName(currentServiceId),
+        iconUrl: resolveServiceIcon(currentServiceId, null),
+        consoleUrl: `https://${region}.console.aws.amazon.com/${currentServiceId}/home?region=${region}`,
+        source: 'recent'
+      };
+      recentServices = [
+        active,
+        ...recentServices.filter((s) => s.id.toLowerCase() !== currentServiceId)
+      ];
+      if (recentServices.length > 50) {
+        recentServices = recentServices.slice(0, 50);
+      }
+      saveServicesToStorage(mergeServices(userFavorites, recentServices));
     }
   }
 
@@ -208,13 +243,15 @@ function updateIconsInBackground(
 
     const updatedRecentServices = await updateServiceIcons(recentServices, iconMap);
 
-    let updatedMerged = mergeServices(updatedUserFavorites, updatedRecentServices);
-    if (updatedMerged.length > maxServices) {
-      updatedMerged = updatedMerged.slice(0, maxServices);
+    const updatedMerged = mergeServices(updatedUserFavorites, updatedRecentServices);
+    saveServicesToStorage(updatedMerged);
+
+    let displayMerged = updatedMerged;
+    if (displayMerged.length > maxServices) {
+      displayMerged = displayMerged.slice(0, maxServices);
     }
 
-    saveServicesToStorage(updatedMerged);
-    await injectServices(updatedMerged, quickbar);
+    await injectServices(displayMerged, quickbar);
   })().catch((error) => {
     console.error('AWS Favorites Quickbar: Background icon update error', error);
   });

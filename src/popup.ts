@@ -17,7 +17,8 @@ import {
   loadVisualMode,
   saveVisualMode
 } from './popup/storage';
-import { searchServices } from './popup/search';
+import { searchServices, ensureFavoritesInList } from './popup/search';
+import { getCatalogServices } from './services/service-catalog';
 import {
   showErrorState,
   updateEmptyState,
@@ -73,7 +74,9 @@ async function initializePopup(): Promise<void> {
     () => currentFavorites,
     (favorites: string[]) => {
       currentFavorites = favorites;
+      allServices = ensureFavoritesInList(allServices, currentFavorites);
     },
+
     () => {
       renderServices();
       notifyContentScripts();
@@ -193,26 +196,23 @@ async function loadAndRenderServices(): Promise<void> {
   // Handle cached services
   if (cachedServiceMap === undefined) {
     // No cached services — user hasn't visited AWS Console homepage yet
-    allServices = [];
-    filteredServices = [];
+    allServices = ensureFavoritesInList([], currentFavorites);
+    filteredServices = allServices;
     renderServices();
-    showStorageWarning('No services found. Visit the AWS Console homepage to populate the list.');
+    if (allServices.length === 0) {
+      showStorageWarning('No services found. Visit the AWS Console homepage to populate the list.');
+    }
     return;
   }
 
   const cachedServices = Object.values(cachedServiceMap);
-
-  if (cachedServices.length === 0) {
-    allServices = [];
-    filteredServices = [];
-    renderServices();
-    showStorageWarning('No services found. Visit the AWS Console homepage to populate the list.');
-    return;
-  }
-
-  allServices = cachedServices;
+  allServices = ensureFavoritesInList(cachedServices, currentFavorites);
   filteredServices = allServices;
   renderServices();
+
+  if (allServices.length === 0) {
+    showStorageWarning('No services found. Visit the AWS Console homepage to populate the list.');
+  }
 }
 
 /**
@@ -266,7 +266,7 @@ function renderServices(): void {
 function handleSearch(event: Event): void {
   const target = event.target as HTMLInputElement;
   const query = target.value;
-  filteredServices = searchServices(query, allServices);
+  filteredServices = searchServices(query, allServices, getCatalogServices());
   renderServices();
 }
 

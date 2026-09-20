@@ -16,7 +16,8 @@ vi.mock('../../src/popup/storage', () => ({
 }));
 
 vi.mock('../../src/popup/search', () => ({
-  searchServices: vi.fn().mockReturnValue([])
+  searchServices: vi.fn().mockReturnValue([]),
+  ensureFavoritesInList: vi.fn((services) => services || [])
 }));
 
 vi.mock('../../src/popup/ui-state', () => ({
@@ -286,7 +287,7 @@ describe('Popup', () => {
 
       await new Promise((resolve) => setTimeout(resolve, 50));
 
-      expect(searchServices).toHaveBeenCalledWith('s3', expect.any(Array));
+      expect(searchServices).toHaveBeenCalledWith('s3', expect.any(Array), expect.any(Array));
       expect(renderServiceList).toHaveBeenCalled();
     });
   });

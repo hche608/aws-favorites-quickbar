@@ -191,4 +191,54 @@ test.describe('Popup Modern UI & Visual Validation Suite', () => {
 
     await page.close();
   });
+
+  test('Case 6: Should find and pin unvisited catalog service (Bedrock) via search', async ({
+    context,
+    extensionId
+  }) => {
+    const page = await context.newPage();
+    await page.setViewportSize({ width: 420, height: 580 });
+
+    const initialServices = ALL_SERVICES.slice(0, 5); // Only 5 basic services cached
+
+    await page.goto(`chrome-extension://${extensionId}/popup.html`);
+    await page.evaluate(async (svcs) => {
+      await chrome.storage.local.set({
+        cachedServices: { services: svcs, timestamp: Date.now() }
+      });
+      await chrome.storage.sync.set({
+        userFavorites: ['s3'],
+        maxServices: 10,
+        visualMode: 'dark'
+      });
+    }, initialServices);
+
+    await page.reload();
+    await page.waitForSelector('.service-item');
+
+    // Type "bedrock" in search
+    const searchInput = page.locator('#searchInput');
+    await searchInput.fill('bedrock');
+
+    const bedrockItem = page.locator('.service-item[data-service-id="bedrock"]');
+    await expect(bedrockItem).toBeVisible();
+    await expect(bedrockItem).toContainText('Amazon Bedrock');
+
+    const screenshotPath = path.join(ARTIFACT_DIR, 'popup-catalog-search-bedrock.png');
+    await page.screenshot({ path: screenshotPath });
+    console.log(`📸 Saved Catalog Search Bedrock screenshot to: ${screenshotPath}`);
+
+    // Pin Bedrock
+    await bedrockItem.click();
+    await expect(bedrockItem.locator('input[type="checkbox"]')).toBeChecked();
+
+    // Clear search and ensure Bedrock remains in favorites list at top
+    const clearBtn = page.locator('#clearSearchBtn');
+    await clearBtn.click();
+
+    const topFavorite = page.locator('.service-item.selected').first();
+    await expect(topFavorite).toBeVisible();
+
+    await page.close();
+  });
 });
