@@ -5,7 +5,10 @@
  * by scanning the DOM for service links and their associated images.
  */
 
+import { parseServiceIdFromUrl } from '../utils/dom';
+
 /**
+
  * Extracts icon URLs from AWS Console DOM by scanning for service links
  *
  * This function searches the page for links to AWS Console services and extracts
@@ -31,15 +34,7 @@ export async function extractIconUrlsFromConsole(): Promise<Record<string, strin
           continue;
         }
 
-        const url = link.href;
-        const urlObj = new URL(url);
-
-        const homeMatch = urlObj.pathname.match(/\/([^\/]+)\/home/);
-        if (!homeMatch) {
-          continue;
-        }
-
-        const serviceId = homeMatch[1];
+        const serviceId = parseServiceIdFromUrl(link.href);
         if (serviceId && img.src) {
           iconMap[serviceId.toLowerCase()] = img.src;
         }

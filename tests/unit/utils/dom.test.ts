@@ -4,7 +4,13 @@
  */
 
 import * as domModule from '../../../src/utils/dom';
-const { waitForDOMReady, waitForElement, isAWSConsolePage, isAWSConsoleHomepage } = domModule;
+const {
+  waitForDOMReady,
+  waitForElement,
+  isAWSConsolePage,
+  isAWSConsoleHomepage,
+  parseServiceIdFromUrl
+} = domModule;
 import { teardownDOM } from '../../helpers/dom-helpers';
 import { mockMutationObserver } from '../../helpers/mocks';
 
@@ -204,6 +210,37 @@ describe('DOM Utilities', () => {
     it('should return false for paths with query parameters', () => {
       jest.spyOn(domModule.location, 'getPathname').mockReturnValue('/ec2/v2/home');
       expect(isAWSConsoleHomepage()).toBe(false);
+    });
+  });
+
+  describe('parseServiceIdFromUrl', () => {
+    it('should parse standard service URLs', () => {
+      expect(parseServiceIdFromUrl('/s3/home')).toBe('s3');
+      expect(parseServiceIdFromUrl('https://console.aws.amazon.com/s3/home')).toBe('s3');
+    });
+
+    it('should correctly extract canonical service IDs from versioned paths', () => {
+      expect(parseServiceIdFromUrl('/route53/v2/home')).toBe('route53');
+      expect(
+        parseServiceIdFromUrl('https://console.aws.amazon.com/route53/v2/home?region=us-east-1')
+      ).toBe('route53');
+      expect(parseServiceIdFromUrl('/connect/v2/home')).toBe('connect');
+      expect(parseServiceIdFromUrl('/sns/v3/home')).toBe('sns');
+      expect(parseServiceIdFromUrl('/cloudfront/v4/home')).toBe('cloudfront');
+    });
+
+    it('should extract nested services preceding home (Rule 4)', () => {
+      expect(parseServiceIdFromUrl('/codesuite/codebuild/home')).toBe('codebuild');
+      expect(parseServiceIdFromUrl('/codesuite/codepipeline/home')).toBe('codepipeline');
+    });
+
+    it('should return null for console home and non-service URLs', () => {
+      expect(parseServiceIdFromUrl('/console/home')).toBeNull();
+      expect(parseServiceIdFromUrl('/')).toBeNull();
+      expect(parseServiceIdFromUrl('')).toBeNull();
+      expect(parseServiceIdFromUrl(null)).toBeNull();
+      expect(parseServiceIdFromUrl(undefined)).toBeNull();
+      expect(parseServiceIdFromUrl('not a valid url/home')).toBeNull();
     });
   });
 });

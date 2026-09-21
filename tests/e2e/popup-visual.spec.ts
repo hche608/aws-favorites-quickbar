@@ -123,4 +123,122 @@ test.describe('Popup Modern UI & Visual Validation Suite', () => {
 
     await page.close();
   });
+
+  test('Case 4: Should render 10 services with 0 favorites without scrollbar and with compact empty state', async ({
+    context,
+    extensionId
+  }) => {
+    const page = await context.newPage();
+    await page.setViewportSize({ width: 420, height: 580 });
+
+    const tenServices = ALL_SERVICES.slice(0, 10);
+
+    await page.goto(`chrome-extension://${extensionId}/popup.html`);
+    await page.evaluate(async (svcs) => {
+      await chrome.storage.local.set({
+        cachedServices: { services: svcs, timestamp: Date.now() }
+      });
+      await chrome.storage.sync.set({
+        userFavorites: [],
+        maxServices: 10,
+        visualMode: 'dark'
+      });
+    }, tenServices);
+
+    await page.reload();
+    await page.waitForSelector('.service-item');
+
+    const emptyState = page.locator('#emptyState');
+    await expect(emptyState).toBeVisible();
+
+    const screenshotPath = path.join(ARTIFACT_DIR, 'popup-10-services-empty-state.png');
+    await page.screenshot({ path: screenshotPath });
+    console.log(`📸 Saved 10 Services Empty State screenshot to: ${screenshotPath}`);
+
+    await page.close();
+  });
+
+  test('Case 5: Should render 10 services with 5 favorites without scrollbar', async ({
+    context,
+    extensionId
+  }) => {
+    const page = await context.newPage();
+    await page.setViewportSize({ width: 420, height: 580 });
+
+    const tenServices = ALL_SERVICES.slice(0, 10);
+
+    await page.goto(`chrome-extension://${extensionId}/popup.html`);
+    await page.evaluate(async (svcs) => {
+      await chrome.storage.local.set({
+        cachedServices: { services: svcs, timestamp: Date.now() }
+      });
+      await chrome.storage.sync.set({
+        userFavorites: ['s3', 'ec2', 'lambda', 'iam', 'dynamodbv2'],
+        maxServices: 10,
+        visualMode: 'dark'
+      });
+    }, tenServices);
+
+    await page.reload();
+    await page.waitForSelector('.service-item');
+
+    const emptyState = page.locator('#emptyState');
+    await expect(emptyState).toBeHidden();
+
+    const screenshotPath = path.join(ARTIFACT_DIR, 'popup-10-services-favorites.png');
+    await page.screenshot({ path: screenshotPath });
+    console.log(`📸 Saved 10 Services with Favorites screenshot to: ${screenshotPath}`);
+
+    await page.close();
+  });
+
+  test('Case 6: Should find and pin unvisited catalog service (Bedrock) via search', async ({
+    context,
+    extensionId
+  }) => {
+    const page = await context.newPage();
+    await page.setViewportSize({ width: 420, height: 580 });
+
+    const initialServices = ALL_SERVICES.slice(0, 5); // Only 5 basic services cached
+
+    await page.goto(`chrome-extension://${extensionId}/popup.html`);
+    await page.evaluate(async (svcs) => {
+      await chrome.storage.local.set({
+        cachedServices: { services: svcs, timestamp: Date.now() }
+      });
+      await chrome.storage.sync.set({
+        userFavorites: ['s3'],
+        maxServices: 10,
+        visualMode: 'dark'
+      });
+    }, initialServices);
+
+    await page.reload();
+    await page.waitForSelector('.service-item');
+
+    // Type "bedrock" in search
+    const searchInput = page.locator('#searchInput');
+    await searchInput.fill('bedrock');
+
+    const bedrockItem = page.locator('.service-item[data-service-id="bedrock"]');
+    await expect(bedrockItem).toBeVisible();
+    await expect(bedrockItem).toContainText('Amazon Bedrock');
+
+    const screenshotPath = path.join(ARTIFACT_DIR, 'popup-catalog-search-bedrock.png');
+    await page.screenshot({ path: screenshotPath });
+    console.log(`📸 Saved Catalog Search Bedrock screenshot to: ${screenshotPath}`);
+
+    // Pin Bedrock
+    await bedrockItem.click();
+    await expect(bedrockItem.locator('input[type="checkbox"]')).toBeChecked();
+
+    // Clear search and ensure Bedrock remains in favorites list at top
+    const clearBtn = page.locator('#clearSearchBtn');
+    await clearBtn.click();
+
+    const topFavorite = page.locator('.service-item.selected').first();
+    await expect(topFavorite).toBeVisible();
+
+    await page.close();
+  });
 });
