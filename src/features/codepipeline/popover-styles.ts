@@ -25,7 +25,6 @@ export function getPopoverStyles(dark: boolean, accentColor = '#0972d3'): string
       z-index: 999999;
       background: ${bg};
       border: 1px solid ${border};
-      border-top: 3px solid ${accentColor};
       border-radius: 8px;
       box-shadow: ${shadow};
       font-family: "Amazon Ember", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -137,18 +136,37 @@ export function getPopoverStyles(dark: boolean, accentColor = '#0972d3'): string
     #${POPOVER_ID} .stage-node:hover {
       border-color: ${dark ? '#59bfff' : '#0972d3'};
     }
+    @property --beam-angle {
+      syntax: '<angle>';
+      initial-value: 0deg;
+      inherits: false;
+    }
     #${POPOVER_ID} .stage-node.stage-failed {
-      border: 2px solid ${dark ? '#f87171' : '#d13212'};
-      background: ${dark ? '#2e1418' : '#fff5f4'};
+      border: 2px solid transparent;
+      background:
+        linear-gradient(${dark ? '#2e1418' : '#fff5f4'}, ${dark ? '#2e1418' : '#fff5f4'}) padding-box,
+        conic-gradient(
+          from var(--beam-angle, 0deg),
+          ${dark ? 'rgba(248, 113, 113, 0.25)' : 'rgba(209, 50, 18, 0.2)'} 0deg 270deg,
+          ${dark ? '#f87171' : '#d13212'} 330deg,
+          ${dark ? '#fca5a5' : '#ef4444'} 360deg
+        ) border-box;
+      animation: stage-beam-flow 3.5s linear infinite;
     }
     #${POPOVER_ID} .stage-node.stage-in-progress {
-      border: 2px solid ${dark ? '#38bdf8' : '#0972d3'};
-      background: ${dark ? '#10233b' : '#f0f7fd'};
-      animation: stage-pulse 2s infinite ease-in-out;
+      border: 2px solid transparent;
+      background:
+        linear-gradient(${dark ? '#10233b' : '#f0f7fd'}, ${dark ? '#10233b' : '#f0f7fd'}) padding-box,
+        conic-gradient(
+          from var(--beam-angle, 0deg),
+          ${dark ? 'rgba(56, 189, 248, 0.25)' : 'rgba(9, 114, 211, 0.2)'} 0deg 270deg,
+          ${dark ? '#38bdf8' : '#0972d3'} 330deg,
+          ${dark ? '#a5f3fc' : '#7dd3fc'} 360deg
+        ) border-box;
+      animation: stage-beam-flow 2.5s linear infinite;
     }
-    @keyframes stage-pulse {
-      0%, 100% { box-shadow: 0 0 0 0 transparent; }
-      50% { box-shadow: 0 0 8px 1px ${dark ? 'rgba(56, 189, 248, 0.4)' : 'rgba(9, 114, 211, 0.3)'}; }
+    @keyframes stage-beam-flow {
+      to { --beam-angle: 360deg; }
     }
     #${POPOVER_ID} .stage-title {
       font-size: 10.5px;
