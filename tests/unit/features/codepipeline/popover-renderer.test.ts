@@ -36,6 +36,26 @@ describe('CodePipeline popover-renderer', () => {
       expect(isDarkMode()).toBe(true);
     });
 
+    it('detects dark mode when awsui-polaris-dark-mode class is present', () => {
+      document.body.classList.add('awsui-polaris-dark-mode');
+      expect(isDarkMode()).toBe(true);
+    });
+
+    it('detects dark mode from awsc-color-theme cookie', () => {
+      document.cookie = 'awsc-color-theme=dark; path=/';
+      expect(isDarkMode()).toBe(true);
+      document.cookie = 'awsc-color-theme=light; path=/';
+      expect(isDarkMode()).toBe(false);
+      // Clean up cookie
+      document.cookie = 'awsc-color-theme=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
+    });
+
+    it('respects explicit override parameter', () => {
+      expect(isDarkMode('dark')).toBe(true);
+      document.body.classList.add('awsui-dark-mode');
+      expect(isDarkMode('light')).toBe(false);
+    });
+
     it('returns false when no dark mode markers are present', () => {
       expect(isDarkMode()).toBe(false);
     });

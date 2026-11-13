@@ -5,19 +5,19 @@ export const POPOVER_ID = 'aws-favorites-codepipeline-popover';
  * harmonized with AWS Cloudscape Design System standards.
  */
 export function getPopoverStyles(dark: boolean, accentColor = '#0972d3'): string {
-  const bg = dark ? '#161e2e' : '#fafbfc';
-  const border = dark ? '#334155' : '#d5dbdb';
-  const headerBg = dark ? '#1c2536' : '#f2f4f7';
+  const bg = dark ? '#161e2e' : '#f0f3f6';
+  const border = dark ? '#334155' : '#cbd5e1';
+  const headerBg = dark ? '#1c2536' : '#e2e7ec';
   const textPrimary = dark ? '#f8fafc' : '#16191f';
   const textMuted = dark ? '#94a3b8' : '#545b64';
-  const headerBorder = dark ? '#2e3b4e' : '#e2e8f0';
+  const headerBorder = dark ? '#2e3b4e' : '#d0d7de';
   const cardBg = dark ? '#1e293b' : '#ffffff';
-  const cardBorder = dark ? '#334155' : '#e2e8f0';
+  const cardBorder = dark ? '#334155' : '#d0d7de';
   const shadow = dark
     ? '0 10px 28px rgba(0, 0, 0, 0.75)'
-    : '0 8px 24px -2px rgba(0, 7, 22, 0.14), 0 2px 6px -1px rgba(0, 7, 22, 0.06)';
-  const scrollTrack = dark ? '#1c2536' : '#edf2f7';
-  const scrollThumb = dark ? '#475569' : '#cbd5e1';
+    : '0 8px 24px -2px rgba(0, 7, 22, 0.16), 0 2px 6px -1px rgba(0, 7, 22, 0.08)';
+  const scrollTrack = dark ? '#1c2536' : '#e2e7ec';
+  const scrollThumb = dark ? '#475569' : '#b0b8c1';
 
   return `
     #${POPOVER_ID} {
@@ -131,6 +131,7 @@ export function getPopoverStyles(dark: boolean, accentColor = '#0972d3'): string
       justify-content: space-between;
       box-sizing: border-box;
       flex-shrink: 0;
+      box-shadow: ${dark ? 'none' : '0 1px 2px rgba(0, 7, 22, 0.06)'};
       transition: border-color 0.15s, box-shadow 0.15s, background-color 0.15s;
     }
     #${POPOVER_ID} .stage-node:hover {
