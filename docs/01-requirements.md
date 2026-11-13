@@ -79,6 +79,15 @@
   1. The extension SHALL strictly conform to Manifest V3 standards on Chromium and Firefox.
   2. Core logic SHALL interact exclusively via the `BrowserAPI` and `BrowserStorageAPI` abstraction layers.
 
+#### Requirement 10: CodePipeline Execution Hover Preview & Popup Configuration
+- **User Story**: As a developer inspecting pipelines, I want to hover over any CodePipeline link in the AWS Console and immediately see its latest execution state, stage progression, and action statuses without navigating away.
+- **Acceptance Criteria**:
+  1. WHEN hovering over any AWS CodePipeline link (in quickbar, tables, or breadcrumbs) for the configured delay duration THEN the extension SHALL render a floating popover showing execution ID, status badge, duration, and stage details.
+  2. WHEN a stage is `InProgress` THEN the stage card border SHALL render an isolated flowing light beam animation; the feature SHALL respect `@media (prefers-reduced-motion: reduce)`.
+  3. WHEN the user presses `Escape`, scrolls the window, or clicks outside the popover THEN the popover SHALL dismiss immediately.
+  4. The popup interface SHALL provide a toggle for the feature (`codePipelineHoverEnabled`, default: `true`) and a configurable trigger delay selector (`codePipelineHoverDelay`, default: `1500ms`, range: `500ms-3000ms`).
+  5. API requests to `CodePipeline_20150709.GetPipelineState` SHALL be signed with AWS Console session credentials via Web Crypto SigV4; responses SHALL be cached with a 15-second TTL (5-second for `InProgress`) with stale-while-revalidate fallback.
+
 ### 3. Non-Functional Requirements & Architectural Constraints
 1. **Rule 1 (No Fallbacks)**: `undefined` strictly represents first-launch state; silent heuristic defaults are forbidden.
 2. **Rule 2 (Under 300 LOC)**: Every source and test file SHALL remain strictly under 300 lines of code.
@@ -160,6 +169,15 @@
 - **验收标准**：
   1. 纯粹遵循现代 WebExtensions Manifest V3 标准。
   2. 统一通过跨浏览器抽象层（`browser-api.ts` / `browser-storage.ts`）与浏览器交互。
+
+#### 需求 10：CodePipeline 执行状态悬浮预览与 Popup 配置
+- **用户故事**：作为经常查看流水线的开发者，我希望在 AWS 控制台悬停流水线链接时能立即看到最新执行状态、阶段进展和动作详情，无需点开新页面。
+- **验收标准**：
+  1. 用户在任意 CodePipeline 链接（快速栏、表格、面包屑等）上悬停达到配置延时后，扩展必须渲染浮动窗口展示执行 ID、状态徽章、运行耗时及阶段拆解详情。
+  2. 当阶段处于 `InProgress` 状态时，阶段卡片边框必须呈现流畅的流光动画；并支持 `@media (prefers-reduced-motion: reduce)` 无障碍规范。
+  3. 用户按下 `Escape` 键、滚动页面或点击窗口外部时，浮动预览必须立即安全关闭。
+  4. Popup 设置面板必须提供功能开关（`codePipelineHoverEnabled`，默认：`true`）与悬停延迟下拉框（`codePipelineHoverDelay`，默认：`1500ms`，范围：`500ms–3000ms`）。
+  5. 扩展必须通过主页面会话凭证与 Web Crypto SigV4 签名请求 `CodePipeline_20150709.GetPipelineState`，并采用 15 秒 TTL（`InProgress` 为 5 秒）的 SWR 缓存机制。
 
 ### 3. 非功能性需求与架构约束
 1. **Rule 1（零静默兜底）**：`undefined` 明确表达初次安装状态，严禁使用 fallback 逻辑抹平状态差。

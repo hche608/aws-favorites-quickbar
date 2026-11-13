@@ -20,6 +20,9 @@ npm run build:firefox
 # Run unit & integration tests
 npm test
 
+# Run offline UI layout invariant tests (fast, no AWS session required)
+npm run test:ui:offline
+
 # Run E2E tests (Playwright with persistent Chrome session)
 npm run test:e2e
 
@@ -31,13 +34,16 @@ npm run security-check
 
 - 🎯 Configure your favorite AWS services through an easy-to-use popup interface
 - 🔄 Automatically detect and add recently visited services from AWS Console
+- 🚀 **AWS CodePipeline Hover Execution Preview** — Hover over any pipeline link to inspect live execution status, duration, stage progression, and action breakdowns directly from the console
+- ✨ **Flowing Light Beam Animation** — Elegant stage border animation highlighting currently active pipeline stages with `prefers-reduced-motion` support
+- ⏱️ **Configurable Hover Delay** — Customize pipeline preview trigger delay (0.5s – 3.0s) or toggle the feature entirely via the modern 2-row settings toolbar
 - 🚫 Smart deduplication - no duplicate services in your quickbar
 - 📌 User favorites always appear first
 - 🔍 Search functionality to quickly find services
 - 🎨 Drag-and-drop reordering of favorites
 - 💾 Persistent storage across browser sessions
 - 🔒 100% TypeScript with strict type safety
-- ✅ Comprehensive test coverage (441 unit/integration tests + 34 E2E tests, 94%+ coverage)
+- ✅ Comprehensive test coverage (516 unit/integration tests + 38 E2E tests, 94%+ core module coverage)
 - 🛡️ Zero security vulnerabilities
 - 🌐 Cross-browser compatible (Chrome & Firefox)
 
@@ -96,12 +102,17 @@ aws-favorites-quickbar/
 │   ├── settings.ts       # Settings & visualMode theme synchronization
 │   ├── utils/            # Utility modules (DOM, storage, region)
 │   ├── services/         # Service modules (icon extraction, 220-service CDN icons, parsing, merging)
+│   ├── features/         # Specialized features
+│   │   └── codepipeline/ # CodePipeline execution hover preview engine & main-world bridge
 │   ├── quickbar/         # Quickbar modules (CSS extraction, DOM building, injection)
 │   └── popup/            # Popup modules (storage, search, UI state, drag-drop)
 ├── tests/                # Test suite
-│   ├── unit/             # Unit tests (Vitest)
+│   ├── unit/             # Unit tests (Vitest, 41 test files, 516 tests)
+│   │   └── features/codepipeline/ # CodePipeline parser & feature unit tests
 │   ├── integration/      # Integration workflow tests (Vitest)
-│   ├── e2e/              # Browser E2E & visual regression tests (Playwright, 14 specs, 34 tests)
+│   ├── e2e/              # Browser E2E & visual regression tests (Playwright, 16 specs, 38 tests)
+│   │   ├── popup-layout-invariants.spec.ts    # Offline UI layout & zero-overflow invariant
+│   │   └── codepipeline-hover-invariants.spec.ts # Offline CodePipeline popover invariant
 │   └── helpers/          # Test utilities and fixtures
 ├── dist/                 # Compiled JavaScript output (generated)
 │   ├── chrome/           # Chrome build output
@@ -113,7 +124,7 @@ aws-favorites-quickbar/
 │   └── security-check.ts # Comprehensive security check
 ├── manifest.json         # Chrome extension configuration
 ├── manifest.firefox.json # Firefox-specific manifest fields
-├── popup.html            # Popup UI HTML
+├── popup.html            # Popup UI HTML (modernized 2-row layout)
 ├── popup.css             # Popup UI styles
 ├── icons/                # Extension icons
 ├── tsconfig.json         # TypeScript configuration
@@ -352,9 +363,10 @@ Coverage reports are generated in the `coverage/` directory. Open `coverage/inde
 
 ```
 tests/
-├── unit/              # Unit tests for individual modules (TypeScript)
+├── unit/              # Unit tests for individual modules (TypeScript, 41 test files, 516 tests)
 │   ├── utils/         # DOM, storage, region utilities
 │   ├── services/      # Icon extraction, validation, 220 CDN icons catalog, parsing, merging
+│   ├── features/      # CodePipeline parser & model unit tests
 │   ├── quickbar/      # CSS extraction, DOM building, injection
 │   └── popup/         # Popup storage, search, UI state, drag-drop
 ├── integration/       # End-to-end workflow tests (TypeScript)
@@ -365,9 +377,11 @@ tests/
 │   ├── service-pinning-toggle.test.ts
 │   ├── drag-drop-persistence.test.ts
 │   └── error-scenarios.test.ts
-├── e2e/               # Browser E2E & visual regression tests (Playwright)
+├── e2e/               # Browser E2E & visual regression tests (Playwright, 16 specs, 38 tests)
 │   ├── helpers/       # AWS auth session & storage helper utilities
 │   ├── fixtures.ts    # Persistent Chrome context fixture
+│   ├── popup-layout-invariants.spec.ts    # Offline UI layout & zero-overflow invariant
+│   ├── codepipeline-hover-invariants.spec.ts # Offline CodePipeline popover invariant
 │   ├── auth-check.spec.ts               # Session & extension load check
 │   ├── quickbar-mount.spec.ts           # Navbar injection verification
 │   ├── popup.spec.ts                    # UI click, search & pin interaction
@@ -475,7 +489,7 @@ npm run check:all           # Type check + lint + format + tests
 - **Code Quality:** 0 errors, 0 warnings
 - **Security:** 0 vulnerabilities
 - **Circular Dependencies:** 0 found
-- **Tests:** 441 unit & integration tests passing (34 files), 0 failures; 34 E2E tests passing
+- **Tests:** 516 unit & integration tests passing (41 files), 0 failures; 38 E2E tests passing
 - **Code Formatting:** All files properly formatted
 
 **Comprehensive Check:**

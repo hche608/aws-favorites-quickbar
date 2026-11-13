@@ -25,6 +25,7 @@
    - [5.2 Quickbar Injection Pipeline](#52-quickbar-injection-pipeline)
    - [5.3 Cross-Platform Simulated Theme Sync](#53-cross-platform-simulated-theme-sync)
    - [5.4 Modern Popup Management Dashboard](#54-modern-popup-management-dashboard)
+   - [5.5 CodePipeline Execution Hover Preview Engine](#55-codepipeline-execution-hover-preview-engine)
 6. [Cross-Browser Abstraction Layer](#6-cross-browser-abstraction-layer)
 7. [Security, Privacy & Permission Model](#7-security-privacy--permission-model)
 
@@ -102,6 +103,8 @@ The system uses a **three-tier storage architecture** balancing performance, cro
 | `browser.storage.sync` | `userFavorites` | `string[]` | Ordered list of pinned service IDs (synced across browser instances). |
 | `browser.storage.sync` | `maxServices` | `number` | Maximum total services shown in quickbar (Default: `10`, range: `1–50`). |
 | `browser.storage.sync` | `visualMode` | `'light' \| 'dark'` | Global theme preference (Default: `'dark'`). |
+| `browser.storage.sync` | `codePipelineHoverEnabled` | `boolean` | Enable/disable live CodePipeline execution preview popover on hover (Default: `true`). |
+| `browser.storage.sync` | `codePipelineHoverDelay` | `number` | Milliseconds of hover delay before fetching and displaying popover (Default: `1500`, range: `500–3000`). |
 | `browser.storage.local` | `cachedServices` | `Service[]` | Scraped service metadata cache (ID, Name, Icon, URL). |
 | `browser.storage.local` | `injectionStatus` | `'success' \| 'no-native-pin'` | DOM injection status driving the popup `#pinningNote` banner. |
 | `localStorage` (Page) | `aws-favorites-quickbar-services` | `string (JSON)` | Synchronous in-page cache for instantaneous rendering on page reload. |
@@ -133,6 +136,15 @@ The system uses a **three-tier storage architecture** balancing performance, cro
 - **Instant Search & Filter**: Real-time filtering by service ID or name with a dedicated clear button.
 - **HTML5 Drag-and-Drop Reordering**: Seamless drag-and-drop reordering persisted immediately to `storage.sync`.
 - **Runtime Live Refresh**: Toggling a service dispatches `{ action: 'updateQuickbar' }` via `chrome.tabs.sendMessage`, updating the quickbar without page reload.
+- **2-Row Responsive Settings Toolbar**: Modernized two-row geometry (`.settings-row`) holding Max Services limit, VisualMode theme toggle, CodePipeline hover toggle, and hover delay selector without horizontal overflow or white gutter artifacts.
+
+#### 5.5 CodePipeline Execution Hover Preview Engine
+- **Main-World Session Bridge (`main-world.ts`)**: Injects an isolated script directly into the AWS Console execution context to extract temporary session credentials (`accessKeyId`, `secretAccessKey`, `sessionToken`) from `window.AWSC` / `window.__AWS_CONSOLE_SESSION__` without requiring any user-provided AWS access keys.
+- **Web Crypto SigV4 Signer (`sigv4-signer.ts`)**: Performs client-side AWS Signature Version 4 HMAC-SHA256 request signing targeting `CodePipeline_20150709.GetPipelineState`.
+- **Content-Script Communication (`api.ts`)**: Coordinates requests via bidirectional `window.postMessage` with cryptographic nonce matching, ensuring content script sandbox isolation.
+- **Isolated Flowing Light Beam (`popover-styles.ts`)**: Stages with `InProgress` state render an animated glowing beam along their borders (`.afq-stage-inprogress-beam`), leaving the outer popover window clean and readable. Respects `prefers-reduced-motion`.
+- **Stale-While-Revalidate TTL Cache (`cache.ts`)**: Caches state for 15s (5s for InProgress), updating in the background and falling back to stale data on network errors.
+- **Multi-Factor Dismissal**: Automatically closes on `Escape` key, window scrolling, or outside clicks (`popover-renderer.ts`).
 
 ---
 
@@ -182,6 +194,7 @@ Supports both **Google Chrome (Chromium)** and **Mozilla Firefox (Gecko)**:
    - [5.2 原生快速栏注入管线](#52-原生快速栏注入管线)
    - [5.3 跨平台主题同步与模拟点击](#53-跨平台主题同步与模拟点击)
    - [5.4 Popup 现代化管理面板](#54-popup-现代化管理面板)
+   - [5.5 CodePipeline 执行状态悬浮预览引擎](#55-codepipeline-执行状态悬浮预览引擎)
 6. [跨浏览器抽象层 (Cross-Browser Architecture)](#6-跨浏览器抽象层-cross-browser-architecture-1)
 7. [安全性、隐私与权限模型](#7-安全性隐私与权限模型-1)
 
@@ -259,6 +272,8 @@ Supports both **Google Chrome (Chromium)** and **Mozilla Firefox (Gecko)**:
 | `browser.storage.sync` | `userFavorites` | `string[]` | 用户有序置顶的服务 ID 列表（跨浏览器实例同步）。 |
 | `browser.storage.sync` | `maxServices` | `number` | 快速栏显示总服务上限（默认 `10`，范围 `1–50`）。 |
 | `browser.storage.sync` | `visualMode` | `'light' \| 'dark'` | 全局主题偏好（默认 `'dark'`）。 |
+| `browser.storage.sync` | `codePipelineHoverEnabled` | `boolean` | 是否开启 CodePipeline 链接悬停状态预览（默认 `true`）。 |
+| `browser.storage.sync` | `codePipelineHoverDelay` | `number` | 触发悬浮预览前的停留延迟毫秒数（默认 `1500`，范围 `500–3000`）。 |
 | `browser.storage.local` | `cachedServices` | `Service[]` | 抓取到的服务元数据缓存（包含 ID、Name、Icon、URL）。 |
 | `browser.storage.local` | `injectionStatus` | `'success' \| 'no-native-pin'` | 记录页面注入状态，用于驱动 Popup 展示 `#pinningNote`。 |
 | `localStorage` (页面级) | `aws-favorites-quickbar-services` | `string (JSON)` | 控制台页面内同步缓存，保障页面刷新时快速栏瞬间直出。 |
@@ -290,6 +305,15 @@ Supports both **Google Chrome (Chromium)** and **Mozilla Firefox (Gecko)**:
 - **即时搜索与过滤**：支持通过服务 ID 或名称拼写实时过滤，配备专用一键清空按钮。
 - **HTML5 原生拖拽排序**：支持对置顶服务进行无缝拖放排序，操作即时保存至 `storage.sync`。
 - **运行时热更新**：用户在 Popup 中勾选/取消服务后，通过 `chrome.tabs.sendMessage` 向控制台派发 `{ action: 'updateQuickbar' }`，无需刷新即可实时反映变动。
+- **双行现代化设置工具栏**：采用 `.settings-row` 双行响应式布局，容纳上限滑动、主题切换、CodePipeline 悬停开关与延迟下拉选择器，彻底根除 Chrome 弹窗容器的横向撑出与白边滚动槽。
+
+#### 5.5 CodePipeline 执行状态悬浮预览引擎 (CodePipeline Hover Preview)
+- **主世界页面会话桥接 (`main-world.ts`)**：向控制台直接注入轻量脚本，提取 `window.AWSC` / `window.__AWS_CONSOLE_SESSION__` 当前登录用户的临时会话凭证（`accessKeyId`, `secretAccessKey`, `sessionToken`），零外部凭据泄露风险。
+- **Web Crypto 原生 SigV4 签名器 (`sigv4-signer.ts`)**：利用浏览器原生 Web Crypto API 实现纯客户端 AWS Signature Version 4 签名，直接向 AWS CodePipeline `GetPipelineState` 端点发送请求。
+- **内容脚本隔离通信 (`api.ts`)**：通过 `window.postMessage` 与双向随机 Nonce 机制安全穿透 content script 沙箱，保障扩展安全。
+- **流光边界隔离动画 (`popover-styles.ts`)**：针对 `InProgress` 阶段，流光特效严格限制在阶段卡片边界（`.afq-stage-inprogress-beam`），弹窗整体保持极简克制；全面支持 `@media (prefers-reduced-motion: reduce)`。
+- **SWR (Stale-While-Revalidate) TTL 缓存 (`cache.ts`)**：状态缓存 15 秒（执行中状态缩短为 5 秒），后台静默刷新，并在网络抖动时平滑降级展示陈旧数据。
+- **多维度安全退出交互**：支持 `Escape` 键、页面滚动及点击窗口外部瞬间平滑退出。
 
 ---
 
