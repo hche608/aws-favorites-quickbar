@@ -83,7 +83,7 @@ export function requestFromMainWorld(
 
     const timer = setTimeout(() => {
       window.removeEventListener('AWS_FAVORITES_PIPELINE_STATE_RESULT', listener as EventListener);
-      reject(new Error('请求超时 (未捕获到活跃 CodePipeline 会话)'));
+      reject(new Error('Request timed out (active CodePipeline session not captured)'));
     }, timeoutMs);
 
     const listener = (event: Event) => {
@@ -98,7 +98,7 @@ export function requestFromMainWorld(
         if (detail.success && detail.data) {
           resolve(detail.data);
         } else {
-          reject(new Error(detail.error || '获取失败'));
+          reject(new Error(detail.error || 'Failed to retrieve pipeline state'));
         }
       }
     };

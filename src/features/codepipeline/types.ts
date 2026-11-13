@@ -52,7 +52,7 @@ export interface FormattedStageSummary {
   primaryAction: FormattedActionSummary;
   totalActions: number;
   completedActions: number;
-  progressSummaryText?: string; // e.g. "[1/2 完成: LintCheck]"
+  progressSummaryText?: string; // e.g. "[1/2 completed: LintCheck]"
 }
 
 export interface PipelineExecutionSummary {

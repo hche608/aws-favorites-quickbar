@@ -61,7 +61,7 @@ export function isDarkMode(override?: 'light' | 'dark' | 'auto'): boolean {
       if (mode === 'dark') return true;
       if (mode === 'light') return false;
     }
-  } catch {
+  } catch (_error) {
     // Ignore cookie read error
   }
 
@@ -91,7 +91,7 @@ export function isDarkMode(override?: 'light' | 'dark' | 'auto'): boolean {
       const dark = isColorDark(layoutBg);
       if (dark !== null) return dark;
     }
-  } catch {
+  } catch (_error) {
     // Ignore fallback
   }
 
@@ -106,7 +106,7 @@ export function isDarkMode(override?: 'light' | 'dark' | 'auto'): boolean {
         if (dark !== null) return dark;
       }
     }
-  } catch {
+  } catch (_error) {
     // Ignore fallback
   }
 
@@ -115,7 +115,7 @@ export function isDarkMode(override?: 'light' | 'dark' | 'auto'): boolean {
     if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
       return true;
     }
-  } catch {
+  } catch (_error) {
     // Ignore matchMedia error
   }
 

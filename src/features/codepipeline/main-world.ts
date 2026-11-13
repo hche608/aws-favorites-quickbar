@@ -248,7 +248,8 @@ window.addEventListener('AWS_FAVORITES_GET_PIPELINE_STATE', (async (e: Event) =>
       detail: {
         requestId,
         success: false,
-        error: '未捕获到该流水线执行状态，请在控制台列表加载完成后再试'
+        error:
+          'Pipeline execution state not captured yet. Please wait for console list to finish loading.'
       }
     })
   );
