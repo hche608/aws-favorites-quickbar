@@ -45,6 +45,7 @@ let favoritesBadgeElement: HTMLElement | null;
 let clearSearchBtnElement: HTMLElement | null;
 let codePipelineHoverInputElement: HTMLInputElement | null;
 let hoverDelaySelectElement: HTMLSelectElement | null;
+let hoverDelayContainerElement: HTMLElement | null;
 
 /**
  * Initializes the popup UI
@@ -61,6 +62,7 @@ async function initializePopup(): Promise<void> {
     'codePipelineHoverInput'
   ) as HTMLInputElement | null;
   hoverDelaySelectElement = document.getElementById('hoverDelaySelect') as HTMLSelectElement | null;
+  hoverDelayContainerElement = document.getElementById('hoverDelayContainer');
   pinningNoteElement = document.getElementById('pinningNote')!;
   favoritesBadgeElement = document.getElementById('favoritesBadge');
   clearSearchBtnElement = document.getElementById('clearSearchBtn');
@@ -111,6 +113,9 @@ async function loadSettingsIntoUI(): Promise<void> {
     storedHover === undefined ? STORAGE_DEFAULTS.enableCodePipelineHoverPreview : storedHover;
   if (codePipelineHoverInputElement) {
     codePipelineHoverInputElement.checked = hoverEnabled;
+  }
+  if (hoverDelayContainerElement) {
+    hoverDelayContainerElement.classList.toggle('disabled', !hoverEnabled);
   }
 
   const storedDelay = await loadCodePipelineHoverDelay();
@@ -166,7 +171,11 @@ function setupEventListeners(): void {
 
   if (codePipelineHoverInputElement) {
     codePipelineHoverInputElement.addEventListener('change', (e) => {
-      saveCodePipelineHoverPreference((e.target as HTMLInputElement).checked);
+      const checked = (e.target as HTMLInputElement).checked;
+      saveCodePipelineHoverPreference(checked);
+      if (hoverDelayContainerElement) {
+        hoverDelayContainerElement.classList.toggle('disabled', !checked);
+      }
     });
   }
 

@@ -56,43 +56,47 @@
     </div>
 
     <div class="settings-toolbar">
-      <div class="settings-container">
-        <label for="maxServicesInput">Quickbar Limit:</label>
-        <div class="input-stepper">
-          <input 
-            type="number" 
-            id="maxServicesInput" 
-            min="1" 
-            max="50" 
-            value="10"
-          >
+      <div class="settings-row">
+        <div class="settings-container">
+          <label for="maxServicesInput">Quickbar Limit:</label>
+          <div class="input-stepper">
+            <input 
+              type="number" 
+              id="maxServicesInput" 
+              min="1" 
+              max="50" 
+              value="10"
+            >
+          </div>
+        </div>
+
+        <div class="settings-container">
+          <label for="visualModeSelect">Theme:</label>
+          <select id="visualModeSelect">
+            <option value="light">Light</option>
+            <option value="dark" selected>Dark</option>
+          </select>
         </div>
       </div>
 
-      <div class="settings-container">
-        <label for="visualModeSelect">Theme:</label>
-        <select id="visualModeSelect">
-          <option value="light">Light</option>
-          <option value="dark" selected>Dark</option>
-        </select>
-      </div>
+      <div class="settings-row">
+        <div class="settings-container">
+          <label for="codePipelineHoverInput" title="Preview pipeline execution stages on hover" style="cursor: pointer; display: flex; align-items: center; gap: 6px;">
+            <input type="checkbox" id="codePipelineHoverInput" checked>
+            <span>CodePipeline Preview</span>
+          </label>
+        </div>
 
-      <div class="settings-container">
-        <label for="codePipelineHoverInput" title="Preview pipeline execution stages on hover" style="cursor: pointer; display: flex; align-items: center; gap: 4px;">
-          <input type="checkbox" id="codePipelineHoverInput" checked>
-          <span>Pipeline</span>
-        </label>
-      </div>
-
-      <div class="settings-container" id="hoverDelayContainer">
-        <label for="hoverDelaySelect" title="Hover delay before showing CodePipeline preview">Delay:</label>
-        <select id="hoverDelaySelect">
-          <option value="500">0.5s</option>
-          <option value="1000" selected>1.0s</option>
-          <option value="1500">1.5s</option>
-          <option value="2000">2.0s</option>
-          <option value="3000">3.0s</option>
-        </select>
+        <div class="settings-container" id="hoverDelayContainer">
+          <label for="hoverDelaySelect" title="Hover delay before showing CodePipeline preview">Delay:</label>
+          <select id="hoverDelaySelect">
+            <option value="500">0.5s</option>
+            <option value="1000" selected>1.0s</option>
+            <option value="1500">1.5s</option>
+            <option value="2000">2.0s</option>
+            <option value="3000">3.0s</option>
+          </select>
+        </div>
       </div>
     </div>
 
