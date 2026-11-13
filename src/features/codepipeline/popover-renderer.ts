@@ -75,30 +75,32 @@ export function renderLoadingPopover(
   removePipelinePopover(true);
 
   const dark = isDarkMode();
+  const loadingDetails = getStatusDetails('InProgress', dark);
+
   const popover = document.createElement('div');
   popover.id = POPOVER_ID;
 
   const styleEl = document.createElement('style');
-  styleEl.textContent = getPopoverStyles(dark);
+  styleEl.textContent = getPopoverStyles(dark, loadingDetails.accent);
   popover.appendChild(styleEl);
-
-  const loadingDetails = getStatusDetails('InProgress', dark);
 
   const content = document.createElement('div');
   content.innerHTML = `
-    <div class=\"popover-header\">
-      <div class=\"popover-title-row\">
-        <span class=\"popover-service-icon\">
-          <svg width=\"14\" height=\"14\" viewBox=\"0 0 16 16\" fill=\"currentColor\"><path d=\"M2 3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3zm2 1v8h8V4H4z\"/></svg>
+    <div class="popover-header">
+      <div class="popover-title-row">
+        <span class="popover-service-icon">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M2 3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3zm2 1v8h8V4H4z"/></svg>
         </span>
-        <span class=\"popover-title-text\">${pipelineName}</span>
+        <span class="popover-title-text">${pipelineName}</span>
       </div>
-      <div class=\"popover-badge\" style=\"background:${loadingDetails.bg};color:${loadingDetails.color};border-color:${loadingDetails.border};\">
+      <div class="popover-badge" style="background:${loadingDetails.bg};color:${loadingDetails.color};border-color:${loadingDetails.border};">
         <span>${loadingDetails.symbol}</span> Loading...
       </div>
     </div>
-    <div class=\"popover-loading\">
-      <span>Fetching execution state...</span>
+    <div class="popover-body">
+      <div class="popover-loading">
+        <span>Fetching execution state...</span>
+      </div>
     </div>
   `;
   popover.appendChild(content);
@@ -121,30 +123,32 @@ export function renderErrorPopover(
   removePipelinePopover(true);
 
   const dark = isDarkMode();
+  const errorDetails = getStatusDetails('Failed', dark);
+
   const popover = document.createElement('div');
   popover.id = POPOVER_ID;
 
   const styleEl = document.createElement('style');
-  styleEl.textContent = getPopoverStyles(dark);
+  styleEl.textContent = getPopoverStyles(dark, errorDetails.accent);
   popover.appendChild(styleEl);
-
-  const errorDetails = getStatusDetails('Failed', dark);
 
   const content = document.createElement('div');
   content.innerHTML = `
-    <div class=\"popover-header\">
-      <div class=\"popover-title-row\">
-        <span class=\"popover-service-icon\">
-          <svg width=\"14\" height=\"14\" viewBox=\"0 0 16 16\" fill=\"currentColor\"><path d=\"M2 3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3zm2 1v8h8V4H4z\"/></svg>
+    <div class="popover-header">
+      <div class="popover-title-row">
+        <span class="popover-service-icon">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M2 3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3zm2 1v8h8V4H4z"/></svg>
         </span>
-        <span class=\"popover-title-text\">${pipelineName}</span>
+        <span class="popover-title-text">${pipelineName}</span>
       </div>
-      <div class=\"popover-badge\" style=\"background:${errorDetails.bg};color:${errorDetails.color};border-color:${errorDetails.border};\">
+      <div class="popover-badge" style="background:${errorDetails.bg};color:${errorDetails.color};border-color:${errorDetails.border};">
         <span>${errorDetails.symbol}</span> Failed
       </div>
     </div>
-    <div style=\"font-size:11.5px;color:${errorDetails.color};padding:6px 0;word-break:break-all;\">
-      ${errorMessage}
+    <div class="popover-body">
+      <div style="font-size:11.5px;color:${errorDetails.color};word-break:break-all;">
+        ${errorMessage}
+      </div>
     </div>
   `;
   popover.appendChild(content);
@@ -157,7 +161,7 @@ export function renderErrorPopover(
 }
 
 /**
- * Renders Option B layout for pipeline execution state.
+ * Renders Option B layout for pipeline execution state with active stage auto-focus.
  */
 export function renderPipelinePopover(
   targetElement: HTMLElement,
@@ -166,63 +170,81 @@ export function renderPipelinePopover(
   removePipelinePopover(true);
 
   const dark = isDarkMode();
+  const overall = getStatusDetails(summary.status, dark);
   const popover = document.createElement('div');
   popover.id = POPOVER_ID;
 
   const styleEl = document.createElement('style');
-  styleEl.textContent = getPopoverStyles(dark);
+  styleEl.textContent = getPopoverStyles(dark, overall.accent);
   popover.appendChild(styleEl);
 
-  const overall = getStatusDetails(summary.status, dark);
   const executionText = summary.executionId
     ? `Execution: ${summary.executionId.slice(0, 8)}...`
     : '';
+
+  // Determine stage to auto-focus (first failed stage, or in-progress stage)
+  const failedIdx = summary.stages.findIndex((s) => s.status === 'Failed');
+  const inProgressIdx = summary.stages.findIndex((s) => s.status === 'InProgress');
+  const focusIdx = failedIdx !== -1 ? failedIdx : inProgressIdx;
 
   const flowHtml = summary.stages
     .map((stage, idx) => {
       const action = stage.primaryAction;
       const actionDetails = getStatusDetails(action.status, dark);
       const isLast = idx === summary.stages.length - 1;
+      const isFocused = idx === focusIdx;
+
+      let highlightClass = '';
+      if (stage.status === 'Failed') {
+        highlightClass = ' stage-failed';
+      } else if (stage.status === 'InProgress') {
+        highlightClass = ' stage-in-progress';
+      }
+      if (isFocused) {
+        highlightClass += ' stage-focus';
+      }
 
       return `
-        <div class=\"stage-node\">
-          <div class=\"stage-title\" title=\"${stage.stageName}\">${stage.stageName}</div>
-          <div class=\"stage-action-row\">
-            <span style=\"color:${actionDetails.color};font-weight:700;\">${actionDetails.symbol}</span>
-            <span class=\"action-name\" title=\"${action.actionName}\">${action.actionName}</span>
-            ${action.durationText ? `<span class=\"stage-duration\">${action.durationText}</span>` : ''}
+        <div class="stage-node${highlightClass}">
+          <div class="stage-title" title="${stage.stageName}">${stage.stageName}</div>
+          <div class="stage-action-row">
+            <span style="color:${actionDetails.color};font-weight:700;">${actionDetails.symbol}</span>
+            <span class="action-name" title="${action.actionName}">${action.actionName}</span>
+            ${action.durationText ? `<span class="stage-duration">${action.durationText}</span>` : ''}
           </div>
           ${
             stage.progressSummaryText
-              ? `<div class=\"stage-progress-summary\" title=\"${stage.progressSummaryText}\">${stage.progressSummaryText}</div>`
-              : `<div class=\"stage-progress-summary\" style=\"opacity:0;\">-</div>`
+              ? `<div class="stage-progress-summary" title="${stage.progressSummaryText}">${stage.progressSummaryText}</div>`
+              : `<div class="stage-progress-summary" style="opacity:0;">-</div>`
           }
         </div>
-        ${!isLast ? '<div class=\"flow-arrow\"><svg width=\"12\" height=\"12\" viewBox=\"0 0 16 16\" fill=\"currentColor\"><path fill-rule=\"evenodd\" d=\"M6.22 3.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042L9.94 8 6.22 4.28a.75.75 0 0 1 0-1.06Z\"/></svg></div>' : ''}
+        ${!isLast ? '<div class="flow-arrow"><svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M6.22 3.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042L9.94 8 6.22 4.28a.75.75 0 0 1 0-1.06Z"/></svg></div>' : ''}
       `;
     })
     .join('');
 
   const container = document.createElement('div');
   container.innerHTML = `
-    <div class=\"popover-header\">
-      <div class=\"popover-title-row\">
-        <span class=\"popover-service-icon\">
-          <svg width=\"14\" height=\"14\" viewBox=\"0 0 16 16\" fill=\"currentColor\"><path d=\"M2 3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3zm2 1v8h8V4H4z\"/></svg>
+    <div class="popover-header">
+      <div class="popover-title-row">
+        <span class="popover-service-icon">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M2 3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3zm2 1v8h8V4H4z"/></svg>
         </span>
-        <span class=\"popover-title-text\">${summary.pipelineName}</span>
+        <span class="popover-title-text">${summary.pipelineName}</span>
       </div>
-      <div class=\"popover-badge\" style=\"background:${overall.bg};color:${overall.color};border-color:${overall.border};\">
+      <div class="popover-badge" style="background:${overall.bg};color:${overall.color};border-color:${overall.border};">
         <span>${overall.symbol}</span>
         <span>${summary.status}</span>
       </div>
     </div>
-    <div class=\"popover-meta\">
-      ${executionText ? `<span>${executionText}</span>` : ''}
-      <span>Stages: ${summary.stages.length}</span>
-    </div>
-    <div class=\"popover-flow\">
-      ${flowHtml || '<div style=\"color:#545b64;font-size:12px;\">No stage information</div>'}
+    <div class="popover-body">
+      <div class="popover-meta">
+        ${executionText ? `<span>${executionText}</span>` : ''}
+        <span>Stages: ${summary.stages.length}</span>
+      </div>
+      <div class="popover-flow">
+        ${flowHtml || '<div style="color:#545b64;font-size:12px;">No stage information</div>'}
+      </div>
     </div>
   `;
   popover.appendChild(container);
@@ -234,7 +256,22 @@ export function renderPipelinePopover(
 
   document.body.appendChild(popover);
   positionPopover(popover, targetElement.getBoundingClientRect());
-  requestAnimationFrame(() => popover.classList.add('popover-visible'));
+  requestAnimationFrame(() => {
+    popover.classList.add('popover-visible');
+    // Auto-scroll to active or failed stage if present
+    if (flowEl && focusIdx > 0) {
+      const focusStageEl = flowEl.querySelector<HTMLElement>('.stage-focus');
+      if (focusStageEl) {
+        const targetScroll =
+          focusStageEl.offsetLeft - flowEl.offsetWidth / 2 + focusStageEl.offsetWidth / 2;
+        if (typeof flowEl.scrollTo === 'function') {
+          flowEl.scrollTo({ left: Math.max(0, targetScroll), behavior: 'smooth' });
+        } else {
+          flowEl.scrollLeft = Math.max(0, targetScroll);
+        }
+      }
+    }
+  });
 
   return popover;
 }

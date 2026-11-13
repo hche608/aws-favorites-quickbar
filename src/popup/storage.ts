@@ -194,3 +194,21 @@ export async function loadCodePipelineHoverPreference(): Promise<boolean | undef
 export async function saveCodePipelineHoverPreference(enabled: boolean): Promise<void> {
   await storage.sync.set({ enableCodePipelineHoverPreview: enabled });
 }
+
+/**
+ * Loads CodePipeline hover preview delay from sync storage.
+ */
+export async function loadCodePipelineHoverDelay(): Promise<number | undefined> {
+  const result = await storage.sync.get(['codePipelineHoverDelayMs']);
+  if (typeof result.codePipelineHoverDelayMs === 'number') {
+    return result.codePipelineHoverDelayMs;
+  }
+  return undefined;
+}
+
+/**
+ * Saves CodePipeline hover preview delay to sync storage.
+ */
+export async function saveCodePipelineHoverDelay(delayMs: number): Promise<void> {
+  await storage.sync.set({ codePipelineHoverDelayMs: delayMs });
+}

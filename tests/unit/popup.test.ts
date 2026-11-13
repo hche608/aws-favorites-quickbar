@@ -14,7 +14,9 @@ vi.mock('../../src/popup/storage', () => ({
   loadVisualMode: vi.fn().mockResolvedValue(undefined),
   saveVisualMode: vi.fn().mockResolvedValue(undefined),
   loadCodePipelineHoverPreference: vi.fn().mockResolvedValue(undefined),
-  saveCodePipelineHoverPreference: vi.fn().mockResolvedValue(undefined)
+  saveCodePipelineHoverPreference: vi.fn().mockResolvedValue(undefined),
+  loadCodePipelineHoverDelay: vi.fn().mockResolvedValue(undefined),
+  saveCodePipelineHoverDelay: vi.fn().mockResolvedValue(undefined)
 }));
 
 vi.mock('../../src/popup/search', () => ({

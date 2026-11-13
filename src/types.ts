@@ -54,6 +54,8 @@ export interface StorageData {
   visualMode?: VisualMode;
   /** Whether CodePipeline hover preview is enabled (default: true) */
   enableCodePipelineHoverPreview?: boolean;
+  /** Delay in milliseconds before showing CodePipeline hover preview (default: 1000) */
+  codePipelineHoverDelayMs?: number;
 }
 
 /**
@@ -65,7 +67,8 @@ export const STORAGE_DEFAULTS = {
   userFavorites: [] as string[],
   maxServices: 10,
   visualMode: 'light' as VisualMode,
-  enableCodePipelineHoverPreview: true
+  enableCodePipelineHoverPreview: true,
+  codePipelineHoverDelayMs: 1000
 } as const;
 
 /**

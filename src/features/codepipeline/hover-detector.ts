@@ -8,8 +8,10 @@ import {
 import { POPOVER_ID } from './popover-styles';
 import { loadSettings } from '../../settings';
 
-const HOVER_DELAY_MS = 3000;
+const DEFAULT_HOVER_DELAY_MS = 1000;
 const DISMISS_DELAY_MS = 250;
+
+export let configuredHoverDelayMs = DEFAULT_HOVER_DELAY_MS;
 
 interface ActiveHoverState {
   element: HTMLElement;
@@ -135,7 +137,7 @@ function handleMouseOver(event: MouseEvent): void {
         );
       }
     }
-  }, HOVER_DELAY_MS);
+  }, configuredHoverDelayMs);
 
   activeState = {
     element: anchor,
@@ -186,6 +188,8 @@ export async function initCodePipelineHover(): Promise<void> {
     return;
   }
 
+  configuredHoverDelayMs = settings.codePipelineHoverDelayMs || DEFAULT_HOVER_DELAY_MS;
+
   if (isInitialized) {
     return;
   }
@@ -200,6 +204,7 @@ export async function initCodePipelineHover(): Promise<void> {
  */
 export function cleanupCodePipelineHover(): void {
   cancelHover();
+  configuredHoverDelayMs = DEFAULT_HOVER_DELAY_MS;
   if (isInitialized) {
     document.removeEventListener('mouseover', handleMouseOver, true);
     document.removeEventListener('mouseout', handleMouseOut, true);

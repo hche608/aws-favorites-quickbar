@@ -17,6 +17,7 @@ export interface ResolvedSettings {
   maxServices: number;
   visualMode: VisualMode;
   enableCodePipelineHoverPreview: boolean;
+  codePipelineHoverDelayMs: number;
 }
 
 /**
@@ -32,7 +33,8 @@ export async function loadSettings(): Promise<ResolvedSettings> {
     'userFavorites',
     'maxServices',
     'visualMode',
-    'enableCodePipelineHoverPreview'
+    'enableCodePipelineHoverPreview',
+    'codePipelineHoverDelayMs'
   ]);
 
   // User favorites
@@ -80,7 +82,25 @@ export async function loadSettings(): Promise<ResolvedSettings> {
     await browserStorage.sync.set({ enableCodePipelineHoverPreview });
   }
 
-  return { favoriteIds, maxServices, visualMode, enableCodePipelineHoverPreview };
+  // CodePipeline Hover Delay (ms)
+  let codePipelineHoverDelayMs: number;
+  if (result.codePipelineHoverDelayMs === undefined) {
+    codePipelineHoverDelayMs = STORAGE_DEFAULTS.codePipelineHoverDelayMs;
+    await browserStorage.sync.set({ codePipelineHoverDelayMs });
+  } else if (typeof result.codePipelineHoverDelayMs === 'number') {
+    codePipelineHoverDelayMs = result.codePipelineHoverDelayMs;
+  } else {
+    codePipelineHoverDelayMs = STORAGE_DEFAULTS.codePipelineHoverDelayMs;
+    await browserStorage.sync.set({ codePipelineHoverDelayMs });
+  }
+
+  return {
+    favoriteIds,
+    maxServices,
+    visualMode,
+    enableCodePipelineHoverPreview,
+    codePipelineHoverDelayMs
+  };
 }
 
 /**

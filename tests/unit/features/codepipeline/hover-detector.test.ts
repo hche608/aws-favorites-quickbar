@@ -96,8 +96,8 @@ describe('CodePipeline hover-detector', () => {
       // Simulate mouseover
       anchor.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
 
-      // Fast-forward 2500ms (before threshold)
-      vi.advanceTimersByTime(2500);
+      // Fast-forward 500ms (before 1000ms threshold)
+      vi.advanceTimersByTime(500);
       expect(fetchSpy).not.toHaveBeenCalled();
 
       // Simulate mouseout
