@@ -110,9 +110,9 @@ export function parsePipelineStateResponse(
     let progressSummaryText: string | undefined;
     if (totalActions > 1) {
       if (completedActions > 0) {
-        progressSummaryText = `[${completedActions}/${totalActions} 完成: ${completedNames.join(', ')}]`;
+        progressSummaryText = `[${completedActions}/${totalActions} completed: ${completedNames.join(', ')}]`;
       } else {
-        progressSummaryText = `[0/${totalActions} 进行中]`;
+        progressSummaryText = `[0/${totalActions} in progress]`;
       }
     }
 

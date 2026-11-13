@@ -47,7 +47,7 @@ describe('CodePipeline popover-renderer', () => {
       expect(popover).not.toBeNull();
       expect(popover.id).toBe('aws-favorites-codepipeline-popover');
       expect(popover.textContent).toContain('my-loading-pipeline');
-      expect(popover.textContent).toContain('加载中');
+      expect(popover.textContent).toContain('Loading...');
     });
   });
 
@@ -74,7 +74,7 @@ describe('CodePipeline popover-renderer', () => {
             status: 'InProgress',
             totalActions: 2,
             completedActions: 1,
-            progressSummaryText: '[1/2 完成: Lint]',
+            progressSummaryText: '[1/2 completed: Lint]',
             primaryAction: {
               actionName: 'UnitTests',
               status: 'InProgress',
@@ -107,13 +107,13 @@ describe('CodePipeline popover-renderer', () => {
       expect(popover.textContent).toContain('Test');
       expect(popover.textContent).toContain('UnitTests');
       expect(popover.textContent).toContain('2m');
-      expect(popover.textContent).toContain('[1/2 完成: Lint]');
+      expect(popover.textContent).toContain('[1/2 completed: Lint]');
 
       expect(popover.textContent).toContain('Deploy');
       expect(popover.textContent).toContain('CfnDeploy');
 
-      // Arrows
-      expect(popover.textContent).toContain('──▶');
+      // Flow arrows present
+      expect(popover.querySelectorAll('.flow-arrow').length).toBe(2);
     });
 
     it('positions the popover above if near bottom of viewport', () => {

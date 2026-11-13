@@ -223,7 +223,7 @@ describe('CodePipeline pipeline-service', () => {
       };
 
       const summary = parsePipelineStateResponse(raw);
-      expect(summary.stages[0].progressSummaryText).toBe('[1/2 完成: Lint]');
+      expect(summary.stages[0].progressSummaryText).toBe('[1/2 completed: Lint]');
     });
   });
 

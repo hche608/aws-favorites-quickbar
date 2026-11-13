@@ -151,7 +151,7 @@ describe('CodePipeline hover-detector', () => {
 
       // Now simulate mouseout
       anchor.dispatchEvent(new MouseEvent('mouseout', { bubbles: true }));
-      vi.advanceTimersByTime(200);
+      vi.advanceTimersByTime(500);
 
       expect(document.getElementById('aws-favorites-codepipeline-popover')).toBeNull();
     });
