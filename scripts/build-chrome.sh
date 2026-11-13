@@ -12,8 +12,10 @@ mkdir -p dist/chrome
 # Copy bundled files and source maps
 cp dist/content.js dist/chrome/
 cp dist/popup.js dist/chrome/
+cp dist/main-world.js dist/chrome/
 [ -f "dist/content.js.map" ] && cp dist/content.js.map dist/chrome/
 [ -f "dist/popup.js.map" ] && cp dist/popup.js.map dist/chrome/
+[ -f "dist/main-world.js.map" ] && cp dist/main-world.js.map dist/chrome/
 
 # Copy static assets
 cp manifest.json dist/chrome/

@@ -1,12 +1,5 @@
 /**
  * AWS Favorites Quickbar - Popup Main Entry Point
- *
- * This is the main entry point for the popup UI that allows users to manage their
- * favorite AWS services. It coordinates all popup modules including storage, search,
- * UI state management, service items, and drag-and-drop functionality.
- *
- * The popup displays a list of AWS services that users can select as favorites,
- * search through, and reorder via drag-and-drop.
  */
 
 import {
@@ -15,7 +8,9 @@ import {
   loadMaxServices,
   saveMaxServices,
   loadVisualMode,
-  saveVisualMode
+  saveVisualMode,
+  loadCodePipelineHoverPreference,
+  saveCodePipelineHoverPreference
 } from './popup/storage';
 import { searchServices, ensureFavoritesInList } from './popup/search';
 import { getCatalogServices } from './services/service-catalog';
@@ -46,6 +41,7 @@ let visualModeSelectElement: HTMLSelectElement;
 let pinningNoteElement: HTMLElement;
 let favoritesBadgeElement: HTMLElement | null;
 let clearSearchBtnElement: HTMLElement | null;
+let codePipelineHoverInputElement: HTMLInputElement | null;
 
 /**
  * Initializes the popup UI
@@ -58,6 +54,9 @@ async function initializePopup(): Promise<void> {
   retryButtonElement = document.getElementById('retryButton')!;
   maxServicesInputElement = document.getElementById('maxServicesInput') as HTMLInputElement;
   visualModeSelectElement = document.getElementById('visualModeSelect') as HTMLSelectElement;
+  codePipelineHoverInputElement = document.getElementById(
+    'codePipelineHoverInput'
+  ) as HTMLInputElement | null;
   pinningNoteElement = document.getElementById('pinningNote')!;
   favoritesBadgeElement = document.getElementById('favoritesBadge');
   clearSearchBtnElement = document.getElementById('clearSearchBtn');
@@ -109,6 +108,14 @@ async function loadSettingsIntoUI(): Promise<void> {
     visualModeSelectElement.value = visualMode;
   }
   setPopupTheme(visualMode);
+
+  // CodePipeline Hover Preview
+  const storedHover = await loadCodePipelineHoverPreference();
+  const hoverEnabled =
+    storedHover === undefined ? STORAGE_DEFAULTS.enableCodePipelineHoverPreview : storedHover;
+  if (codePipelineHoverInputElement) {
+    codePipelineHoverInputElement.checked = hoverEnabled;
+  }
 }
 
 /**
@@ -166,6 +173,13 @@ function setupEventListeners(): void {
       if (mode === 'light' || mode === 'dark') {
         saveVisualModeSetting(mode);
       }
+    });
+  }
+
+  if (codePipelineHoverInputElement) {
+    codePipelineHoverInputElement.addEventListener('change', (e) => {
+      const target = e.target as HTMLInputElement;
+      saveCodePipelineHoverPreference(target.checked);
     });
   }
 

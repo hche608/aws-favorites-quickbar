@@ -172,3 +172,25 @@ export async function loadVisualMode(): Promise<VisualMode | undefined> {
 export async function saveVisualMode(mode: VisualMode): Promise<void> {
   await storage.sync.set({ visualMode: mode });
 }
+
+/**
+ * Loads CodePipeline hover preview preference from sync storage.
+ *
+ * @returns Promise resolving to boolean or undefined if not set
+ */
+export async function loadCodePipelineHoverPreference(): Promise<boolean | undefined> {
+  const result = await storage.sync.get(['enableCodePipelineHoverPreview']);
+  if (result.enableCodePipelineHoverPreview === undefined) {
+    return undefined;
+  }
+  return typeof result.enableCodePipelineHoverPreview === 'boolean'
+    ? result.enableCodePipelineHoverPreview
+    : undefined;
+}
+
+/**
+ * Saves CodePipeline hover preview preference to sync storage.
+ */
+export async function saveCodePipelineHoverPreference(enabled: boolean): Promise<void> {
+  await storage.sync.set({ enableCodePipelineHoverPreview: enabled });
+}

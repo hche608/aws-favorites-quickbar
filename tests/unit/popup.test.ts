@@ -12,7 +12,9 @@ vi.mock('../../src/popup/storage', () => ({
   loadMaxServices: vi.fn().mockResolvedValue(undefined),
   saveMaxServices: vi.fn().mockResolvedValue(undefined),
   loadVisualMode: vi.fn().mockResolvedValue(undefined),
-  saveVisualMode: vi.fn().mockResolvedValue(undefined)
+  saveVisualMode: vi.fn().mockResolvedValue(undefined),
+  loadCodePipelineHoverPreference: vi.fn().mockResolvedValue(undefined),
+  saveCodePipelineHoverPreference: vi.fn().mockResolvedValue(undefined)
 }));
 
 vi.mock('../../src/popup/search', () => ({
@@ -61,7 +63,9 @@ import {
   loadMaxServices,
   saveMaxServices,
   loadVisualMode,
-  saveVisualMode
+  saveVisualMode,
+  loadCodePipelineHoverPreference,
+  saveCodePipelineHoverPreference
 } from '../../src/popup/storage';
 import { showErrorState, showStorageWarning } from '../../src/popup/ui-state';
 import { renderServiceList } from '../../src/popup/service-list-renderer';
@@ -85,6 +89,9 @@ function setupPopupDOM(): void {
           <option value="dark">Dark</option>
         </select>
       </div>
+      <div class="settings-container">
+        <input type="checkbox" id="codePipelineHoverInput" checked />
+      </div>
       <div id="serviceList" class="service-list"></div>
       <div id="emptyState" style="display: none;"></div>
       <div id="errorState" style="display: none;">
@@ -102,6 +109,7 @@ describe('Popup', () => {
     (storage.local.get as jest.Mock).mockResolvedValue({});
     (loadMaxServices as jest.Mock).mockResolvedValue(undefined);
     (loadVisualMode as jest.Mock).mockResolvedValue(undefined);
+    (loadCodePipelineHoverPreference as jest.Mock).mockResolvedValue(undefined);
     (loadCachedServices as jest.Mock).mockResolvedValue(undefined);
     (loadUserFavorites as jest.Mock).mockResolvedValue(undefined);
     (tabs.query as jest.Mock).mockResolvedValue([]);

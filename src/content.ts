@@ -39,6 +39,7 @@ import { Service } from './types';
 import { loadSettings, applyVisualMode } from './settings';
 import { resolveServiceIcon } from './services/service-icons';
 import { formatServiceName } from './services/service-catalog';
+import { initCodePipelineHover } from './features/codepipeline/hover-detector';
 
 /**
  * CSS selectors for the AWS Console quickbar element.
@@ -109,6 +110,11 @@ async function init(): Promise<void> {
   if (!isAWSConsolePage()) {
     return;
   }
+
+  // Initialize CodePipeline hover preview when on CodePipeline pages
+  initCodePipelineHover().catch((error) => {
+    console.warn('AWS Favorites Quickbar: Failed to initialize CodePipeline hover', error);
+  });
 
   const region = detectRegion();
   const settings = await loadSettings();
