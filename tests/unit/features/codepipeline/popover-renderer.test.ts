@@ -162,6 +162,19 @@ describe('CodePipeline popover-renderer', () => {
       const topPx = parseInt(popover.style.top, 10);
       expect(topPx).toBeLessThan(750);
     });
+
+    it('safely escapes special HTML characters in pipeline names and stages', async () => {
+      const { renderErrorPopover } =
+        await import('../../../../src/features/codepipeline/popover-renderer');
+      const errorPopover = renderErrorPopover(
+        targetElement,
+        '<bad-pipeline>',
+        'Error: <script>boom</script>'
+      );
+      expect(errorPopover.innerHTML).not.toContain('<script>boom</script>');
+      expect(errorPopover.innerHTML).toContain('&lt;bad-pipeline&gt;');
+      expect(errorPopover.innerHTML).toContain('&lt;script&gt;boom&lt;/script&gt;');
+    });
   });
 
   describe('removePipelinePopover', () => {

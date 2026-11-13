@@ -6,7 +6,12 @@
 
 import { executeCodePipelineApi } from './sigv4-signer';
 
-const capturedPipelineStates = new Map<string, any>();
+interface CachedState {
+  data: any;
+  timestamp: number;
+}
+
+const capturedPipelineStates = new Map<string, CachedState>();
 let lastCapturedHeaders: Record<string, string> | null = null;
 let lastCapturedEndpoint: string | null = null;
 let cachedCodePipelineClient: any = null;
@@ -109,7 +114,7 @@ XMLHttpRequest.prototype.send = function (body?: any): void {
             data.pipelineName || (data.pipeline && data.pipeline.name) || requestBodyName;
 
           if (pipelineKey && (data.stageStates || data.pipeline || data.pipelineExecution)) {
-            capturedPipelineStates.set(pipelineKey, data);
+            capturedPipelineStates.set(pipelineKey, { data, timestamp: Date.now() });
           }
         }
       } catch {
@@ -153,7 +158,12 @@ window.fetch = async function (...args: Parameters<typeof fetch>): Promise<Respo
           console.log('[AWS Quickbar] Captured TB credentials:', data ? Object.keys(data) : null);
           if (
             data &&
-            (data.AccessKeyId || data.accessKeyId || data.SecretAccessKey || data.secretAccessKey)
+            (data.AccessKeyId ||
+              data.accessKeyId ||
+              data.SecretAccessKey ||
+              data.secretAccessKey ||
+              data.SecurityToken ||
+              data.securityToken)
           ) {
             capturedCredentials = data;
             try {
@@ -170,9 +180,9 @@ window.fetch = async function (...args: Parameters<typeof fetch>): Promise<Respo
         .json()
         .then((data) => {
           if (data && data.pipelineName) {
-            capturedPipelineStates.set(data.pipelineName, data);
+            capturedPipelineStates.set(data.pipelineName, { data, timestamp: Date.now() });
           } else if (data && data.pipeline && data.pipeline.name) {
-            capturedPipelineStates.set(data.pipeline.name, data);
+            capturedPipelineStates.set(data.pipeline.name, { data, timestamp: Date.now() });
           }
         })
         .catch(() => {});
@@ -191,10 +201,18 @@ window.addEventListener('AWS_FAVORITES_GET_PIPELINE_STATE', (async (e: Event) =>
   if (!pipelineName || !requestId) return;
 
   // 1. Check if we already have captured state for this pipeline
-  if (capturedPipelineStates.has(pipelineName)) {
+  const cached = capturedPipelineStates.get(pipelineName);
+  const now = Date.now();
+  const isFresh = cached && now - cached.timestamp < 15000;
+  const isInProgress = cached?.data?.stageStates?.some(
+    (s: any) => s.latestExecution?.status === 'InProgress'
+  );
+
+  // If cached and fresh (and not InProgress or InProgress < 5s old), return cached immediately
+  if (cached && isFresh && (!isInProgress || now - cached.timestamp < 5000)) {
     window.dispatchEvent(
       new CustomEvent('AWS_FAVORITES_PIPELINE_STATE_RESULT', {
-        detail: { requestId, success: true, data: capturedPipelineStates.get(pipelineName) }
+        detail: { requestId, success: true, data: cached.data }
       })
     );
     return;
@@ -210,7 +228,7 @@ window.addEventListener('AWS_FAVORITES_GET_PIPELINE_STATE', (async (e: Event) =>
         region || 'ap-southeast-2'
       );
       if (data) {
-        capturedPipelineStates.set(pipelineName, data);
+        capturedPipelineStates.set(pipelineName, { data, timestamp: Date.now() });
         window.dispatchEvent(
           new CustomEvent('AWS_FAVORITES_PIPELINE_STATE_RESULT', {
             detail: { requestId, success: true, data }
@@ -230,7 +248,7 @@ window.addEventListener('AWS_FAVORITES_GET_PIPELINE_STATE', (async (e: Event) =>
       const req = client.getPipelineState({ name: pipelineName });
       const data = typeof req.promise === 'function' ? await req.promise() : await req;
       if (data) {
-        capturedPipelineStates.set(pipelineName, data);
+        capturedPipelineStates.set(pipelineName, { data, timestamp: Date.now() });
         window.dispatchEvent(
           new CustomEvent('AWS_FAVORITES_PIPELINE_STATE_RESULT', {
             detail: { requestId, success: true, data }
@@ -241,6 +259,16 @@ window.addEventListener('AWS_FAVORITES_GET_PIPELINE_STATE', (async (e: Event) =>
     } catch (sdkError) {
       console.warn('[AWS Quickbar] Native SDK call failed:', sdkError);
     }
+  }
+
+  // 4. Graceful fallback: return cached data if available even if older than TTL
+  if (cached) {
+    window.dispatchEvent(
+      new CustomEvent('AWS_FAVORITES_PIPELINE_STATE_RESULT', {
+        detail: { requestId, success: true, data: cached.data }
+      })
+    );
+    return;
   }
 
   window.dispatchEvent(

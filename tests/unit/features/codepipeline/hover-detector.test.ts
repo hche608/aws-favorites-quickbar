@@ -67,6 +67,27 @@ describe('CodePipeline hover-detector', () => {
       expect(parsed?.region).toBe('ap-southeast-2');
     });
 
+    it('extracts pipelineName from link without /view suffix', () => {
+      const anchor = document.createElement('a');
+      anchor.href = '/codesuite/codepipeline/pipelines/my-standalone-pipeline?region=us-east-1';
+      anchor.setAttribute(
+        'href',
+        '/codesuite/codepipeline/pipelines/my-standalone-pipeline?region=us-east-1'
+      );
+
+      const parsed = parsePipelineFromLink(anchor);
+      expect(parsed).not.toBeNull();
+      expect(parsed?.pipelineName).toBe('my-standalone-pipeline');
+      expect(parsed?.region).toBe('us-east-1');
+    });
+
+    it('returns null for reserved console path keywords like new or pipelines', () => {
+      const anchor = document.createElement('a');
+      anchor.href = '/codesuite/codepipeline/pipelines/new';
+      anchor.setAttribute('href', '/codesuite/codepipeline/pipelines/new');
+      expect(parsePipelineFromLink(anchor)).toBeNull();
+    });
+
     it('returns null for non-matching links', () => {
       const anchor = document.createElement('a');
       anchor.href = '/settings';
@@ -180,6 +201,74 @@ describe('CodePipeline hover-detector', () => {
       vi.advanceTimersByTime(3500);
 
       expect(fetchSpy).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('Dismissal events', () => {
+    it('dismisses popover when Escape key is pressed', async () => {
+      vi.useFakeTimers();
+      vi.spyOn(pipelineService, 'fetchPipelineExecutionState').mockResolvedValue({
+        pipelineName: 'esc-pipeline',
+        status: 'Succeeded',
+        stages: []
+      });
+
+      await initCodePipelineHover();
+      const anchor = document.createElement('a');
+      anchor.setAttribute('href', '/codesuite/codepipeline/pipelines/esc-pipeline/view');
+      document.body.appendChild(anchor);
+
+      anchor.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+      await vi.advanceTimersByTimeAsync(3000);
+      expect(document.getElementById('aws-favorites-codepipeline-popover')).not.toBeNull();
+
+      window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+      vi.advanceTimersByTime(200);
+      expect(document.getElementById('aws-favorites-codepipeline-popover')).toBeNull();
+    });
+
+    it('dismisses popover when window is scrolled outside popover', async () => {
+      vi.useFakeTimers();
+      vi.spyOn(pipelineService, 'fetchPipelineExecutionState').mockResolvedValue({
+        pipelineName: 'scroll-pipeline',
+        status: 'Succeeded',
+        stages: []
+      });
+
+      await initCodePipelineHover();
+      const anchor = document.createElement('a');
+      anchor.setAttribute('href', '/codesuite/codepipeline/pipelines/scroll-pipeline/view');
+      document.body.appendChild(anchor);
+
+      anchor.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+      await vi.advanceTimersByTimeAsync(3000);
+      expect(document.getElementById('aws-favorites-codepipeline-popover')).not.toBeNull();
+
+      window.dispatchEvent(new Event('scroll'));
+      vi.advanceTimersByTime(200);
+      expect(document.getElementById('aws-favorites-codepipeline-popover')).toBeNull();
+    });
+
+    it('dismisses popover when clicking outside the popover', async () => {
+      vi.useFakeTimers();
+      vi.spyOn(pipelineService, 'fetchPipelineExecutionState').mockResolvedValue({
+        pipelineName: 'click-pipeline',
+        status: 'Succeeded',
+        stages: []
+      });
+
+      await initCodePipelineHover();
+      const anchor = document.createElement('a');
+      anchor.setAttribute('href', '/codesuite/codepipeline/pipelines/click-pipeline/view');
+      document.body.appendChild(anchor);
+
+      anchor.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+      await vi.advanceTimersByTimeAsync(3000);
+      expect(document.getElementById('aws-favorites-codepipeline-popover')).not.toBeNull();
+
+      document.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+      vi.advanceTimersByTime(200);
+      expect(document.getElementById('aws-favorites-codepipeline-popover')).toBeNull();
     });
   });
 });

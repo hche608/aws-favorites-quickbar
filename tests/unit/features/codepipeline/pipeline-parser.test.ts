@@ -133,5 +133,33 @@ describe('pipeline-parser', () => {
       expect(summary.stages[0].stageName).toBe('Source');
       expect(summary.stages[0].primaryAction.actionName).toBe('GitHub');
     });
+
+    it('identifies Stopped overall status and prioritizes active executionId', () => {
+      const raw: RawPipelineStateResponse = {
+        pipelineName: 'stopped-pipeline',
+        stageStates: [
+          {
+            stageName: 'Build',
+            actionStates: [{ actionName: 'Compile', latestExecution: { status: 'Stopped' } }],
+            latestExecution: { pipelineExecutionId: 'exec-stopped-99', status: 'Stopped' }
+          }
+        ]
+      };
+      const summary = parsePipelineStateResponse(raw);
+      expect(summary.status).toBe('Stopped');
+      expect(summary.executionId).toBe('exec-stopped-99');
+    });
+  });
+
+  describe('escapeHtml', () => {
+    it('escapes &, <, >, ", and single quotes', async () => {
+      const { escapeHtml } = await import('../../../../src/features/codepipeline/pipeline-parser');
+      expect(escapeHtml('<script>alert("xss")</script>')).toBe(
+        '&lt;script&gt;alert(&quot;xss&quot;)&lt;/script&gt;'
+      );
+      expect(escapeHtml("Tom & Jerry's")).toBe('Tom &amp; Jerry&#39;s');
+      expect(escapeHtml(null)).toBe('');
+      expect(escapeHtml(undefined)).toBe('');
+    });
   });
 });

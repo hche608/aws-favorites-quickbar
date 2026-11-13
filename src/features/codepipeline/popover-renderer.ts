@@ -1,8 +1,14 @@
 import type { PipelineExecutionSummary } from './types';
 import { POPOVER_ID, getPopoverStyles } from './popover-styles';
 import { isDarkMode, getStatusDetails } from './popover-theme';
+import { escapeHtml } from './pipeline-parser';
 
 export { isDarkMode, getStatusDetails };
+
+const PIPELINE_ICON =
+  '<svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M2 3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3zm2 1v8h8V4H4z"/></svg>';
+const ARROW_ICON =
+  '<svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M6.22 3.22a.75.75 0 0 1 1.06 0l4.25 4.25a.751.751 0 0 1 0 1.06l-4.25 4.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042L9.94 8 6.22 4.28a.75 0 0 1 0-1.06Z"/></svg>';
 
 /**
  * Positions the popover relative to the target element's bounding rect.
@@ -88,10 +94,8 @@ export function renderLoadingPopover(
   content.innerHTML = `
     <div class="popover-header">
       <div class="popover-title-row">
-        <span class="popover-service-icon">
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M2 3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3zm2 1v8h8V4H4z"/></svg>
-        </span>
-        <span class="popover-title-text">${pipelineName}</span>
+        <span class="popover-service-icon">${PIPELINE_ICON}</span>
+        <span class="popover-title-text">${escapeHtml(pipelineName)}</span>
       </div>
       <div class="popover-badge" style="background:${loadingDetails.bg};color:${loadingDetails.color};border-color:${loadingDetails.border};">
         <span>${loadingDetails.symbol}</span> Loading...
@@ -136,10 +140,8 @@ export function renderErrorPopover(
   content.innerHTML = `
     <div class="popover-header">
       <div class="popover-title-row">
-        <span class="popover-service-icon">
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M2 3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3zm2 1v8h8V4H4z"/></svg>
-        </span>
-        <span class="popover-title-text">${pipelineName}</span>
+        <span class="popover-service-icon">${PIPELINE_ICON}</span>
+        <span class="popover-title-text">${escapeHtml(pipelineName)}</span>
       </div>
       <div class="popover-badge" style="background:${errorDetails.bg};color:${errorDetails.color};border-color:${errorDetails.border};">
         <span>${errorDetails.symbol}</span> Failed
@@ -147,7 +149,7 @@ export function renderErrorPopover(
     </div>
     <div class="popover-body">
       <div style="font-size:11.5px;color:${errorDetails.color};word-break:break-all;">
-        ${errorMessage}
+        ${escapeHtml(errorMessage)}
       </div>
     </div>
   `;
@@ -206,19 +208,19 @@ export function renderPipelinePopover(
 
       return `
         <div class="stage-node${highlightClass}">
-          <div class="stage-title" title="${stage.stageName}">${stage.stageName}</div>
+          <div class="stage-title" title="${escapeHtml(stage.stageName)}">${escapeHtml(stage.stageName)}</div>
           <div class="stage-action-row">
             <span style="color:${actionDetails.color};font-weight:700;">${actionDetails.symbol}</span>
-            <span class="action-name" title="${action.actionName}">${action.actionName}</span>
-            ${action.durationText ? `<span class="stage-duration">${action.durationText}</span>` : ''}
+            <span class="action-name" title="${escapeHtml(action.actionName)}">${escapeHtml(action.actionName)}</span>
+            ${action.durationText ? `<span class="stage-duration">${escapeHtml(action.durationText)}</span>` : ''}
           </div>
           ${
             stage.progressSummaryText
-              ? `<div class="stage-progress-summary" title="${stage.progressSummaryText}">${stage.progressSummaryText}</div>`
+              ? `<div class="stage-progress-summary" title="${escapeHtml(stage.progressSummaryText)}">${escapeHtml(stage.progressSummaryText)}</div>`
               : `<div class="stage-progress-summary" style="opacity:0;">-</div>`
           }
         </div>
-        ${!isLast ? '<div class="flow-arrow"><svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M6.22 3.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042L9.94 8 6.22 4.28a.75.75 0 0 1 0-1.06Z"/></svg></div>' : ''}
+        ${!isLast ? `<div class="flow-arrow">${ARROW_ICON}</div>` : ''}
       `;
     })
     .join('');
@@ -227,10 +229,8 @@ export function renderPipelinePopover(
   container.innerHTML = `
     <div class="popover-header">
       <div class="popover-title-row">
-        <span class="popover-service-icon">
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M2 3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3zm2 1v8h8V4H4z"/></svg>
-        </span>
-        <span class="popover-title-text">${summary.pipelineName}</span>
+        <span class="popover-service-icon">${PIPELINE_ICON}</span>
+        <span class="popover-title-text">${escapeHtml(summary.pipelineName)}</span>
       </div>
       <div class="popover-badge" style="background:${overall.bg};color:${overall.color};border-color:${overall.border};">
         <span>${overall.symbol}</span>

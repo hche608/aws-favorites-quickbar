@@ -64,11 +64,14 @@ export function parsePipelineFromLink(
   const href = anchor.getAttribute('href') || anchor.href || '';
   if (!href) return null;
 
-  // Pattern: /codesuite/codepipeline/pipelines/<pipelineName>/view
-  const match = href.match(/\/codesuite\/codepipeline\/pipelines\/([^/?#]+)\/view/);
+  // Pattern: /codesuite/codepipeline/pipelines/<pipelineName>(/view)?
+  const match = href.match(/\/codesuite\/codepipeline\/pipelines\/([^/?#]+)/);
   if (!match || !match[1]) return null;
 
-  const pipelineName = decodeURIComponent(match[1]);
+  const rawName = match[1];
+  if (['pipelines', 'new', 'actions'].includes(rawName)) return null;
+
+  const pipelineName = decodeURIComponent(rawName);
 
   let region = resolveCurrentRegion();
   try {
@@ -179,6 +182,30 @@ function handleMouseOut(event: MouseEvent): void {
   }, DISMISS_DELAY_MS);
 }
 
+function handleKeyDown(event: KeyboardEvent): void {
+  if (event.key === 'Escape') {
+    cancelHover();
+  }
+}
+
+function handleScroll(event: Event): void {
+  const target = event.target;
+  const popover = document.getElementById(POPOVER_ID);
+  if (popover && target instanceof Node && popover.contains(target)) {
+    return;
+  }
+  cancelHover();
+}
+
+function handleClick(event: MouseEvent): void {
+  const target = event.target;
+  const popover = document.getElementById(POPOVER_ID);
+  if (popover && target instanceof Node && popover.contains(target)) {
+    return;
+  }
+  cancelHover();
+}
+
 /**
  * Initializes CodePipeline hover detection if on CodePipeline page and enabled in settings.
  */
@@ -196,6 +223,9 @@ export async function initCodePipelineHover(): Promise<void> {
 
   document.addEventListener('mouseover', handleMouseOver, true);
   document.addEventListener('mouseout', handleMouseOut, true);
+  window.addEventListener('keydown', handleKeyDown, true);
+  window.addEventListener('scroll', handleScroll, true);
+  document.addEventListener('click', handleClick, true);
   isInitialized = true;
 }
 
@@ -208,6 +238,9 @@ export function cleanupCodePipelineHover(): void {
   if (isInitialized) {
     document.removeEventListener('mouseover', handleMouseOver, true);
     document.removeEventListener('mouseout', handleMouseOut, true);
+    window.removeEventListener('keydown', handleKeyDown, true);
+    window.removeEventListener('scroll', handleScroll, true);
+    document.removeEventListener('click', handleClick, true);
     isInitialized = false;
   }
 }

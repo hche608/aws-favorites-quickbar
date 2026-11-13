@@ -130,6 +130,7 @@ export function getPopoverStyles(dark: boolean, accentColor = '#0972d3'): string
       justify-content: space-between;
       box-sizing: border-box;
       flex-shrink: 0;
+      overflow: hidden;
       box-shadow: ${dark ? 'none' : '0 1px 2px rgba(0, 7, 22, 0.06)'};
       transition: border-color 0.15s, box-shadow 0.15s, background-color 0.15s;
     }
@@ -222,6 +223,12 @@ export function getPopoverStyles(dark: boolean, accentColor = '#0972d3'): string
       padding: 10px 0;
       color: ${textMuted};
       font-size: 12px;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #${POPOVER_ID} .stage-node.stage-failed,
+      #${POPOVER_ID} .stage-node.stage-in-progress {
+        animation: none;
+      }
     }
   `;
 }

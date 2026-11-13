@@ -36,6 +36,8 @@ export interface AwsCredentials {
   secretAccessKey?: string;
   SessionToken?: string;
   sessionToken?: string;
+  SecurityToken?: string;
+  securityToken?: string;
 }
 
 /**
@@ -49,7 +51,12 @@ export async function executeCodePipelineApi(
 ): Promise<any> {
   const accessKey = credentials.AccessKeyId || credentials.accessKeyId || '';
   const secretKey = credentials.SecretAccessKey || credentials.secretAccessKey || '';
-  const sessionToken = credentials.SessionToken || credentials.sessionToken || '';
+  const sessionToken =
+    credentials.SessionToken ||
+    credentials.sessionToken ||
+    credentials.SecurityToken ||
+    credentials.securityToken ||
+    '';
 
   if (!accessKey || !secretKey) {
     throw new Error('Missing AWS credentials for SigV4 signing');
@@ -66,16 +73,17 @@ export async function executeCodePipelineApi(
   const payload = JSON.stringify(params);
   const payloadHash = await sha256Hex(payload);
 
-  const canonicalHeaders =
-    `content-type:application/x-amz-json-1.1\n` +
-    `host:${host}\n` +
-    `x-amz-date:${amzDate}\n` +
-    `x-amz-security-token:${sessionToken}\n` +
-    `x-amz-target:${target}\n` +
-    `x-amz-user-agent:aws-sdk-js/2.1693.0 promise\n`;
+  let canonicalHeaders =
+    `content-type:application/x-amz-json-1.1\n` + `host:${host}\n` + `x-amz-date:${amzDate}\n`;
+  let signedHeaders = 'content-type;host;x-amz-date';
 
-  const signedHeaders =
-    'content-type;host;x-amz-date;x-amz-security-token;x-amz-target;x-amz-user-agent';
+  if (sessionToken) {
+    canonicalHeaders += `x-amz-security-token:${sessionToken}\n`;
+    signedHeaders += ';x-amz-security-token';
+  }
+
+  canonicalHeaders += `x-amz-target:${target}\n` + `x-amz-user-agent:aws-sdk-js/2.1693.0 promise\n`;
+  signedHeaders += ';x-amz-target;x-amz-user-agent';
 
   const canonicalRequest = `POST\n/\n\n${canonicalHeaders}\n${signedHeaders}\n${payloadHash}`;
   const canonicalRequestHash = await sha256Hex(canonicalRequest);
@@ -92,16 +100,20 @@ export async function executeCodePipelineApi(
   const signature = toHex(await hmacSha256(kSigning, stringToSign));
   const authorization = `AWS4-HMAC-SHA256 Credential=${accessKey}/${credentialScope}, SignedHeaders=${signedHeaders}, Signature=${signature}`;
 
+  const requestHeaders: Record<string, string> = {
+    'Content-Type': 'application/x-amz-json-1.1',
+    'X-Amz-Date': amzDate,
+    'X-Amz-Target': target,
+    'X-Amz-User-Agent': 'aws-sdk-js/2.1693.0 promise',
+    Authorization: authorization
+  };
+  if (sessionToken) {
+    requestHeaders['X-Amz-Security-Token'] = sessionToken;
+  }
+
   const response = await fetch(endpoint, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Date': amzDate,
-      'X-Amz-Target': target,
-      'X-Amz-Security-Token': sessionToken,
-      'X-Amz-User-Agent': 'aws-sdk-js/2.1693.0 promise',
-      Authorization: authorization
-    },
+    headers: requestHeaders,
     body: payload
   });
 

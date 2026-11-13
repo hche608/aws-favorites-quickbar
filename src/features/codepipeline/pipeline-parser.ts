@@ -98,6 +98,19 @@ export function selectPrimaryAction(stage: StageState): {
 }
 
 /**
+ * Escapes unsafe characters in text to prevent XSS or layout corruption.
+ */
+export function escapeHtml(str?: string | null): string {
+  if (!str) return '';
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+/**
  * Parses raw GetPipelineState response into normalized Option B presentation model.
  */
 export function parsePipelineStateResponse(
@@ -135,13 +148,20 @@ export function parsePipelineStateResponse(
     overallStatus = 'Failed';
   } else if (stages.some((s) => s.status === 'InProgress')) {
     overallStatus = 'InProgress';
+  } else if (stages.some((s) => s.status === 'Stopped')) {
+    overallStatus = 'Stopped';
   } else if (stages.length > 0 && stages.every((s) => s.status === 'Succeeded')) {
     overallStatus = 'Succeeded';
   }
 
-  // Find overall execution ID from the latest stage execution
-  const rawStage = raw.stageStates?.[stages.length - 1];
-  const executionId = rawStage?.latestExecution?.pipelineExecutionId;
+  // Find execution ID: prioritize InProgress/Failed stage, then first or last stage
+  const activeStage = raw.stageStates?.find(
+    (s) => s.latestExecution?.status === 'InProgress' || s.latestExecution?.status === 'Failed'
+  );
+  const executionId =
+    activeStage?.latestExecution?.pipelineExecutionId ||
+    raw.stageStates?.[0]?.latestExecution?.pipelineExecutionId ||
+    raw.stageStates?.[stages.length - 1]?.latestExecution?.pipelineExecutionId;
 
   return {
     pipelineName: raw.pipelineName,
