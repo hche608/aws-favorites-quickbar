@@ -1,15 +1,34 @@
 {
   "manifest_version": 3,
   "name": "AWS Favorites Quickbar",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "description": "Automatically populate AWS Console favorites bar with your favorite services and recently visited services",
-  "permissions": ["storage"],
-  "host_permissions": ["https://*.console.aws.amazon.com/*"],
+  "permissions": [
+    "storage"
+  ],
+  "host_permissions": [
+    "https://*.console.aws.amazon.com/*",
+    "https://*.amazonaws.com/*"
+  ],
   "content_scripts": [
     {
-      "matches": ["https://*.console.aws.amazon.com/*"],
-      "js": ["content.js"],
+      "matches": [
+        "https://*.console.aws.amazon.com/*"
+      ],
+      "js": [
+        "content.js"
+      ],
       "run_at": "document_idle"
+    },
+    {
+      "matches": [
+        "https://*.console.aws.amazon.com/*"
+      ],
+      "js": [
+        "main-world.js"
+      ],
+      "world": "MAIN",
+      "run_at": "document_start"
     }
   ],
   "action": {

@@ -25,6 +25,8 @@
    - [5.2 Quickbar Injection Pipeline](#52-quickbar-injection-pipeline)
    - [5.3 Cross-Platform Simulated Theme Sync](#53-cross-platform-simulated-theme-sync)
    - [5.4 Modern Popup Management Dashboard](#54-modern-popup-management-dashboard)
+   - [5.5 CodePipeline Execution Hover Preview Engine](#55-codepipeline-execution-hover-preview-engine)
+   - [5.6 Unified Storage Event-Driven Cross-Tab Synchronization](#56-unified-storage-event-driven-cross-tab-synchronization)
 6. [Cross-Browser Abstraction Layer](#6-cross-browser-abstraction-layer)
 7. [Security, Privacy & Permission Model](#7-security-privacy--permission-model)
 
@@ -101,10 +103,12 @@ The system uses a **three-tier storage architecture** balancing performance, cro
 |:---|:---|:---|:---|
 | `browser.storage.sync` | `userFavorites` | `string[]` | Ordered list of pinned service IDs (synced across browser instances). |
 | `browser.storage.sync` | `maxServices` | `number` | Maximum total services shown in quickbar (Default: `10`, range: `1–50`). |
-| `browser.storage.sync` | `visualMode` | `'light' \| 'dark'` | Global theme preference (Default: `'dark'`). |
+| `browser.storage.sync` | `visualMode` | `'light' \| 'dark'` | Global theme preference (Default: `'light'`). |
+| `browser.storage.sync` | `enableCodePipelineHoverPreview` | `boolean` | Enable/disable live CodePipeline execution preview popover on hover (Default: `true`). |
+| `browser.storage.sync` | `codePipelineHoverDelayMs` | `number` | Milliseconds of hover delay before fetching and displaying popover (Default: `1000`, range: `500–3000`). |
 | `browser.storage.local` | `cachedServices` | `Service[]` | Scraped service metadata cache (ID, Name, Icon, URL). |
 | `browser.storage.local` | `injectionStatus` | `'success' \| 'no-native-pin'` | DOM injection status driving the popup `#pinningNote` banner. |
-| `localStorage` (Page) | `aws-favorites-quickbar-services` | `string (JSON)` | Synchronous in-page cache for instantaneous rendering on page reload. |
+| `localStorage` (Page) | `awsFavoritesQuickbar_services` | `string (JSON)` | Synchronous in-page cache for instantaneous rendering on page reload. |
 
 ---
 
@@ -114,6 +118,8 @@ The system uses a **three-tier storage architecture** balancing performance, cro
 - **`recently-visited-parser.ts`**: Uses `MutationObserver` to watch for the Recently Visited widget, strictly extracting service IDs per Rule 4.
 - **`service-icons.ts` & `default-icons.json`**: Built-in 220-service AWS CDN SVG icon catalog, eliminating icon flickering or missing states during slow network loads.
 - **`icon-validator.ts`**: Validates HTTPS protocol and valid SVG format, filtering out placeholders or malformed Base64 data.
+- **`service-catalog.ts`**: Formats raw service IDs into human-readable names (`formatServiceName`), supplies the 220-service catalog consumed by popup search (`getCatalogServices`), and builds the unified search pool (`getUnifiedSearchPool`).
+- **`region.ts`** (`src/utils/`): Resolves the active AWS region from URL search params or storage (`detectRegion`), used to construct region-correct console URLs for injected items.
 
 #### 5.2 Quickbar Injection Pipeline
 - **`css-extractor.ts`**:
@@ -122,6 +128,7 @@ The system uses a **three-tier storage architecture** balancing performance, cro
   3. If no native pinned service exists, returns `null` and sets status to `'no-native-pin'`.
 - **`dom-builder.ts`**: Constructs isomorphic DOM nodes with `data-service-id` attributes using extracted classes.
 - **`injector.ts`**: Cleans previous injected nodes and mounts new elements alongside native items.
+- **`content-updater.ts`**: Builds the pinned user-favorite `Service[]` from stored favorite IDs and cached metadata (`buildUserFavorites`), and runs non-blocking background icon discovery/refresh after the initial injection (`updateIconsInBackground`).
 
 #### 5.3 Cross-Platform Simulated Theme Sync
 - Per Rule 5, the extension avoids brute-force CSS class overrides or `!important` rules.
@@ -132,7 +139,25 @@ The system uses a **three-tier storage architecture** balancing performance, cro
 - **Header Badge & Counter**: Real-time counter of pinned services vs. limit (e.g., `3 / 10`), with visual limit warnings.
 - **Instant Search & Filter**: Real-time filtering by service ID or name with a dedicated clear button.
 - **HTML5 Drag-and-Drop Reordering**: Seamless drag-and-drop reordering persisted immediately to `storage.sync`.
-- **Runtime Live Refresh**: Toggling a service dispatches `{ action: 'updateQuickbar' }` via `chrome.tabs.sendMessage`, updating the quickbar without page reload.
+- **Runtime Live Refresh**: Toggling, reordering, or changing any setting writes directly to `browser.storage`; all open console tabs re-render through the unified `storage.onChanged` listener (see §5.6), with no page reload and no RPC messaging.
+- **2-Row Responsive Settings Toolbar**: Modernized two-row geometry (`.settings-row`) holding Max Services limit, VisualMode theme toggle, CodePipeline hover toggle, and hover delay selector without horizontal overflow or white gutter artifacts.
+
+#### 5.5 CodePipeline Execution Hover Preview Engine
+- **Main-World Session Bridge (`main-world.ts`)**: Injects an isolated script directly into the AWS Console execution context to extract temporary session credentials (`accessKeyId`, `secretAccessKey`, `sessionToken`) from `window.AWSC` / `window.__AWS_CONSOLE_SESSION__` without requiring any user-provided AWS access keys.
+- **Web Crypto SigV4 Signer (`sigv4-signer.ts`)**: Performs client-side AWS Signature Version 4 HMAC-SHA256 request signing targeting `CodePipeline_20150709.GetPipelineState`.
+- **Content-Script Communication (`api.ts`)**: Coordinates requests via bidirectional `window.postMessage` with cryptographic nonce matching, ensuring content script sandbox isolation.
+- **Isolated Flowing Light Beam (`popover-styles.ts`)**: Stages with `InProgress` state render an animated glowing beam along their borders (`.afq-stage-inprogress-beam`), leaving the outer popover window clean and readable. Respects `prefers-reduced-motion`.
+- **Stale-While-Revalidate TTL Cache (`cache.ts`)**: Caches state for 15s (5s for InProgress), updating in the background and falling back to stale data on network errors.
+- **Multi-Factor Dismissal**: Automatically closes on `Escape` key, window scrolling, or outside clicks (`popover-renderer.ts`).
+
+#### 5.6 Unified Storage Event-Driven Cross-Tab Synchronization
+- **Single Source of Truth**: `browserStorage.onChanged` is the sole driver of cross-tab quickbar updates. There is no `runtime.onMessage` / `tabs.sendMessage` RPC path; a write to storage is the one and only trigger for re-rendering.
+- **Unidirectional Data Flow**: `UI action → storage write → storage.onChanged → DOM re-render`.
+  - Popup settings changes (`userFavorites`, `maxServices`, `visualMode`) write to `browser.storage.sync`.
+  - Homepage "Recently Visited" scraping writes `cachedServices` to `browser.storage.local`.
+  - `content.ts` handles both areas in one listener: a `sync` change re-renders the quickbar (and a `visualMode` change re-applies the simulated native theme switch per Rule 5); a `local` `cachedServices` change refreshes the display on non-homepage tabs.
+- **No Write-Back Loops**: Listener-driven tabs mutate only the DOM and the in-page `localStorage` cache; they never write back to `browser.storage`, which prevents cascading cross-tab loops.
+- **Rationale**: `tabs.sendMessage` is unreliable against discarded, frozen, or freshly initialized background tabs. The browser's native storage-change broadcast reaches every open tab deterministically, so collapsing the previous dual-track (RPC + storage event) design onto a single storage-event channel removes a whole class of lost-update bugs.
 
 ---
 
@@ -142,8 +167,8 @@ Supports both **Google Chrome (Chromium)** and **Mozilla Firefox (Gecko)**:
 - Business code strictly avoids direct global calls to `chrome` or `browser`.
 - Integrates `webextension-polyfill` to unify Promise and Callback patterns.
 - Core abstraction interfaces:
-  - `BrowserAPI` (`src/browser-api.ts`): Encapsulates tab querying, runtime broadcast, and lifecycle events.
-  - `BrowserStorageAPI` (`src/browser-storage.ts`): Encapsulates sync and local storage operations.
+  - `BrowserAPI` (`src/browser-api.ts`): Re-exports the unified storage API and provides runtime browser-type detection (`getBrowserType`). Tab-messaging helpers were removed once cross-tab sync moved entirely to `storage.onChanged` (see §5.6).
+  - `BrowserStorageAPI` (`src/browser-storage.ts`): Encapsulates sync and local storage operations, including the `onChanged` event used as the single cross-tab sync driver.
 - Build pipeline: `scripts/bundle.ts` outputs `dist/chrome/` and `dist/firefox/` with browser-tailored Manifest V3 configurations (`gecko` ID in Firefox).
 
 ---
@@ -154,11 +179,12 @@ Supports both **Google Chrome (Chromium)** and **Mozilla Firefox (Gecko)**:
 - **Strict Host Permissions**:
   ```json
   "host_permissions": [
-    "https://*.console.aws.amazon.com/*"
+    "https://*.console.aws.amazon.com/*",
+    "https://*.amazonaws.com/*"
   ]
   ```
-  Restricted exclusively to AWS Console domains.
-- **Minimal Extension Permissions**: Only requests `storage` and `tabs`, fully complying with Chrome Web Store and Mozilla AMO security guidelines.
+  Restricted to AWS Console domains plus AWS service API endpoints (the latter required only for the client-side CodePipeline SigV4 `GetPipelineState` calls described in §5.5).
+- **Minimal Extension Permissions**: Requests only `storage`. No `tabs` permission is needed — cross-tab synchronization runs entirely through `storage.onChanged` (see §5.6) — keeping the extension fully compliant with Chrome Web Store and Mozilla AMO security guidelines.
 
 ---
 
@@ -182,6 +208,8 @@ Supports both **Google Chrome (Chromium)** and **Mozilla Firefox (Gecko)**:
    - [5.2 原生快速栏注入管线](#52-原生快速栏注入管线)
    - [5.3 跨平台主题同步与模拟点击](#53-跨平台主题同步与模拟点击)
    - [5.4 Popup 现代化管理面板](#54-popup-现代化管理面板)
+   - [5.5 CodePipeline 执行状态悬浮预览引擎](#55-codepipeline-执行状态悬浮预览引擎)
+   - [5.6 统一存储事件驱动的跨标签页同步](#56-统一存储事件驱动的跨标签页同步)
 6. [跨浏览器抽象层 (Cross-Browser Architecture)](#6-跨浏览器抽象层-cross-browser-architecture-1)
 7. [安全性、隐私与权限模型](#7-安全性隐私与权限模型-1)
 
@@ -258,10 +286,12 @@ Supports both **Google Chrome (Chromium)** and **Mozilla Firefox (Gecko)**:
 |:---|:---|:---|:---|
 | `browser.storage.sync` | `userFavorites` | `string[]` | 用户有序置顶的服务 ID 列表（跨浏览器实例同步）。 |
 | `browser.storage.sync` | `maxServices` | `number` | 快速栏显示总服务上限（默认 `10`，范围 `1–50`）。 |
-| `browser.storage.sync` | `visualMode` | `'light' \| 'dark'` | 全局主题偏好（默认 `'dark'`）。 |
+| `browser.storage.sync` | `visualMode` | `'light' \| 'dark'` | 全局主题偏好（默认 `'light'`）。 |
+| `browser.storage.sync` | `enableCodePipelineHoverPreview` | `boolean` | 是否开启 CodePipeline 链接悬停状态预览（默认 `true`）。 |
+| `browser.storage.sync` | `codePipelineHoverDelayMs` | `number` | 触发悬浮预览前的停留延迟毫秒数（默认 `1000`，范围 `500–3000`）。 |
 | `browser.storage.local` | `cachedServices` | `Service[]` | 抓取到的服务元数据缓存（包含 ID、Name、Icon、URL）。 |
 | `browser.storage.local` | `injectionStatus` | `'success' \| 'no-native-pin'` | 记录页面注入状态，用于驱动 Popup 展示 `#pinningNote`。 |
-| `localStorage` (页面级) | `aws-favorites-quickbar-services` | `string (JSON)` | 控制台页面内同步缓存，保障页面刷新时快速栏瞬间直出。 |
+| `localStorage` (页面级) | `awsFavoritesQuickbar_services` | `string (JSON)` | 控制台页面内同步缓存，保障页面刷新时快速栏瞬间直出。 |
 
 ---
 
@@ -271,6 +301,8 @@ Supports both **Google Chrome (Chromium)** and **Mozilla Firefox (Gecko)**:
 - **`recently-visited-parser.ts`**：使用 `MutationObserver` 监听控制台 Recently Visited 部件渲染，严格根据 Rule 4 正则解析服务唯一标识符。
 - **`service-icons.ts`** 与 **`default-icons.json`**：内置 AWS 官方 220 个服务的 SVG 图标 CDN 映射，彻底解决新账号或页面慢速加载时图标闪烁的问题。
 - **`icon-validator.ts`**：校验提取图标的 HTTPS 协议与有效 SVG 结构，拒绝占位图与无效 Base64。
+- **`service-catalog.ts`**：将原始服务 ID 格式化为可读名称（`formatServiceName`），为 Popup 搜索提供 220 服务目录（`getCatalogServices`），并构建统一搜索池（`getUnifiedSearchPool`）。
+- **`region.ts`**（`src/utils/`）：从 URL 查询参数或存储中解析当前 AWS 区域（`detectRegion`），用于为注入项构建带正确区域的控制台 URL。
 
 #### 5.2 原生快速栏注入管线 (Quickbar Injection)
 - **`css-extractor.ts`**：
@@ -279,6 +311,7 @@ Supports both **Google Chrome (Chromium)** and **Mozilla Firefox (Gecko)**:
   3. 若用户无任何原生固定服务，返回 `null` 并将状态标记为 `no-native-pin`。
 - **`dom-builder.ts`**：基于提取的类名构建完全同构的 DOM 节点，附加 `data-service-id` 特征属性。
 - **`injector.ts`**：清理既有注入项后追加节点，确保与原生元素和平共处。
+- **`content-updater.ts`**：依据存储的收藏 ID 与缓存元数据构建置顶收藏 `Service[]`（`buildUserFavorites`），并在首次注入后执行非阻塞的后台图标发现/刷新（`updateIconsInBackground`）。
 
 #### 5.3 跨平台主题同步与模拟点击 (Theme Sync)
 - 根据 Rule 5，扩展不采取粗暴的 CSS 类覆盖或 `!important` 注入。
@@ -289,7 +322,25 @@ Supports both **Google Chrome (Chromium)** and **Mozilla Firefox (Gecko)**:
 - **Header 徽章与统计**：实时显示当前固定服务数与上限配比（如 `3 / 10`），超限变色警示。
 - **即时搜索与过滤**：支持通过服务 ID 或名称拼写实时过滤，配备专用一键清空按钮。
 - **HTML5 原生拖拽排序**：支持对置顶服务进行无缝拖放排序，操作即时保存至 `storage.sync`。
-- **运行时热更新**：用户在 Popup 中勾选/取消服务后，通过 `chrome.tabs.sendMessage` 向控制台派发 `{ action: 'updateQuickbar' }`，无需刷新即可实时反映变动。
+- **运行时热更新**：用户在 Popup 中勾选/取消服务、拖拽排序或修改任意设置后，仅写入 `browser.storage`；所有已打开的控制台标签页通过统一的 `storage.onChanged` 监听（见 §5.6）自动重绘，无需刷新，也不依赖任何 RPC 消息。
+- **双行现代化设置工具栏**：采用 `.settings-row` 双行响应式布局，容纳上限滑动、主题切换、CodePipeline 悬停开关与延迟下拉选择器，彻底根除 Chrome 弹窗容器的横向撑出与白边滚动槽。
+
+#### 5.5 CodePipeline 执行状态悬浮预览引擎 (CodePipeline Hover Preview)
+- **主世界页面会话桥接 (`main-world.ts`)**：向控制台直接注入轻量脚本，提取 `window.AWSC` / `window.__AWS_CONSOLE_SESSION__` 当前登录用户的临时会话凭证（`accessKeyId`, `secretAccessKey`, `sessionToken`），零外部凭据泄露风险。
+- **Web Crypto 原生 SigV4 签名器 (`sigv4-signer.ts`)**：利用浏览器原生 Web Crypto API 实现纯客户端 AWS Signature Version 4 签名，直接向 AWS CodePipeline `GetPipelineState` 端点发送请求。
+- **内容脚本隔离通信 (`api.ts`)**：通过 `window.postMessage` 与双向随机 Nonce 机制安全穿透 content script 沙箱，保障扩展安全。
+- **流光边界隔离动画 (`popover-styles.ts`)**：针对 `InProgress` 阶段，流光特效严格限制在阶段卡片边界（`.afq-stage-inprogress-beam`），弹窗整体保持极简克制；全面支持 `@media (prefers-reduced-motion: reduce)`。
+- **SWR (Stale-While-Revalidate) TTL 缓存 (`cache.ts`)**：状态缓存 15 秒（执行中状态缩短为 5 秒），后台静默刷新，并在网络抖动时平滑降级展示陈旧数据。
+- **多维度安全退出交互**：支持 `Escape` 键、页面滚动及点击窗口外部瞬间平滑退出。
+
+#### 5.6 统一存储事件驱动的跨标签页同步 (Unified Storage Event-Driven Sync)
+- **单一数据源 (Single Source of Truth)**：`browserStorage.onChanged` 是跨标签页快速栏更新的唯一驱动。系统不再存在 `runtime.onMessage` / `tabs.sendMessage` 的 RPC 通道；对存储的任何写入都是触发重绘的唯一入口。
+- **单向数据流**：`UI 操作 → 写入存储 → storage.onChanged → DOM 重绘`。
+  - Popup 设置变更（`userFavorites`、`maxServices`、`visualMode`）写入 `browser.storage.sync`。
+  - 首页 "Recently Visited" 采集将 `cachedServices` 写入 `browser.storage.local`。
+  - `content.ts` 在单一监听器中同时处理两个存储域：`sync` 变更重绘快速栏（`visualMode` 变更按 Rule 5 重新执行模拟原生主题切换）；`local` 的 `cachedServices` 变更刷新非首页标签页的显示。
+- **零写回环路**：监听驱动的标签页仅更新 DOM 与页面内 `localStorage` 缓存，绝不回写 `browser.storage`，从根本上杜绝跨标签页级联循环。
+- **设计依据**：`tabs.sendMessage` 对被丢弃、冻结或刚初始化的后台标签页并不可靠；浏览器原生的存储变更广播能确定性地送达每个已打开标签页。将原先的双轨（RPC + 存储事件）收敛为单一存储事件通道，消除了一整类“更新丢失”缺陷。
 
 ---
 
@@ -299,8 +350,8 @@ Supports both **Google Chrome (Chromium)** and **Mozilla Firefox (Gecko)**:
 - 业务代码严禁直接使用全局对象 `chrome` 或 `browser`。
 - 引入 `webextension-polyfill` 抹平 Promise 与 Callback 差异。
 - 核心抽象接口：
-  - `BrowserAPI` (`src/browser-api.ts`)：封装 Tabs 查询、广播通信、运行时管理。
-  - `BrowserStorageAPI` (`src/browser-storage.ts`)：封装 Sync 与 Local 存储操作。
+  - `BrowserAPI` (`src/browser-api.ts`)：统一存储 API 的再导出，并提供运行时浏览器类型检测（`getBrowserType`）。在跨标签页同步完全迁移至 `storage.onChanged` 后（见 §5.6），Tab 消息传递辅助函数已移除。
+  - `BrowserStorageAPI` (`src/browser-storage.ts`)：封装 Sync 与 Local 存储操作，含作为唯一跨标签页同步驱动的 `onChanged` 事件。
 - 构建管线：通过 `scripts/bundle.ts` 分别输出 `dist/chrome/` 与 `dist/firefox/`，并注入差异化的 Manifest V3（Firefox 包含 `browser_specific_settings.gecko`）。
 
 ---
@@ -311,8 +362,9 @@ Supports both **Google Chrome (Chromium)** and **Mozilla Firefox (Gecko)**:
 - **严格的主机权限限定**：
   ```json
   "host_permissions": [
-    "https://*.console.aws.amazon.com/*"
+    "https://*.console.aws.amazon.com/*",
+    "https://*.amazonaws.com/*"
   ]
   ```
-  仅在 AWS 官方控制台域名生效。
-- **最小化扩展权限**：仅申请 `storage` 与 `tabs` 权限，完全符合 Chrome Web Store 与 Mozilla AMO 的安全上架审计标准。
+  限定在 AWS 控制台域名，以及 AWS 服务 API 端点（后者仅用于 §5.5 所述的客户端 CodePipeline SigV4 `GetPipelineState` 调用）。
+- **最小化扩展权限**：仅申请 `storage` 权限。无需 `tabs` 权限——跨标签页同步完全通过 `storage.onChanged` 实现（见 §5.6）——完全符合 Chrome Web Store 与 Mozilla AMO 的安全上架审计标准。

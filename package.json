@@ -1,6 +1,6 @@
 {
   "name": "aws-favorites-quickbar",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "description": "Chrome extension to populate AWS Console favorites bar",
   "author": "8its.pixel@gmail.com",
   "scripts": {
@@ -19,6 +19,8 @@
     "test:e2e": "make build-chrome && playwright test",
     "test:e2e:login": "make build-chrome && tsx scripts/e2e-login.ts",
     "test:e2e:ui": "make build-chrome && playwright test --ui",
+    "test:ui:offline": "make build-chrome && playwright test tests/e2e/*invariants.spec.ts",
+    "test:firefox": "make build-firefox && playwright test tests/e2e/firefox*.spec.ts --browser=firefox",
     "preview:firefox": "make build-firefox && open -a Firefox \"file://$(pwd)/dist/firefox/popup.html\"",
     "run:firefox": "make build-firefox && npx web-ext run --source-dir dist/firefox",
     "lint": "eslint src/**/*.ts",
@@ -29,26 +31,26 @@
     "audit": "npm audit",
     "check:unused": "npx ts-prune",
     "check:circular": "npx madge --circular --extensions ts src/",
-    "check:all": "npm run type-check && npm run lint && npm run format:check && npm test",
+    "check:all": "npm run type-check && npm run lint && npm run format:check && npm test && npm run test:firefox",
     "security-check": "tsx scripts/security-check.ts",
     "version:bump": "tsx scripts/bump-version.ts"
   },
   "devDependencies": {
-    "@playwright/test": "^1.63.0",
-    "@types/chrome": "^0.3.0",
-    "@types/firefox-webext-browser": "^143.0.0",
-    "@types/node": "^26.6.1",
-    "@typescript-eslint/eslint-plugin": "^8.70.0",
-    "@typescript-eslint/parser": "^8.70.0",
-    "@vitest/coverage-v8": "^5.0.1",
+    "@playwright/test": "^1.65.0",
+    "@types/chrome": "^0.3.7",
+    "@types/firefox-webext-browser": "^143.0.1",
+    "@types/node": "^26.6.6",
+    "@typescript-eslint/eslint-plugin": "^8.72.2",
+    "@typescript-eslint/parser": "^8.72.2",
+    "@vitest/coverage-v8": "^5.1.0",
     "esbuild": "^0.28.2",
-    "eslint": "^10.10.0",
-    "fast-check": "^4.10.1",
-    "jsdom": "^30.1.0",
-    "prettier": "^3.9.8",
-    "tsx": "^4.23.13",
+    "eslint": "^10.14.0",
+    "fast-check": "^4.10.2",
+    "jsdom": "^31.0.0",
+    "prettier": "^3.10.1",
+    "tsx": "^4.23.15",
     "typescript": "^6.0.3",
-    "vitest": "^5.0.1"
+    "vitest": "^5.1.0"
   },
   "dependencies": {
     "webextension-polyfill": "^0.12.0"

@@ -14,8 +14,10 @@ mkdir -p dist/firefox
 # Copy bundled files and source maps
 cp dist/content.js dist/firefox/
 cp dist/popup.js dist/firefox/
+cp dist/main-world.js dist/firefox/
 [ -f "dist/content.js.map" ] && cp dist/content.js.map dist/firefox/
 [ -f "dist/popup.js.map" ] && cp dist/popup.js.map dist/firefox/
+[ -f "dist/main-world.js.map" ] && cp dist/main-world.js.map dist/firefox/
 
 # Copy static assets with Firefox manifest
 cp manifest.firefox.json dist/firefox/manifest.json

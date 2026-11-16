@@ -32,6 +32,13 @@ async function bundle(): Promise<void> {
       outfile: 'dist/popup.js'
     });
 
+    // Bundle main-world bridge script
+    await esbuild.build({
+      ...buildOptions,
+      entryPoints: ['src/features/codepipeline/main-world.ts'],
+      outfile: 'dist/main-world.js'
+    });
+
     console.log(`✓ Bundling complete (${isProduction ? 'production' : 'development'} mode)`);
   } catch (error) {
     console.error('Bundling failed:', error);

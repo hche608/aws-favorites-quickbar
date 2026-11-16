@@ -60,11 +60,6 @@ vi.mock('../../src/settings', () => ({
 }));
 
 vi.mock('../../src/browser-api', () => ({
-  runtime: {
-    onMessage: {
-      addListener: vi.fn()
-    }
-  },
   storage: {
     local: {
       get: vi.fn().mockResolvedValue({}),
@@ -73,6 +68,10 @@ vi.mock('../../src/browser-api', () => ({
     sync: {
       get: vi.fn().mockResolvedValue({}),
       set: vi.fn().mockResolvedValue(undefined)
+    },
+    onChanged: {
+      addListener: vi.fn(),
+      removeListener: vi.fn()
     }
   }
 }));
@@ -92,26 +91,11 @@ import {
 import { mergeServices } from '../../src/services/service-merger';
 import { injectServices } from '../../src/quickbar/injector';
 import { loadSettings, applyVisualMode } from '../../src/settings';
-import { runtime, storage as browserStorage } from '../../src/browser-api';
+import { storage as browserStorage } from '../../src/browser-api';
 
 describe('Content Script', () => {
-  let messageHandler: any;
-
   beforeEach(() => {
     jest.clearAllMocks();
-
-    // Capture the message handler registered by the module
-    (runtime.onMessage.addListener as jest.Mock).mockImplementation((handler) => {
-      messageHandler = handler;
-    });
-  });
-
-  it('should register a message listener on import', async () => {
-    // Re-import to trigger module execution
-    vi.resetModules();
-    await import('../../src/content');
-
-    expect(runtime.onMessage.addListener).toHaveBeenCalledWith(expect.any(Function));
   });
 
   it('should call init on import', async () => {
@@ -300,34 +284,94 @@ describe('Content Script', () => {
     expect(browserStorage.local.set).toHaveBeenCalledWith({ injectionStatus: 'no-native-pin' });
   });
 
-  describe('message handler', () => {
-    beforeEach(async () => {
-      // Import to register the handler
+  describe('storage.onChanged handler', () => {
+    it('should register a storage.onChanged listener on import', async () => {
       vi.resetModules();
       await import('../../src/content');
+      expect(browserStorage.onChanged.addListener).toHaveBeenCalledWith(expect.any(Function));
     });
 
-    it('should handle updateQuickbar message', async () => {
-      const handler = (runtime.onMessage.addListener as jest.Mock).mock.calls[0][0];
-      const sendResponse = jest.fn();
+    it('should re-render quickbar on non-homepage when cachedServices changes in local storage', async () => {
+      vi.resetModules();
+      (isAWSConsolePage as jest.Mock).mockReturnValue(true);
+      (isAWSConsoleHomepage as jest.Mock).mockReturnValue(false);
+      (waitForElement as jest.Mock).mockResolvedValue(document.createElement('ol'));
+      (loadSettings as jest.Mock).mockResolvedValue({
+        favoriteIds: [],
+        maxServices: 10,
+        visualMode: 'light'
+      });
 
-      const result = handler({ action: 'updateQuickbar' }, {}, sendResponse);
+      const newServices = [
+        {
+          id: 's3',
+          name: 'S3',
+          iconUrl: 'https://...',
+          consoleUrl: 'https://...',
+          source: 'recent'
+        }
+      ];
+      (loadServicesFromStorage as jest.Mock).mockReturnValue(newServices);
+      (mergeServices as jest.Mock).mockReturnValue(newServices);
 
-      expect(result).toBe(true); // Keep channel open
-
+      await import('../../src/content');
       await new Promise((resolve) => setTimeout(resolve, 50));
+      (injectServices as jest.Mock).mockClear();
 
-      expect(sendResponse).toHaveBeenCalledWith({ success: true });
+      const calls = (browserStorage.onChanged.addListener as jest.Mock).mock.calls;
+      const handler = calls[0]?.[0];
+      handler(
+        { cachedServices: { newValue: { services: newServices, timestamp: Date.now() } } },
+        'local'
+      );
+
+      await new Promise((resolve) => setTimeout(resolve, 100));
+      expect(injectServices).toHaveBeenCalledWith(newServices, expect.any(Object));
     });
 
-    it('should ignore non-updateQuickbar messages', () => {
-      const handler = (runtime.onMessage.addListener as jest.Mock).mock.calls[0][0];
-      const sendResponse = jest.fn();
+    it('should re-render quickbar when userFavorites or maxServices changes in sync storage', async () => {
+      vi.resetModules();
+      (isAWSConsolePage as jest.Mock).mockReturnValue(true);
+      (isAWSConsoleHomepage as jest.Mock).mockReturnValue(false);
+      (waitForElement as jest.Mock).mockResolvedValue(document.createElement('ol'));
+      (loadSettings as jest.Mock).mockResolvedValue({
+        favoriteIds: ['s3'],
+        maxServices: 10,
+        visualMode: 'light'
+      });
+      (loadServicesFromStorage as jest.Mock).mockReturnValue([]);
+      (mergeServices as jest.Mock).mockReturnValue([]);
 
-      const result = handler({ action: 'unknownAction' }, {}, sendResponse);
+      await import('../../src/content');
+      await new Promise((resolve) => setTimeout(resolve, 50));
+      (injectServices as jest.Mock).mockClear();
 
-      expect(result).toBeUndefined();
-      expect(sendResponse).not.toHaveBeenCalled();
+      const calls = (browserStorage.onChanged.addListener as jest.Mock).mock.calls;
+      const handler = calls[0]?.[0];
+      handler({ userFavorites: { newValue: ['s3'] } }, 'sync');
+
+      await new Promise((resolve) => setTimeout(resolve, 100));
+      expect(injectServices).toHaveBeenCalled();
+    });
+
+    it('should apply visual mode when visualMode changes in sync storage', async () => {
+      vi.resetModules();
+      (isAWSConsolePage as jest.Mock).mockReturnValue(true);
+      (isAWSConsoleHomepage as jest.Mock).mockReturnValue(false);
+
+      await import('../../src/content');
+      await new Promise((resolve) => setTimeout(resolve, 50));
+      (applyVisualMode as jest.Mock).mockClear();
+      // The real applyVisualMode is async; re-establish the resolved promise
+      // the production .catch() handler depends on after module re-import.
+      (applyVisualMode as jest.Mock).mockResolvedValue(undefined);
+
+      const calls = (browserStorage.onChanged.addListener as jest.Mock).mock.calls;
+      const handler = calls[0]?.[0];
+      handler({ visualMode: { newValue: 'dark' } }, 'sync');
+
+      await new Promise((resolve) => setTimeout(resolve, 100));
+      expect(applyVisualMode).toHaveBeenCalledWith('dark');
     });
   });
 });

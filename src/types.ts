@@ -52,6 +52,10 @@ export interface StorageData {
   maxServicesConfig?: MaxServicesConfig;
   /** Visual mode preference (light/dark) */
   visualMode?: VisualMode;
+  /** Whether CodePipeline hover preview is enabled (default: true) */
+  enableCodePipelineHoverPreview?: boolean;
+  /** Delay in milliseconds before showing CodePipeline hover preview (default: 1000) */
+  codePipelineHoverDelayMs?: number;
 }
 
 /**
@@ -62,7 +66,9 @@ export interface StorageData {
 export const STORAGE_DEFAULTS = {
   userFavorites: [] as string[],
   maxServices: 10,
-  visualMode: 'light' as VisualMode
+  visualMode: 'light' as VisualMode,
+  enableCodePipelineHoverPreview: true,
+  codePipelineHoverDelayMs: 1000
 } as const;
 
 /**

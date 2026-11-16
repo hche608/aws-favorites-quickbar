@@ -16,6 +16,8 @@ export interface ResolvedSettings {
   favoriteIds: string[];
   maxServices: number;
   visualMode: VisualMode;
+  enableCodePipelineHoverPreview: boolean;
+  codePipelineHoverDelayMs: number;
 }
 
 /**
@@ -27,7 +29,13 @@ export interface ResolvedSettings {
  * If a value exists in storage (returning user), it is used as-is — never overridden.
  */
 export async function loadSettings(): Promise<ResolvedSettings> {
-  const result = await browserStorage.sync.get(['userFavorites', 'maxServices', 'visualMode']);
+  const result = await browserStorage.sync.get([
+    'userFavorites',
+    'maxServices',
+    'visualMode',
+    'enableCodePipelineHoverPreview',
+    'codePipelineHoverDelayMs'
+  ]);
 
   // User favorites
   let favoriteIds: string[];
@@ -62,7 +70,37 @@ export async function loadSettings(): Promise<ResolvedSettings> {
     await browserStorage.sync.set({ visualMode });
   }
 
-  return { favoriteIds, maxServices, visualMode };
+  // CodePipeline Hover Preview
+  let enableCodePipelineHoverPreview: boolean;
+  if (result.enableCodePipelineHoverPreview === undefined) {
+    enableCodePipelineHoverPreview = STORAGE_DEFAULTS.enableCodePipelineHoverPreview;
+    await browserStorage.sync.set({ enableCodePipelineHoverPreview });
+  } else if (typeof result.enableCodePipelineHoverPreview === 'boolean') {
+    enableCodePipelineHoverPreview = result.enableCodePipelineHoverPreview;
+  } else {
+    enableCodePipelineHoverPreview = STORAGE_DEFAULTS.enableCodePipelineHoverPreview;
+    await browserStorage.sync.set({ enableCodePipelineHoverPreview });
+  }
+
+  // CodePipeline Hover Delay (ms)
+  let codePipelineHoverDelayMs: number;
+  if (result.codePipelineHoverDelayMs === undefined) {
+    codePipelineHoverDelayMs = STORAGE_DEFAULTS.codePipelineHoverDelayMs;
+    await browserStorage.sync.set({ codePipelineHoverDelayMs });
+  } else if (typeof result.codePipelineHoverDelayMs === 'number') {
+    codePipelineHoverDelayMs = result.codePipelineHoverDelayMs;
+  } else {
+    codePipelineHoverDelayMs = STORAGE_DEFAULTS.codePipelineHoverDelayMs;
+    await browserStorage.sync.set({ codePipelineHoverDelayMs });
+  }
+
+  return {
+    favoriteIds,
+    maxServices,
+    visualMode,
+    enableCodePipelineHoverPreview,
+    codePipelineHoverDelayMs
+  };
 }
 
 /**

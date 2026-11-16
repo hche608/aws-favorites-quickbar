@@ -1,7 +1,7 @@
 # AWS Favorites Quickbar — Testing Architecture & Specification / 测试体系架构与全量规范
 
-> **Version / 版本**：v1.4.1+  
-> **Quality Benchmark / 质量基准**：441 unit & integration tests passing (100%), 34 end-to-end (E2E) & visual regression tests passing (100%), 94%+ test coverage, 0 security vulnerabilities.  
+> **Version / 版本**：v1.5.0+  
+> **Quality Benchmark / 质量基准**：516 unit & integration tests passing (100%), 38 end-to-end (E2E) & visual regression tests passing (100%), 0 security vulnerabilities.  
 > [English](#english) | [中文](#chinese)
 
 ---
@@ -20,6 +20,7 @@
    - [5.2 Native Pin Auto-Healing Technique](#52-native-pin-auto-healing-technique)
    - [5.3 PRNG Deterministic Reproducible Testing](#53-prng-deterministic-reproducible-testing)
    - [5.4 Architectural Guardrail Hardening Suite](#54-architectural-guardrail-hardening-suite)
+   - [5.5 Offline Code-Based UI Layout Invariant Testing](#55-offline-code-based-ui-layout-invariant-testing)
 6. [Visual Regression Testing](#6-visual-regression-testing)
 7. [Cross-Browser Testing & Known Limitations](#7-cross-browser-testing--known-limitations)
 8. [Test Commands & CI Specification](#8-test-commands--ci-specification)
@@ -32,13 +33,13 @@ Quality engineering in this project is built upon a strict multi-tier testing py
 
 ```
                     ┌────────────────────────┐
-                    │     E2E Browser Tests  │  34 Tests / 14 Specs
-                    │   (Playwright + AWS)   │  Live Console + Visual Snapshots
+                    │     E2E Browser Tests  │  38 Tests / 16 Specs
+                    │   (Playwright + AWS)   │  Offline Invariants + Live Console
                     ├────────────────────────┤
                     │    Integration Tests   │  7 Test Suites
                     │   (Vitest + DOM Mocks) │  Content/Popup Cross-Module Coordination
                     ├────────────────────────┤
-                    │ Unit & Property Tests  │  27 Test Suites / 441 Tests
+                    │ Unit & Property Tests  │  34 Test Suites / 516 Tests
                     │ (Vitest + fast-check)  │  State Machines, Algorithms, Boundaries
                     └────────────────────────┘
 ```
@@ -123,6 +124,19 @@ When the test suite detects an empty favorites bar on a fresh AWS account, it au
 | **Gap 4** | **Runtime Hot Update Channel** | Pinned changes in popup reflect in the Console quickbar within seconds without page reload. |
 | **Gap 5** | **Storage Lifecycle Persistence** | `storage.sync` settings survive page reloads and browser context restarts. |
 
+#### 5.5 Offline Code-Based UI Layout Invariant Testing
+To ensure fast, deterministic verification without requiring live AWS credentials, active SSO sessions, or network connectivity:
+- **`popup-layout-invariants.spec.ts`**:
+  - Invariant 1: Zero Horizontal Overflow — verifies `scrollWidth <= clientWidth` across all popup elements in the standard 420x590 viewport.
+  - Invariant 2: Two-Row Non-Overlapping Layout — asserts that Row 1 (Max Services & Theme) and Row 2 (CodePipeline & Delay) maintain clear vertical separation (`row2.top >= row1.bottom`).
+  - Invariant 3: Interactive Disabled State — asserts that toggling `#codePipelineHoverInput` dynamically sets/removes `.disabled` class on `#hoverDelayContainer` and disables the `<select>` input.
+- **`codepipeline-hover-invariants.spec.ts`**:
+  - Uses Playwright route mocks for Console HTML and SigV4 API calls (`CodePipeline_20150709.GetPipelineState`).
+  - Asserts popover mounts within viewport boundaries without horizontal/vertical overflow (`rect.right <= innerWidth`).
+  - Asserts `.afq-stage-inprogress-beam` class is attached strictly to active stage borders.
+  - Asserts pressing `Escape` removes the popover immediately from the DOM.
+- **Fast Execution**: Entire offline suite executes via `npm run test:ui:offline` in ~7 seconds.
+
 ---
 
 ### 6. Visual Regression Testing
@@ -135,7 +149,7 @@ When the test suite detects an empty favorites bar on a fresh AWS account, it au
 
 ### 7. Cross-Browser Testing & Known Limitations
 
-- **Chrome (Chromium)**: 100% automated E2E coverage via Playwright persistent context (14 specs / 34 tests).
+- **Chrome (Chromium)**: 100% automated E2E coverage via Playwright persistent context and offline invariant specs (16 specs / 38 tests).
 - **Firefox (Gecko)**:
   - **Status**: Due to a **macOS 27 kernel sandbox issue** ([Playwright #42082](https://github.com/microsoft/playwright/issues/42082)), Playwright cannot spawn Firefox child processes directly on this macOS version.
   - **Strategy**: Automated specs (`firefox.spec.ts`, `firefox-visual.spec.ts`) validate Firefox distribution artifacts and AMO rules under Chromium; live Firefox verification is performed manually via `npm run run:firefox` (`web-ext`).
@@ -145,10 +159,13 @@ When the test suite detects an empty favorites bar on a fresh AWS account, it au
 ### 8. Test Commands & CI Specification
 
 ```bash
-# Full verification (Type-Check + ESLint + Prettier + 441 unit/integration tests)
+# Full verification (Type-Check + ESLint + Prettier + 516 unit/integration tests)
 npm run check:all
 
-# Run all Playwright E2E browser tests
+# Run offline code-based UI layout invariant tests (fast, ~7s, no AWS session required)
+npm run test:ui:offline
+
+# Run all Playwright E2E browser tests against real AWS Console
 npm run test:e2e
 
 # Interactive login refresher for AWS Console session
@@ -177,6 +194,7 @@ npm run security-check
    - [5.2 原生 Pin 自动自愈技术](#52-原生-pin-自动自愈技术)
    - [5.3 PRNG 确定性可复现随机测试](#53-prng-确定性可复现随机测试)
    - [5.4 核心规则防线加固套件 (Coverage Gaps)](#54-核心规则防线加固套件-coverage-gaps)
+   - [5.5 纯代码级离线 UI 布局不变量自动化测试](#55-纯代码级离线-ui-布局不变量自动化测试)
 6. [视觉回归截屏测试 (Visual Regression)](#6-视觉回归截屏测试-visual-regression)
 7. [跨浏览器测试与已知限制](#7-跨浏览器测试与已知限制)
 8. [执行命令与 CI 规范](#8-执行命令与-ci-规范)
@@ -189,13 +207,13 @@ npm run security-check
 
 ```
                     ┌────────────────────────┐
-                    │     E2E 浏览器测试      │  34 Tests / 14 Specs
-                    │   (Playwright + AWS)   │  真实控制台环境 + 视觉快照
+                    │     E2E 浏览器测试      │  38 Tests / 16 Specs
+                    │   (Playwright + AWS)   │  离线不变量 + 真实控制台环境
                     ├────────────────────────┤
                     │       集成测试         │  7 Test Suites
                     │   (Vitest + DOM Mocks) │  Content/Popup 跨模块协调
                     ├────────────────────────┤
-                    │  单元与基于属性测试   │  27 Test Suites / 441 Tests
+                    │  单元与基于属性测试   │  34 Test Suites / 516 Tests
                     │ (Vitest + fast-check)  │  状态机、算法、边缘边界
                     └────────────────────────┘
 ```
@@ -280,6 +298,19 @@ npm run security-check
 | **Gap 4** | **运行时热更新通道** | Popup 点击新服务后，Console 快速栏无需 reload 页面即刻挂载。 |
 | **Gap 5** | **存储生命周期持久性** | 跨页面开闭与会话重启，`storage.sync` 设置保持完整无损。 |
 
+#### 5.5 纯代码级离线 UI 布局不变量自动化测试
+为了保证在没有 AWS 真实账号会话、网络隔离或脱机开发场景下也能毫秒级精准回归，新增纯代码断言驱动的离线 Playwright 不变量测试套件：
+- **`popup-layout-invariants.spec.ts`**：
+  - 不变量 1：零横向溢出 — 在标准 420x590 弹窗视口下，严密断言全部容器与元素满足 `scrollWidth <= clientWidth`，杜绝横向滚动条与白色凹槽。
+  - 不变量 2：双行工具栏无重叠几何约束 — 断言 Row 1（服务上限与主题）与 Row 2（CodePipeline 开关与延迟）具有清晰的上下间距（`row2.top >= row1.bottom`）。
+  - 不变量 3：交互禁用状态联动 — 勾选/反选 `#codePipelineHoverInput` 时，断言 `#hoverDelayContainer` 动态增删 `.disabled` 样式类，且其 `<select>` 输入项同步处于 `disabled` 状态。
+- **`codepipeline-hover-invariants.spec.ts`**：
+  - 利用 Playwright 纯本地 route 拦截技术，模拟 AWS 控制台 DOM 骨架及 SigV4 签名的 `CodePipeline_20150709.GetPipelineState` 接口响应。
+  - 断言悬浮浮窗完全处于屏幕边界内（`rect.right <= innerWidth`）。
+  - 断言 `.afq-stage-inprogress-beam` 流光动画类严格仅挂载在进行中阶段卡片边框上。
+  - 断言按下 `Escape` 键瞬间平滑退出浮窗。
+- **极速本地执行**：通过 `npm run test:ui:offline` 命令执行，耗时仅需 ~7 秒。
+
 ---
 
 ### 6. 视觉回归截屏测试 (Visual Regression)
@@ -292,7 +323,7 @@ npm run security-check
 
 ### 7. 跨浏览器测试与已知限制
 
-- **Chrome (Chromium)**：通过 Playwright persistent context 实现 100% 全自动化 E2E 覆盖（14 specs / 34 tests 全部自动运行）。
+- **Chrome (Chromium)**：通过 Playwright persistent context 与离线不变量用例实现 100% 全自动化 E2E 覆盖（16 specs / 38 tests 全部自动运行）。
 - **Firefox (Gecko)**：
   - **当前状态**：因 **macOS 27 内核沙盒与 Playwright 的兼容性缺陷**（[Playwright #42082](https://github.com/microsoft/playwright/issues/42082)），Playwright 无法在当前系统直接唤起 Firefox 子进程。
   - **分层策略**：自动化用例（`firefox.spec.ts`, `firefox-visual.spec.ts`）验证 Firefox distribution 产物结构与 AMO 规范；真实 Firefox 浏览器验证通过官方 `npm run run:firefox` 进行独立手动回归。
@@ -302,10 +333,13 @@ npm run security-check
 ### 8. 执行命令与 CI 规范
 
 ```bash
-# 全量验证（Type-Check + ESLint + Prettier + 441 个单元/集成测试）
+# 全量验证（Type-Check + ESLint + Prettier + 516 个单元/集成测试）
 npm run check:all
 
-# 运行真实浏览器 Playwright E2E 全量测试
+# 运行纯代码级离线 UI 布局不变量测试（极速，~7s，无需 AWS 会话）
+npm run test:ui:offline
+
+# 运行真实浏览器 Playwright E2E 全量测试（需 AWS 控制台登录会话）
 npm run test:e2e
 
 # 交互式快速刷新 AWS 控制台登录态（若会话过期时运行）

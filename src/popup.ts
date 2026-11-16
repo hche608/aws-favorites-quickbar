@@ -1,12 +1,5 @@
 /**
  * AWS Favorites Quickbar - Popup Main Entry Point
- *
- * This is the main entry point for the popup UI that allows users to manage their
- * favorite AWS services. It coordinates all popup modules including storage, search,
- * UI state management, service items, and drag-and-drop functionality.
- *
- * The popup displays a list of AWS services that users can select as favorites,
- * search through, and reorder via drag-and-drop.
  */
 
 import {
@@ -15,7 +8,11 @@ import {
   loadMaxServices,
   saveMaxServices,
   loadVisualMode,
-  saveVisualMode
+  saveVisualMode,
+  loadCodePipelineHoverPreference,
+  saveCodePipelineHoverPreference,
+  loadCodePipelineHoverDelay,
+  saveCodePipelineHoverDelay
 } from './popup/storage';
 import { searchServices, ensureFavoritesInList } from './popup/search';
 import { getCatalogServices } from './services/service-catalog';
@@ -29,7 +26,7 @@ import {
 } from './popup/ui-state';
 import { renderServiceList, isServiceSelected } from './popup/service-list-renderer';
 import { createServiceClickHandler } from './popup/service-click-handler';
-import { tabs, storage } from './browser-api';
+import { storage } from './browser-api';
 import { Service, VisualMode, STORAGE_DEFAULTS } from './types';
 
 let allServices: Service[] = [];
@@ -46,6 +43,9 @@ let visualModeSelectElement: HTMLSelectElement;
 let pinningNoteElement: HTMLElement;
 let favoritesBadgeElement: HTMLElement | null;
 let clearSearchBtnElement: HTMLElement | null;
+let codePipelineHoverInputElement: HTMLInputElement | null;
+let hoverDelaySelectElement: HTMLSelectElement | null;
+let hoverDelayContainerElement: HTMLElement | null;
 
 /**
  * Initializes the popup UI
@@ -58,6 +58,11 @@ async function initializePopup(): Promise<void> {
   retryButtonElement = document.getElementById('retryButton')!;
   maxServicesInputElement = document.getElementById('maxServicesInput') as HTMLInputElement;
   visualModeSelectElement = document.getElementById('visualModeSelect') as HTMLSelectElement;
+  codePipelineHoverInputElement = document.getElementById(
+    'codePipelineHoverInput'
+  ) as HTMLInputElement | null;
+  hoverDelaySelectElement = document.getElementById('hoverDelaySelect') as HTMLSelectElement | null;
+  hoverDelayContainerElement = document.getElementById('hoverDelayContainer');
   pinningNoteElement = document.getElementById('pinningNote')!;
   favoritesBadgeElement = document.getElementById('favoritesBadge');
   clearSearchBtnElement = document.getElementById('clearSearchBtn');
@@ -76,10 +81,8 @@ async function initializePopup(): Promise<void> {
       currentFavorites = favorites;
       allServices = ensureFavoritesInList(allServices, currentFavorites);
     },
-
     () => {
       renderServices();
-      notifyContentScripts();
     }
   );
 
@@ -89,62 +92,48 @@ async function initializePopup(): Promise<void> {
 
 /**
  * Loads settings from storage and populates UI elements.
- *
- * Uses explicit first-launch vs returning-user logic:
- * - If undefined: use default, display default in UI
- * - If stored value exists: use it, display it in UI
  */
 async function loadSettingsIntoUI(): Promise<void> {
-  // Max services
   const storedMax = await loadMaxServices();
   const maxServices = storedMax === undefined ? STORAGE_DEFAULTS.maxServices : storedMax;
   if (maxServicesInputElement) {
     maxServicesInputElement.value = maxServices.toString();
   }
 
-  // Visual mode
   const storedMode = await loadVisualMode();
   const visualMode = storedMode === undefined ? STORAGE_DEFAULTS.visualMode : storedMode;
   if (visualModeSelectElement) {
     visualModeSelectElement.value = visualMode;
   }
   setPopupTheme(visualMode);
-}
 
-/**
- * Saves the max services setting to storage and notifies content scripts
- */
-async function saveMaxServicesSetting(value: number): Promise<void> {
-  await saveMaxServices(value);
-  await notifyContentScripts();
-}
+  const storedHover = await loadCodePipelineHoverPreference();
+  const hoverEnabled =
+    storedHover === undefined ? STORAGE_DEFAULTS.enableCodePipelineHoverPreview : storedHover;
+  if (codePipelineHoverInputElement) {
+    codePipelineHoverInputElement.checked = hoverEnabled;
+  }
+  if (hoverDelayContainerElement) {
+    hoverDelayContainerElement.classList.toggle('disabled', !hoverEnabled);
+  }
 
-/**
- * Saves the visual mode setting to storage and notifies content scripts
- */
-async function saveVisualModeSetting(mode: VisualMode): Promise<void> {
-  setPopupTheme(mode);
-  await saveVisualMode(mode);
-  await notifyContentScripts();
-}
-
-/**
- * Notifies all AWS Console tabs to update their quickbars
- */
-async function notifyContentScripts(): Promise<void> {
-  const awsTabs = await tabs.query({ url: 'https://*.console.aws.amazon.com/*' });
-  for (const tab of awsTabs) {
-    if (tab.id) {
-      tabs.sendMessage(tab.id, { action: 'updateQuickbar' }).catch(() => {
-        // Tab may not have content script loaded — this is expected
-      });
-    }
+  const storedDelay = await loadCodePipelineHoverDelay();
+  const hoverDelay =
+    storedDelay === undefined ? STORAGE_DEFAULTS.codePipelineHoverDelayMs : storedDelay;
+  if (hoverDelaySelectElement) {
+    hoverDelaySelectElement.value = hoverDelay.toString();
   }
 }
 
-/**
- * Sets up event listeners for the popup UI
- */
+async function saveMaxServicesSetting(value: number): Promise<void> {
+  await saveMaxServices(value);
+}
+
+async function saveVisualModeSetting(mode: VisualMode): Promise<void> {
+  setPopupTheme(mode);
+  await saveVisualMode(mode);
+}
+
 function setupEventListeners(): void {
   searchInputElement.addEventListener('input', handleSearch);
 
@@ -161,10 +150,28 @@ function setupEventListeners(): void {
 
   if (visualModeSelectElement) {
     visualModeSelectElement.addEventListener('change', (e) => {
-      const target = e.target as HTMLSelectElement;
-      const mode = target.value as VisualMode;
+      const mode = (e.target as HTMLSelectElement).value as VisualMode;
       if (mode === 'light' || mode === 'dark') {
         saveVisualModeSetting(mode);
+      }
+    });
+  }
+
+  if (codePipelineHoverInputElement) {
+    codePipelineHoverInputElement.addEventListener('change', (e) => {
+      const checked = (e.target as HTMLInputElement).checked;
+      saveCodePipelineHoverPreference(checked);
+      if (hoverDelayContainerElement) {
+        hoverDelayContainerElement.classList.toggle('disabled', !checked);
+      }
+    });
+  }
+
+  if (hoverDelaySelectElement) {
+    hoverDelaySelectElement.addEventListener('change', (e) => {
+      const delayMs = parseInt((e.target as HTMLSelectElement).value, 10);
+      if (!isNaN(delayMs)) {
+        saveCodePipelineHoverDelay(delayMs);
       }
     });
   }
@@ -174,28 +181,13 @@ function setupEventListeners(): void {
   }
 }
 
-/**
- * Loads services from storage and renders the service list.
- *
- * Handles both first-launch (no cached services) and returning-user paths.
- */
 async function loadAndRenderServices(): Promise<void> {
   showErrorState(errorStateElement, serviceListElement, false);
-
   const cachedServiceMap = await loadCachedServices();
-
-  // Load user favorites
   const storedFavorites = await loadUserFavorites();
-  if (storedFavorites === undefined) {
-    // First launch — no favorites yet
-    currentFavorites = [];
-  } else {
-    currentFavorites = storedFavorites;
-  }
+  currentFavorites = storedFavorites === undefined ? [] : storedFavorites;
 
-  // Handle cached services
   if (cachedServiceMap === undefined) {
-    // No cached services — user hasn't visited AWS Console homepage yet
     allServices = ensureFavoritesInList([], currentFavorites);
     filteredServices = allServices;
     renderServices();
@@ -215,31 +207,12 @@ async function loadAndRenderServices(): Promise<void> {
   }
 }
 
-/**
- * Shows or hides the pinning note based on injection status from the content script.
- * Reads injectionStatus from storage — written by the content script on each page load.
- */
 async function updatePinningNote(): Promise<void> {
-  if (!pinningNoteElement) {
-    return;
-  }
-
+  if (!pinningNoteElement) return;
   const result = await storage.local.get(['injectionStatus']);
-
-  if (result.injectionStatus === 'success') {
-    pinningNoteElement.style.display = 'none';
-  } else {
-    pinningNoteElement.style.display = 'block';
-  }
+  pinningNoteElement.style.display = result.injectionStatus === 'success' ? 'none' : 'block';
 }
 
-/**
- * Renders the service list in the popup interface.
- *
- * Updates the native pinning helper note, renders the draggable favorites and non-favorites
- * lists, updates the empty state visibility, and triggers cross-tab sync when drag-and-drop
- * reordering occurs.
- */
 function renderServices(): void {
   updatePinningNote();
   const maxLimit = parseInt(maxServicesInputElement?.value || '10', 10);
@@ -252,30 +225,16 @@ function renderServices(): void {
     handleServiceClick,
     () => {
       updateEmptyState(emptyStateElement, currentFavorites, searchInputElement.value);
-    },
-    () => notifyContentScripts()
+    }
   );
 }
 
-/**
- * Handles search input changes.
- * Filters the service list based on the search query and re-renders.
- *
- * @param event - The input event from the search input element
- */
 function handleSearch(event: Event): void {
-  const target = event.target as HTMLInputElement;
-  const query = target.value;
+  const query = (event.target as HTMLInputElement).value;
   filteredServices = searchServices(query, allServices, getCatalogServices());
   renderServices();
 }
 
-/**
- * Service click handler - initialized after DOM elements are ready
- */
 let handleServiceClick: (event: Event, serviceId: string) => Promise<void>;
 
-/**
- * Initialize the popup when the DOM is ready
- */
 document.addEventListener('DOMContentLoaded', initializePopup);

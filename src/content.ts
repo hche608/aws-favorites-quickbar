@@ -26,19 +26,19 @@ import {
 
 import { saveServicesToStorage, loadServicesFromStorage } from './utils/storage';
 import { detectRegion } from './utils/region';
-import { extractIconUrlsFromConsole } from './services/icon-extractor';
-import { isValidIconUrl, updateServiceIcons } from './services/icon-validator';
 import {
   waitForRecentlyVisitedWidget,
   parseRecentlyVisited
 } from './services/recently-visited-parser';
 import { mergeServices } from './services/service-merger';
 import { injectServices } from './quickbar/injector';
-import { runtime, storage as browserStorage } from './browser-api';
+import { storage as browserStorage } from './browser-api';
 import { Service } from './types';
 import { loadSettings, applyVisualMode } from './settings';
 import { resolveServiceIcon } from './services/service-icons';
 import { formatServiceName } from './services/service-catalog';
+import { initCodePipelineHover } from './features/codepipeline/hover-detector';
+import { buildUserFavorites, updateIconsInBackground } from './quickbar/content-updater';
 
 /**
  * CSS selectors for the AWS Console quickbar element.
@@ -55,40 +55,6 @@ const QUICKBAR_SELECTORS = [
   'nav[class*="favorites"] ol',
   'ol[class*="favorites"]'
 ];
-
-/**
- * Builds the user favorites service list from favorite IDs and available service data.
- *
- * @param favoriteIds - Array of service IDs the user has pinned
- * @param availableServices - Map of service ID (lowercase) to Service object
- * @param region - Current AWS region for URL construction
- * @returns Array of Service objects for pinned favorites
- */
-function buildUserFavorites(
-  favoriteIds: string[],
-  availableServices: Record<string, Service>,
-  region: string
-): Service[] {
-  return favoriteIds.map((id) => {
-    const existing = availableServices[id.toLowerCase()];
-    if (existing) {
-      return { ...existing, source: 'user' as const };
-    }
-    // Service ID is pinned but not found in available data.
-    // Construct with the information we have — the ID and region.
-    const displayName = id
-      .split('-')
-      .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-      .join(' ');
-    return {
-      id: id,
-      name: displayName,
-      iconUrl: resolveServiceIcon(id, null),
-      consoleUrl: `https://${region}.console.aws.amazon.com/${id}/home?region=${region}`,
-      source: 'user' as const
-    };
-  });
-}
 
 /**
  * Initializes the quickbar injection process.
@@ -109,6 +75,11 @@ async function init(): Promise<void> {
   if (!isAWSConsolePage()) {
     return;
   }
+
+  // Initialize CodePipeline hover preview when on CodePipeline pages
+  initCodePipelineHover().catch((error) => {
+    console.warn('AWS Favorites Quickbar: Failed to initialize CodePipeline hover', error);
+  });
 
   const region = detectRegion();
   const settings = await loadSettings();
@@ -212,71 +183,85 @@ async function init(): Promise<void> {
 }
 
 /**
- * Updates service icons in the background without blocking the main injection.
- *
- * Scans the page DOM for newly discovered AWS CDN icon URLs, validates each icon,
- * updates the cached service records, and re-renders the quickbar if icons change.
- *
- * @param userFavorites - User-configured favorite services
- * @param recentServices - Recently visited services
- * @param maxServices - Maximum number of services to display
- * @param quickbar - Quickbar container element
+ * Synchronizes the quickbar DOM when storage changes.
+ * Used for both sync-driven (settings changes) and local-driven (cached services) updates.
+ * When called with an empty array (sync change), re-reads from localStorage cache.
+ * Avoids writing back to storage to prevent cross-tab cascading loops.
  */
-function updateIconsInBackground(
-  userFavorites: Service[],
-  recentServices: Service[],
-  maxServices: number,
-  quickbar: HTMLElement | null
-): void {
-  (async () => {
-    const iconMap = await extractIconUrlsFromConsole();
+async function syncQuickbarDisplay(cachedServices: Service[]): Promise<void> {
+  if (!isAWSConsolePage()) {
+    return;
+  }
 
-    if (Object.keys(iconMap).length === 0) {
-      return;
-    }
+  const region = detectRegion();
+  const settings = await loadSettings();
+  if (!settings) {
+    return;
+  }
 
-    const updatedUserFavorites = await Promise.all(
-      userFavorites.map(async (service) => {
-        const newIconUrl = iconMap[service.id.toLowerCase()];
-        if (newIconUrl && newIconUrl !== service.iconUrl) {
-          const isValid = await isValidIconUrl(newIconUrl);
-          if (isValid) {
-            return { ...service, iconUrl: newIconUrl };
-          }
-        }
-        return service;
-      })
-    );
+  // If no services passed (sync-driven), fall back to local cache
+  const services = cachedServices.length > 0 ? cachedServices : loadServicesFromStorage() || [];
 
-    const updatedRecentServices = await updateServiceIcons(recentServices, iconMap);
+  const cachedMap: Record<string, Service> = {};
+  for (const s of services) {
+    cachedMap[s.id.toLowerCase()] = s;
+  }
 
-    const updatedMerged = mergeServices(updatedUserFavorites, updatedRecentServices);
-    saveServicesToStorage(updatedMerged);
+  const favoriteIds = settings.favoriteIds || [];
+  const userFavorites = buildUserFavorites(favoriteIds, cachedMap, region);
+  const recentServices = services.filter(
+    (s) =>
+      s.source === 'recent' && !favoriteIds.some((id) => id.toLowerCase() === s.id.toLowerCase())
+  );
 
-    let displayMerged = updatedMerged;
-    if (displayMerged.length > maxServices) {
-      displayMerged = displayMerged.slice(0, maxServices);
-    }
+  let mergedServices = mergeServices(userFavorites, recentServices);
+  if (mergedServices.length > settings.maxServices) {
+    mergedServices = mergedServices.slice(0, settings.maxServices);
+  }
 
-    await injectServices(displayMerged, quickbar);
-  })().catch((error) => {
-    console.error('AWS Favorites Quickbar: Background icon update error', error);
-  });
+  const quickbar = await waitForElement(QUICKBAR_SELECTORS, 5000, 'quickbar');
+  await injectServices(mergedServices, quickbar);
 }
 
 /**
- * Message listener for popup communication.
+ * Unified storage change listener — single source of truth for cross-tab synchronization.
+ *
+ * Handles both storage areas:
+ * - sync: Popup settings changes (userFavorites, maxServices, visualMode)
+ * - local: Recently visited service cache updates from Console homepage tabs
+ *
+ * All listeners are strictly read-only: non-homepage tabs update DOM only,
+ * never writing back to storage (prevents cascading loops).
  */
-runtime.onMessage.addListener((request, _sender, sendResponse) => {
-  if (request.action === 'updateQuickbar') {
-    init()
-      .then(() => {
-        sendResponse({ success: true });
-      })
-      .catch((error: Error) => {
-        sendResponse({ success: false, error: error.message });
+browserStorage.onChanged.addListener((changes, areaName) => {
+  // 1. Handle Popup setting changes (sync storage)
+  if (areaName === 'sync') {
+    if (changes.userFavorites || changes.maxServices) {
+      syncQuickbarDisplay([]).catch((error) => {
+        console.warn('AWS Favorites Quickbar: Sync storage change re-render failed', error);
       });
-    return true;
+    }
+    if (changes.visualMode && changes.visualMode.newValue) {
+      applyVisualMode(changes.visualMode.newValue).catch(() => {});
+    }
+  }
+
+  // 2. Handle Recently Visited cache updates (local storage)
+  if (areaName === 'local' && changes.cachedServices && changes.cachedServices.newValue) {
+    if (!isAWSConsoleHomepage()) {
+      const data = changes.cachedServices.newValue;
+      try {
+        localStorage.setItem('awsFavoritesQuickbar_services', JSON.stringify(data));
+      } catch {
+        // Ignore storage write errors in restricted contexts
+      }
+      const services = Array.isArray(data.services) ? data.services : [];
+      if (services.length > 0) {
+        syncQuickbarDisplay(services).catch((error) => {
+          console.warn('AWS Favorites Quickbar: Cross-tab sync update failed', error);
+        });
+      }
+    }
   }
 });
 

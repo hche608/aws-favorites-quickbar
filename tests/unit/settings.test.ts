@@ -60,18 +60,24 @@ describe('Settings', () => {
       expect(settings.favoriteIds).toEqual([]);
       expect(settings.maxServices).toBe(10);
       expect(settings.visualMode).toBe('light');
+      expect(settings.enableCodePipelineHoverPreview).toBe(true);
+      expect(settings.codePipelineHoverDelayMs).toBe(1000);
 
       // Should write defaults to storage
       expect(mockStorage.sync.set).toHaveBeenCalledWith({ userFavorites: [] });
       expect(mockStorage.sync.set).toHaveBeenCalledWith({ maxServices: 10 });
       expect(mockStorage.sync.set).toHaveBeenCalledWith({ visualMode: 'light' });
+      expect(mockStorage.sync.set).toHaveBeenCalledWith({ enableCodePipelineHoverPreview: true });
+      expect(mockStorage.sync.set).toHaveBeenCalledWith({ codePipelineHoverDelayMs: 1000 });
     });
 
     it('should use stored values when they exist (returning user)', async () => {
       (mockStorage.sync.get as jest.Mock).mockResolvedValue({
         userFavorites: ['ec2', 's3'],
         maxServices: 5,
-        visualMode: 'dark'
+        visualMode: 'dark',
+        enableCodePipelineHoverPreview: false,
+        codePipelineHoverDelayMs: 2000
       });
 
       const settings = await loadSettings();
@@ -79,6 +85,8 @@ describe('Settings', () => {
       expect(settings.favoriteIds).toEqual(['ec2', 's3']);
       expect(settings.maxServices).toBe(5);
       expect(settings.visualMode).toBe('dark');
+      expect(settings.enableCodePipelineHoverPreview).toBe(false);
+      expect(settings.codePipelineHoverDelayMs).toBe(2000);
 
       // Should NOT write to storage
       expect(mockStorage.sync.set).not.toHaveBeenCalled();
@@ -88,7 +96,9 @@ describe('Settings', () => {
       (mockStorage.sync.get as jest.Mock).mockResolvedValue({
         userFavorites: ['ec2'],
         maxServices: 'invalid',
-        visualMode: 'light'
+        visualMode: 'light',
+        enableCodePipelineHoverPreview: true,
+        codePipelineHoverDelayMs: 1000
       });
 
       const settings = await loadSettings();
@@ -101,7 +111,9 @@ describe('Settings', () => {
       (mockStorage.sync.get as jest.Mock).mockResolvedValue({
         userFavorites: ['ec2'],
         maxServices: 15,
-        visualMode: 'invalid-mode'
+        visualMode: 'invalid-mode',
+        enableCodePipelineHoverPreview: true,
+        codePipelineHoverDelayMs: 1000
       });
 
       const settings = await loadSettings();
@@ -112,8 +124,9 @@ describe('Settings', () => {
 
     it('should handle partial storage (some values defined, some not)', async () => {
       (mockStorage.sync.get as jest.Mock).mockResolvedValue({
-        userFavorites: ['lambda']
-        // maxServices and visualMode are undefined
+        userFavorites: ['lambda'],
+        enableCodePipelineHoverPreview: true
+        // maxServices, visualMode, and codePipelineHoverDelayMs are undefined
       });
 
       const settings = await loadSettings();
@@ -121,10 +134,13 @@ describe('Settings', () => {
       expect(settings.favoriteIds).toEqual(['lambda']);
       expect(settings.maxServices).toBe(10);
       expect(settings.visualMode).toBe('light');
+      expect(settings.enableCodePipelineHoverPreview).toBe(true);
+      expect(settings.codePipelineHoverDelayMs).toBe(1000);
 
       // Should only write the missing values
       expect(mockStorage.sync.set).toHaveBeenCalledWith({ maxServices: 10 });
       expect(mockStorage.sync.set).toHaveBeenCalledWith({ visualMode: 'light' });
+      expect(mockStorage.sync.set).toHaveBeenCalledWith({ codePipelineHoverDelayMs: 1000 });
       expect(mockStorage.sync.set).not.toHaveBeenCalledWith(
         expect.objectContaining({ userFavorites: expect.anything() })
       );
