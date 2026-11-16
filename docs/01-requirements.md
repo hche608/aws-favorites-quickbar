@@ -32,6 +32,7 @@
   1. WHEN the AWS Console homepage loads THEN the extension SHALL observe and parse the "Recently Visited" dashboard widget.
   2. WHEN merging services THEN pinned favorites SHALL always appear first, followed by recently visited services.
   3. WHEN a recently visited service is already pinned THEN the extension SHALL deduplicate it and display it once in the pinned section.
+  4. WHEN any concurrent tab (e.g. Tab C on Console Home) discovers and updates recently visited services, THEN all active AWS console tabs (e.g. Tab A, Tab B) SHALL automatically re-render their quickbars via storage change listeners in real time without manual reload or infinite write loops.
 
 #### Requirement 3: Maximum Services Limit Configuration
 - **User Story**: As a user, I want to control the total number of services shown in the quickbar to balance convenience and screen space.
@@ -123,6 +124,7 @@
   1. 控制台主页加载时，扩展必须自动监听并解析 "Recently Visited" 仪表盘部件。
   2. 融合输出时，用户置顶服务**必须严格排在最前**，最近访问服务紧随其后。
   3. 若某服务既被置顶又是最近访问，必须自动去重，只在置顶区域展示一次。
+  4. 当任意并发标签页（例如 Tab C 回到 Console 首页）采集并更新最近访问服务时，所有处于活动状态的 AWS 控制台标签页（例如 Tab A、Tab B）均必须通过 storage 变更监听实时自动重新渲染快速栏，无需手动刷新页面，且严格禁止反向写回触发死循环。
 
 #### 需求 3：快速栏服务数量上限配置
 - **用户故事**：作为用户，我希望自由调节快速栏展示的服务总数，平衡查找效率与屏幕空间。

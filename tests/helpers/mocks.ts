@@ -20,7 +20,11 @@ interface MockStorageArea {
 export function mockChromeStorage() {
   const storage = {
     sync: createChromeStorageArea(),
-    local: createChromeStorageArea()
+    local: createChromeStorageArea(),
+    onChanged: {
+      addListener: jest.fn(),
+      removeListener: jest.fn()
+    }
   };
 
   return storage;
@@ -227,7 +231,11 @@ export function mockFetch() {
 export function mockBrowserStorage() {
   const storage = {
     sync: createBrowserStorageArea(),
-    local: createBrowserStorageArea()
+    local: createBrowserStorageArea(),
+    onChanged: {
+      addListener: jest.fn(),
+      removeListener: jest.fn()
+    }
   };
 
   return storage;

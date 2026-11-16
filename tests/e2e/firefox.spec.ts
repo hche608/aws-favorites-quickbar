@@ -91,12 +91,18 @@ test.describe('Firefox MV3 Compatibility Suite', () => {
     expect(manifest.permissions).toContain('storage');
     expect(manifest.host_permissions).toContain('https://*.console.aws.amazon.com/*');
 
-    // 4. Content script configuration
-    expect(manifest.content_scripts).toHaveLength(1);
+    // 4. Content script configuration (isolated content script + main-world session bridge)
+    expect(manifest.content_scripts).toHaveLength(2);
     const contentScript = manifest.content_scripts[0];
     expect(contentScript.matches).toContain('https://*.console.aws.amazon.com/*');
     expect(contentScript.js).toContain('content.js');
     expect(contentScript.run_at).toBe('document_idle');
+
+    const mainWorldScript = manifest.content_scripts[1];
+    expect(mainWorldScript.matches).toContain('https://*.console.aws.amazon.com/*');
+    expect(mainWorldScript.js).toContain('main-world.js');
+    expect(mainWorldScript.run_at).toBe('document_start');
+    expect(mainWorldScript.world).toBe('MAIN');
 
     // 5. Popup action
     expect(manifest.action.default_popup).toBe('popup.html');

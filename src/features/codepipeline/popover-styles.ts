@@ -1,4 +1,44 @@
 export const POPOVER_ID = 'aws-favorites-codepipeline-popover';
+export const POPOVER_STYLESHEET_ID = 'aws-favorites-codepipeline-styles';
+
+let beamPropertyRegistered = false;
+
+/**
+ * Registers --beam-angle as an angle custom property via CSS.registerProperty if available.
+ */
+export function registerBeamProperty(): void {
+  if (beamPropertyRegistered) return;
+  if (typeof window !== 'undefined' && window.CSS && typeof CSS.registerProperty === 'function') {
+    try {
+      CSS.registerProperty({
+        name: '--beam-angle',
+        syntax: '<angle>',
+        initialValue: '0deg',
+        inherits: false
+      });
+      beamPropertyRegistered = true;
+    } catch {
+      // Ignore if already registered
+    }
+  }
+}
+
+/**
+ * Ensures the popover stylesheet is mounted in document.head so @property and animations
+ * are registered properly in all engines (especially Gecko/Firefox).
+ */
+export function ensurePopoverStyles(dark: boolean, accentColor = '#0972d3'): void {
+  registerBeamProperty();
+  if (typeof document === 'undefined') return;
+
+  let styleEl = document.getElementById(POPOVER_STYLESHEET_ID) as HTMLStyleElement | null;
+  if (!styleEl) {
+    styleEl = document.createElement('style');
+    styleEl.id = POPOVER_STYLESHEET_ID;
+    (document.head || document.documentElement).appendChild(styleEl);
+  }
+  styleEl.textContent = getPopoverStyles(dark, accentColor);
+}
 
 /**
  * Builds the isolated CSS stylesheet string for the CodePipeline hover popover,
@@ -143,6 +183,7 @@ export function getPopoverStyles(dark: boolean, accentColor = '#0972d3'): string
       inherits: false;
     }
     #${POPOVER_ID} .stage-node.stage-failed {
+      --beam-angle: 0deg;
       border: 2px solid transparent;
       background:
         linear-gradient(${dark ? '#2e1418' : '#fff5f4'}, ${dark ? '#2e1418' : '#fff5f4'}) padding-box,
@@ -152,9 +193,12 @@ export function getPopoverStyles(dark: boolean, accentColor = '#0972d3'): string
           ${dark ? '#f87171' : '#d13212'} 330deg,
           ${dark ? '#fca5a5' : '#ef4444'} 360deg
         ) border-box;
+      background-origin: padding-box, border-box;
+      background-clip: padding-box, border-box;
       animation: stage-beam-flow 3.5s linear infinite;
     }
     #${POPOVER_ID} .stage-node.stage-in-progress {
+      --beam-angle: 0deg;
       border: 2px solid transparent;
       background:
         linear-gradient(${dark ? '#10233b' : '#f0f7fd'}, ${dark ? '#10233b' : '#f0f7fd'}) padding-box,
@@ -164,10 +208,17 @@ export function getPopoverStyles(dark: boolean, accentColor = '#0972d3'): string
           ${dark ? '#38bdf8' : '#0972d3'} 330deg,
           ${dark ? '#a5f3fc' : '#7dd3fc'} 360deg
         ) border-box;
+      background-origin: padding-box, border-box;
+      background-clip: padding-box, border-box;
       animation: stage-beam-flow 2.5s linear infinite;
     }
     @keyframes stage-beam-flow {
+      from { --beam-angle: 0deg; }
       to { --beam-angle: 360deg; }
+    }
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
     }
     #${POPOVER_ID} .stage-title {
       font-size: 10.5px;

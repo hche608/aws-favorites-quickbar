@@ -1,5 +1,5 @@
 import type { PipelineExecutionSummary } from './types';
-import { POPOVER_ID, getPopoverStyles } from './popover-styles';
+import { POPOVER_ID, ensurePopoverStyles } from './popover-styles';
 import { isDarkMode, getStatusDetails } from './popover-theme';
 import { escapeHtml } from './pipeline-parser';
 
@@ -9,6 +9,15 @@ const PIPELINE_ICON =
   '<svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M2 3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3zm2 1v8h8V4H4z"/></svg>';
 const ARROW_ICON =
   '<svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M6.22 3.22a.75.75 0 0 1 1.06 0l4.25 4.25a.751.751 0 0 1 0 1.06l-4.25 4.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042L9.94 8 6.22 4.28a.75 0 0 1 0-1.06Z"/></svg>';
+
+/**
+ * Safely parses HTML into DOM nodes without triggering Mozilla AMO innerHTML warnings.
+ */
+function setElementHtml(element: HTMLElement, html: string): void {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, 'text/html');
+  element.replaceChildren(...Array.from(doc.body.childNodes));
+}
 
 /**
  * Positions the popover relative to the target element's bounding rect.
@@ -83,15 +92,14 @@ export function renderLoadingPopover(
   const dark = isDarkMode();
   const loadingDetails = getStatusDetails('InProgress', dark);
 
+  ensurePopoverStyles(dark, loadingDetails.accent);
   const popover = document.createElement('div');
   popover.id = POPOVER_ID;
 
-  const styleEl = document.createElement('style');
-  styleEl.textContent = getPopoverStyles(dark, loadingDetails.accent);
-  popover.appendChild(styleEl);
-
   const content = document.createElement('div');
-  content.innerHTML = `
+  setElementHtml(
+    content,
+    `
     <div class="popover-header">
       <div class="popover-title-row">
         <span class="popover-service-icon">${PIPELINE_ICON}</span>
@@ -106,7 +114,8 @@ export function renderLoadingPopover(
         <span>Fetching execution state...</span>
       </div>
     </div>
-  `;
+  `
+  );
   popover.appendChild(content);
 
   document.body.appendChild(popover);
@@ -129,15 +138,14 @@ export function renderErrorPopover(
   const dark = isDarkMode();
   const errorDetails = getStatusDetails('Failed', dark);
 
+  ensurePopoverStyles(dark, errorDetails.accent);
   const popover = document.createElement('div');
   popover.id = POPOVER_ID;
 
-  const styleEl = document.createElement('style');
-  styleEl.textContent = getPopoverStyles(dark, errorDetails.accent);
-  popover.appendChild(styleEl);
-
   const content = document.createElement('div');
-  content.innerHTML = `
+  setElementHtml(
+    content,
+    `
     <div class="popover-header">
       <div class="popover-title-row">
         <span class="popover-service-icon">${PIPELINE_ICON}</span>
@@ -152,7 +160,8 @@ export function renderErrorPopover(
         ${escapeHtml(errorMessage)}
       </div>
     </div>
-  `;
+  `
+  );
   popover.appendChild(content);
 
   document.body.appendChild(popover);
@@ -173,12 +182,9 @@ export function renderPipelinePopover(
 
   const dark = isDarkMode();
   const overall = getStatusDetails(summary.status, dark);
+  ensurePopoverStyles(dark, overall.accent);
   const popover = document.createElement('div');
   popover.id = POPOVER_ID;
-
-  const styleEl = document.createElement('style');
-  styleEl.textContent = getPopoverStyles(dark, overall.accent);
-  popover.appendChild(styleEl);
 
   const executionText = summary.executionId
     ? `Execution: ${summary.executionId.slice(0, 8)}...`
@@ -226,7 +232,9 @@ export function renderPipelinePopover(
     .join('');
 
   const container = document.createElement('div');
-  container.innerHTML = `
+  setElementHtml(
+    container,
+    `
     <div class="popover-header">
       <div class="popover-title-row">
         <span class="popover-service-icon">${PIPELINE_ICON}</span>
@@ -246,7 +254,8 @@ export function renderPipelinePopover(
         ${flowHtml || '<div style="color:#545b64;font-size:12px;">No stage information</div>'}
       </div>
     </div>
-  `;
+  `
+  );
   popover.appendChild(container);
 
   const flowEl = container.querySelector<HTMLElement>('.popover-flow');

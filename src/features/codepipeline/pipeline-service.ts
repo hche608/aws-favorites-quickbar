@@ -68,7 +68,9 @@ export function resolveCurrentRegion(defaultRegion = 'ap-southeast-2'): string {
 }
 
 /**
- * Request pipeline state from main-world bridge.
+ * Request pipeline state from main-world bridge via window.postMessage.
+ * postMessage uses the structured clone algorithm which works seamlessly across
+ * Chrome and Firefox without triggering Firefox Xray vision security exceptions.
  */
 export function requestFromMainWorld(
   pipelineName: string,
@@ -81,33 +83,38 @@ export function requestFromMainWorld(
     }
     const requestId = `req_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`;
 
+    const cleanup = () => {
+      window.removeEventListener('message', listener);
+    };
+
     const timer = setTimeout(() => {
-      window.removeEventListener('AWS_FAVORITES_PIPELINE_STATE_RESULT', listener as EventListener);
+      cleanup();
       reject(new Error('Request timed out (active CodePipeline session not captured)'));
     }, timeoutMs);
 
-    const listener = (event: Event) => {
-      const customEvent = event as CustomEvent;
-      const detail = customEvent.detail || {};
-      if (detail.requestId === requestId) {
-        clearTimeout(timer);
-        window.removeEventListener(
-          'AWS_FAVORITES_PIPELINE_STATE_RESULT',
-          listener as EventListener
-        );
-        if (detail.success && detail.data) {
-          resolve(detail.data);
-        } else {
-          reject(new Error(detail.error || 'Failed to retrieve pipeline state'));
-        }
+    const listener = (event: MessageEvent) => {
+      if ((event.source && event.source !== window) || !event.data) return;
+      if (event.data.type !== 'AWS_FAVORITES_PIPELINE_STATE_RESULT') return;
+      if (event.data.requestId !== requestId) return;
+
+      clearTimeout(timer);
+      cleanup();
+      if (event.data.success && event.data.data) {
+        resolve(event.data.data);
+      } else {
+        reject(new Error(event.data.error || 'Failed to retrieve pipeline state'));
       }
     };
 
-    window.addEventListener('AWS_FAVORITES_PIPELINE_STATE_RESULT', listener as EventListener);
-    window.dispatchEvent(
-      new CustomEvent('AWS_FAVORITES_GET_PIPELINE_STATE', {
-        detail: { pipelineName, requestId, region }
-      })
+    window.addEventListener('message', listener);
+    window.postMessage(
+      {
+        type: 'AWS_FAVORITES_GET_PIPELINE_STATE',
+        pipelineName,
+        requestId,
+        region
+      },
+      '*'
     );
   });
 }

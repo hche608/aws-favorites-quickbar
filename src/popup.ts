@@ -26,7 +26,7 @@ import {
 } from './popup/ui-state';
 import { renderServiceList, isServiceSelected } from './popup/service-list-renderer';
 import { createServiceClickHandler } from './popup/service-click-handler';
-import { tabs, storage } from './browser-api';
+import { storage } from './browser-api';
 import { Service, VisualMode, STORAGE_DEFAULTS } from './types';
 
 let allServices: Service[] = [];
@@ -83,7 +83,6 @@ async function initializePopup(): Promise<void> {
     },
     () => {
       renderServices();
-      notifyContentScripts();
     }
   );
 
@@ -128,22 +127,11 @@ async function loadSettingsIntoUI(): Promise<void> {
 
 async function saveMaxServicesSetting(value: number): Promise<void> {
   await saveMaxServices(value);
-  await notifyContentScripts();
 }
 
 async function saveVisualModeSetting(mode: VisualMode): Promise<void> {
   setPopupTheme(mode);
   await saveVisualMode(mode);
-  await notifyContentScripts();
-}
-
-async function notifyContentScripts(): Promise<void> {
-  const awsTabs = await tabs.query({ url: 'https://*.console.aws.amazon.com/*' });
-  for (const tab of awsTabs) {
-    if (tab.id) {
-      tabs.sendMessage(tab.id, { action: 'updateQuickbar' }).catch(() => {});
-    }
-  }
 }
 
 function setupEventListeners(): void {
@@ -237,8 +225,7 @@ function renderServices(): void {
     handleServiceClick,
     () => {
       updateEmptyState(emptyStateElement, currentFavorites, searchInputElement.value);
-    },
-    () => notifyContentScripts()
+    }
   );
 }
 

@@ -190,4 +190,46 @@ test.describe('Popup Layout Invariants & Overflow Prevention (Code-based UI E2E)
 
     await page.close();
   });
+
+  test('Invariant 4: Empty state informs user of native AWS Console pin prerequisite with zero overflow', async ({
+    context,
+    extensionId
+  }) => {
+    const page = await context.newPage();
+    await page.setViewportSize({ width: 420, height: 590 });
+
+    // Set 0 user favorites to trigger empty state
+    await page.goto(`chrome-extension://${extensionId}/popup.html`);
+    await page.evaluate(async () => {
+      await chrome.storage.sync.set({ userFavorites: [] });
+    });
+    await page.reload();
+    await page.waitForSelector('#emptyState');
+
+    const emptyState = page.locator('#emptyState');
+    await expect(emptyState).toBeVisible();
+    await expect(emptyState.locator('.state-title')).toHaveText('Native AWS Console Pin Required');
+    await expect(emptyState.locator('.hint')).toContainText(
+      'pin at least one service in the AWS Console navbar'
+    );
+
+    // Verify zero overflow in both dark and light themes with empty state displayed
+    for (const theme of ['dark', 'light'] as const) {
+      const modeSelect = page.locator('#visualModeSelect');
+      await modeSelect.selectOption(theme);
+      await page.waitForTimeout(100);
+
+      const metrics = await page.evaluate(() => ({
+        htmlScrollWidth: document.documentElement.scrollWidth,
+        htmlClientWidth: document.documentElement.clientWidth,
+        bodyScrollWidth: document.body.scrollWidth,
+        bodyClientWidth: document.body.clientWidth
+      }));
+
+      expect(metrics.htmlScrollWidth).toBeLessThanOrEqual(metrics.htmlClientWidth + 1);
+      expect(metrics.bodyScrollWidth).toBeLessThanOrEqual(metrics.bodyClientWidth + 1);
+    }
+
+    await page.close();
+  });
 });

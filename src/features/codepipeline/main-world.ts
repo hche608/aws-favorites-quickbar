@@ -11,6 +11,8 @@ interface CachedState {
   timestamp: number;
 }
 
+console.log('[AWS Quickbar] Main-world bridge initialized');
+
 const capturedPipelineStates = new Map<string, CachedState>();
 let lastCapturedHeaders: Record<string, string> | null = null;
 let lastCapturedEndpoint: string | null = null;
@@ -194,11 +196,26 @@ window.fetch = async function (...args: Parameters<typeof fetch>): Promise<Respo
   return response;
 };
 
-// 3. Handle requests from the content script
-window.addEventListener('AWS_FAVORITES_GET_PIPELINE_STATE', (async (e: Event) => {
-  const event = e as CustomEvent;
-  const { pipelineName, requestId, region } = event.detail || {};
+// 3. Handle requests from the content script via window.postMessage (structured clone)
+window.addEventListener('message', async (event: MessageEvent) => {
+  if ((event.source && event.source !== window) || !event.data) return;
+  if (event.data.type !== 'AWS_FAVORITES_GET_PIPELINE_STATE') return;
+
+  const { pipelineName, requestId, region } = event.data;
   if (!pipelineName || !requestId) return;
+
+  const sendResult = (success: boolean, data?: any, error?: string) => {
+    window.postMessage(
+      {
+        type: 'AWS_FAVORITES_PIPELINE_STATE_RESULT',
+        requestId,
+        success,
+        data,
+        error
+      },
+      '*'
+    );
+  };
 
   // 1. Check if we already have captured state for this pipeline
   const cached = capturedPipelineStates.get(pipelineName);
@@ -210,11 +227,7 @@ window.addEventListener('AWS_FAVORITES_GET_PIPELINE_STATE', (async (e: Event) =>
 
   // If cached and fresh (and not InProgress or InProgress < 5s old), return cached immediately
   if (cached && isFresh && (!isInProgress || now - cached.timestamp < 5000)) {
-    window.dispatchEvent(
-      new CustomEvent('AWS_FAVORITES_PIPELINE_STATE_RESULT', {
-        detail: { requestId, success: true, data: cached.data }
-      })
-    );
+    sendResult(true, cached.data);
     return;
   }
 
@@ -229,11 +242,7 @@ window.addEventListener('AWS_FAVORITES_GET_PIPELINE_STATE', (async (e: Event) =>
       );
       if (data) {
         capturedPipelineStates.set(pipelineName, { data, timestamp: Date.now() });
-        window.dispatchEvent(
-          new CustomEvent('AWS_FAVORITES_PIPELINE_STATE_RESULT', {
-            detail: { requestId, success: true, data }
-          })
-        );
+        sendResult(true, data);
         return;
       }
     } catch (sigv4Error) {
@@ -249,11 +258,7 @@ window.addEventListener('AWS_FAVORITES_GET_PIPELINE_STATE', (async (e: Event) =>
       const data = typeof req.promise === 'function' ? await req.promise() : await req;
       if (data) {
         capturedPipelineStates.set(pipelineName, { data, timestamp: Date.now() });
-        window.dispatchEvent(
-          new CustomEvent('AWS_FAVORITES_PIPELINE_STATE_RESULT', {
-            detail: { requestId, success: true, data }
-          })
-        );
+        sendResult(true, data);
         return;
       }
     } catch (sdkError) {
@@ -263,22 +268,13 @@ window.addEventListener('AWS_FAVORITES_GET_PIPELINE_STATE', (async (e: Event) =>
 
   // 4. Graceful fallback: return cached data if available even if older than TTL
   if (cached) {
-    window.dispatchEvent(
-      new CustomEvent('AWS_FAVORITES_PIPELINE_STATE_RESULT', {
-        detail: { requestId, success: true, data: cached.data }
-      })
-    );
+    sendResult(true, cached.data);
     return;
   }
 
-  window.dispatchEvent(
-    new CustomEvent('AWS_FAVORITES_PIPELINE_STATE_RESULT', {
-      detail: {
-        requestId,
-        success: false,
-        error:
-          'Pipeline execution state not captured yet. Please wait for console list to finish loading.'
-      }
-    })
+  sendResult(
+    false,
+    undefined,
+    'Pipeline execution state not captured yet. Please wait for console list to finish loading.'
   );
-}) as EventListener);
+});

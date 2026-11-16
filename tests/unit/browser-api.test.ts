@@ -3,7 +3,7 @@
  * Requirements: 2.6, 10.1, 10.2, 10.6, 11.1, 11.2, 11.3, 11.4
  */
 
-import { storage, runtime, tabs, getBrowserType } from '../../src/browser-api';
+import { storage, getBrowserType } from '../../src/browser-api';
 
 import { setupChromeMocks, setupFirefoxMocks, clearAllBrowserMocks } from '../helpers/mocks';
 
@@ -155,97 +155,17 @@ describe('Browser API Compatibility Layer', () => {
       });
     });
 
-    describe('runtime', () => {
-      it('should send messages', async () => {
-        const message = { type: 'test', data: 'hello' };
-
-        const result = await runtime.sendMessage(message);
-
-        expect(chrome.runtime.sendMessage).toHaveBeenCalledWith(message, expect.any(Function));
-        expect(result).toEqual({ success: true });
-      });
-
-      it('should handle chrome.runtime.lastError on sendMessage', async () => {
-        (chrome.runtime as any).lastError = { message: 'Message error' };
-        (chrome.runtime.sendMessage as any) = jest.fn((message: any, callback: any) => {
-          callback(null);
-        });
-
-        await expect(runtime.sendMessage({ type: 'test' })).rejects.toThrow('Message error');
-
-        delete (chrome.runtime as any).lastError;
-      });
-
-      it('should add message listeners', () => {
+    describe('storage.onChanged', () => {
+      it('should add listener to storage.onChanged', () => {
         const callback = jest.fn();
-
-        runtime.onMessage.addListener(callback);
-
-        expect(chrome.runtime.onMessage.addListener).toHaveBeenCalledWith(callback);
+        storage.onChanged.addListener(callback);
+        expect(chrome.storage.onChanged.addListener).toHaveBeenCalledWith(callback);
       });
 
-      it('should remove message listeners', () => {
+      it('should remove listener from storage.onChanged', () => {
         const callback = jest.fn();
-
-        runtime.onMessage.removeListener(callback);
-
-        expect(chrome.runtime.onMessage.removeListener).toHaveBeenCalledWith(callback);
-      });
-
-      it('should return extension id', () => {
-        const id = runtime.id;
-
-        expect(id).toBe('mock-extension-id');
-      });
-    });
-
-    describe('tabs', () => {
-      it('should query tabs', async () => {
-        const queryInfo = { active: true, currentWindow: true };
-
-        const result = await tabs.query(queryInfo);
-
-        expect(chrome.tabs.query).toHaveBeenCalledWith(queryInfo, expect.any(Function));
-        expect(result).toEqual([
-          {
-            id: 1,
-            url: 'https://console.aws.amazon.com/',
-            active: true,
-            windowId: 1
-          }
-        ]);
-      });
-
-      it('should send messages to tabs', async () => {
-        const tabId = 1;
-        const message = { type: 'test', data: 'hello' };
-
-        const result = await tabs.sendMessage(tabId, message);
-
-        expect(chrome.tabs.sendMessage).toHaveBeenCalledWith(tabId, message, expect.any(Function));
-        expect(result).toEqual({ success: true });
-      });
-
-      it('should handle chrome.runtime.lastError on tabs.query', async () => {
-        (chrome.runtime as any).lastError = { message: 'Tabs error' };
-        (chrome.tabs.query as any) = jest.fn((queryInfo: any, callback: any) => {
-          callback([]);
-        });
-
-        await expect(tabs.query({ active: true })).rejects.toThrow('Tabs error');
-
-        delete (chrome.runtime as any).lastError;
-      });
-
-      it('should handle chrome.runtime.lastError on tabs.sendMessage', async () => {
-        (chrome.runtime as any).lastError = { message: 'Message error' };
-        (chrome.tabs.sendMessage as any) = jest.fn((tabId: any, message: any, callback: any) => {
-          callback(null);
-        });
-
-        await expect(tabs.sendMessage(1, { type: 'test' })).rejects.toThrow('Message error');
-
-        delete (chrome.runtime as any).lastError;
+        storage.onChanged.removeListener(callback);
+        expect(chrome.storage.onChanged.removeListener).toHaveBeenCalledWith(callback);
       });
     });
 
@@ -353,64 +273,17 @@ describe('Browser API Compatibility Layer', () => {
       });
     });
 
-    describe('runtime', () => {
-      it('should send messages', async () => {
-        const message = { type: 'test', data: 'hello' };
-
-        const result = await runtime.sendMessage(message);
-
-        expect(browser!.runtime.sendMessage).toHaveBeenCalledWith(message);
-        expect(result).toEqual({ success: true });
-      });
-
-      it('should add message listeners', () => {
+    describe('storage.onChanged', () => {
+      it('should add listener to storage.onChanged', () => {
         const callback = jest.fn();
-
-        runtime.onMessage.addListener(callback);
-
-        expect(browser!.runtime.onMessage.addListener).toHaveBeenCalledWith(callback);
+        storage.onChanged.addListener(callback);
+        expect(browser!.storage.onChanged.addListener).toHaveBeenCalledWith(callback);
       });
 
-      it('should remove message listeners', () => {
+      it('should remove listener from storage.onChanged', () => {
         const callback = jest.fn();
-
-        runtime.onMessage.removeListener(callback);
-
-        expect(browser!.runtime.onMessage.removeListener).toHaveBeenCalledWith(callback);
-      });
-
-      it('should return extension id', () => {
-        const id = runtime.id;
-
-        expect(id).toBe('mock-extension-id@firefox');
-      });
-    });
-
-    describe('tabs', () => {
-      it('should query tabs', async () => {
-        const queryInfo = { active: true, currentWindow: true };
-
-        const result = await tabs.query(queryInfo);
-
-        expect(browser!.tabs.query).toHaveBeenCalledWith(queryInfo);
-        expect(result).toEqual([
-          {
-            id: 1,
-            url: 'https://console.aws.amazon.com/',
-            active: true,
-            windowId: 1
-          }
-        ]);
-      });
-
-      it('should send messages to tabs', async () => {
-        const tabId = 1;
-        const message = { type: 'test', data: 'hello' };
-
-        const result = await tabs.sendMessage(tabId, message);
-
-        expect(browser!.tabs.sendMessage).toHaveBeenCalledWith(tabId, message);
-        expect(result).toEqual({ success: true });
+        storage.onChanged.removeListener(callback);
+        expect(browser!.storage.onChanged.removeListener).toHaveBeenCalledWith(callback);
       });
     });
 

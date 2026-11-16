@@ -43,10 +43,6 @@ vi.mock('../../src/popup/service-click-handler', () => ({
 }));
 
 vi.mock('../../src/browser-api', () => ({
-  tabs: {
-    query: vi.fn().mockResolvedValue([]),
-    sendMessage: vi.fn().mockResolvedValue({ success: true })
-  },
   storage: {
     local: {
       get: vi.fn().mockResolvedValue({}),
@@ -72,7 +68,7 @@ import {
 import { showErrorState, showStorageWarning } from '../../src/popup/ui-state';
 import { renderServiceList } from '../../src/popup/service-list-renderer';
 import { searchServices } from '../../src/popup/search';
-import { tabs, storage } from '../../src/browser-api';
+import { storage } from '../../src/browser-api';
 import { Service } from '../../src/types';
 
 function setupPopupDOM(): void {
@@ -114,7 +110,6 @@ describe('Popup', () => {
     (loadCodePipelineHoverPreference as jest.Mock).mockResolvedValue(undefined);
     (loadCachedServices as jest.Mock).mockResolvedValue(undefined);
     (loadUserFavorites as jest.Mock).mockResolvedValue(undefined);
-    (tabs.query as jest.Mock).mockResolvedValue([]);
   });
 
   afterEach(() => {
@@ -241,21 +236,6 @@ describe('Popup', () => {
       await new Promise((resolve) => setTimeout(resolve, 50));
 
       expect(saveVisualMode).toHaveBeenCalledWith('dark');
-    });
-
-    it('should notify content scripts after settings change', async () => {
-      (tabs.query as jest.Mock).mockResolvedValue([{ id: 1 }, { id: 2 }]);
-      (tabs.sendMessage as jest.Mock).mockResolvedValue({ success: true });
-
-      const maxInput = document.getElementById('maxServicesInput') as HTMLInputElement;
-      maxInput.value = '15';
-      maxInput.dispatchEvent(new Event('change'));
-
-      await new Promise((resolve) => setTimeout(resolve, 50));
-
-      expect(tabs.query).toHaveBeenCalledWith({ url: 'https://*.console.aws.amazon.com/*' });
-      expect(tabs.sendMessage).toHaveBeenCalledWith(1, { action: 'updateQuickbar' });
-      expect(tabs.sendMessage).toHaveBeenCalledWith(2, { action: 'updateQuickbar' });
     });
   });
 

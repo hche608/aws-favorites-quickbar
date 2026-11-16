@@ -202,5 +202,35 @@ export const storage = {
         });
       });
     }
+  },
+
+  /**
+   * Storage change listener API for cross-context synchronization
+   */
+  onChanged: {
+    addListener: (
+      callback: (
+        changes: Record<string, { oldValue?: any; newValue?: any }>,
+        areaName: string
+      ) => void
+    ): void => {
+      if (isFirefox()) {
+        browser!.storage.onChanged.addListener(callback);
+      } else if (typeof chrome !== 'undefined' && chrome.storage?.onChanged) {
+        chrome.storage.onChanged.addListener(callback);
+      }
+    },
+    removeListener: (
+      callback: (
+        changes: Record<string, { oldValue?: any; newValue?: any }>,
+        areaName: string
+      ) => void
+    ): void => {
+      if (isFirefox()) {
+        browser!.storage.onChanged.removeListener(callback);
+      } else if (typeof chrome !== 'undefined' && chrome.storage?.onChanged) {
+        chrome.storage.onChanged.removeListener(callback);
+      }
+    }
   }
 };

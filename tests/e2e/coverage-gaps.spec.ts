@@ -12,7 +12,7 @@ const ALL_SERVICES = getRealServices();
  * 1. First-launch (undefined storage) behavior
  * 2. Nested service IDs (Rule 4: codebuild vs codesuite)
  * 3. no-native-pin → Popup #pinningNote linkage
- * 4. updateQuickbar message channel (popup → content script)
+ * 4. storage.onChanged sync channel (popup → content script)
  * 5. Extension reload persistence (storage.sync preservation)
  */
 test.describe('Coverage Gap Tests', () => {
@@ -151,7 +151,7 @@ test.describe('Coverage Gap Tests', () => {
     await page.close();
   });
 
-  test('Gap 4: updateQuickbar message from popup should trigger content script re-injection', async ({
+  test('Gap 4: storage.onChanged from popup should trigger content script re-injection', async ({
     page,
     context,
     extensionId
@@ -187,12 +187,12 @@ test.describe('Coverage Gap Tests', () => {
     }
     await popupPage.close();
 
-    // 4. Verify the console page updates (the popup sends updateQuickbar on pin)
+    // 4. Verify the console page updates (the popup triggers storage.onChanged on pin)
     if (newServiceId) {
       await expect(page.locator(`[data-service-id="${newServiceId}"]`)).toBeVisible({
         timeout: 10_000
       });
-      console.log(`✅ Console quickbar updated with "${newServiceId}" via message channel`);
+      console.log(`✅ Console quickbar updated with "${newServiceId}" via storage.onChanged`);
     }
   });
 

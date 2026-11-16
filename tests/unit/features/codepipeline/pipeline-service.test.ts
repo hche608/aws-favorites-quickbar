@@ -265,20 +265,20 @@ describe('CodePipeline pipeline-service', () => {
       };
 
       let dispatchCount = 0;
-      const bridgeHandler = (e: Event) => {
+      const bridgeHandler = (event: MessageEvent) => {
+        if (event.data?.type !== 'AWS_FAVORITES_GET_PIPELINE_STATE') return;
         dispatchCount++;
-        const customEvent = e as CustomEvent;
-        window.dispatchEvent(
-          new CustomEvent('AWS_FAVORITES_PIPELINE_STATE_RESULT', {
-            detail: {
-              requestId: customEvent.detail?.requestId,
-              success: true,
-              data: mockRaw
-            }
-          })
+        window.postMessage(
+          {
+            type: 'AWS_FAVORITES_PIPELINE_STATE_RESULT',
+            requestId: event.data.requestId,
+            success: true,
+            data: mockRaw
+          },
+          '*'
         );
       };
-      window.addEventListener('AWS_FAVORITES_GET_PIPELINE_STATE', bridgeHandler as EventListener);
+      window.addEventListener('message', bridgeHandler);
 
       const firstCall = await fetchPipelineExecutionState('cached-pipeline', 'ap-southeast-2');
       expect(firstCall.pipelineName).toBe('cached-pipeline');
@@ -289,10 +289,7 @@ describe('CodePipeline pipeline-service', () => {
       expect(secondCall.pipelineName).toBe('cached-pipeline');
       expect(dispatchCount).toBe(1); // No new network/bridge call
 
-      window.removeEventListener(
-        'AWS_FAVORITES_GET_PIPELINE_STATE',
-        bridgeHandler as EventListener
-      );
+      window.removeEventListener('message', bridgeHandler);
     });
   });
 });

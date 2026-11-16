@@ -86,4 +86,61 @@ test.describe('Real-Time Cross-Tab Sync Suite', () => {
     await page2.close();
     await page1.close();
   });
+
+  test('should synchronize recently visited items from Tab C (Console Home) to active Tabs A & B in real time', async ({
+    context
+  }) => {
+    // 1. Open Tab A (S3 Console)
+    const pageA = await context.newPage();
+    await ensureAwsLoggedIn(pageA);
+    await pageA.goto(
+      'https://ap-southeast-2.console.aws.amazon.com/s3/home?region=ap-southeast-2',
+      { waitUntil: 'domcontentloaded' }
+    );
+    await expect(pageA.locator('[data-service-id]').first()).toBeVisible({ timeout: 15_000 });
+    console.log('✅ Tab A (S3 Console) Quickbar initialized.');
+
+    // 2. Open Tab B (EC2 Console)
+    const pageB = await context.newPage();
+    await pageB.goto(
+      'https://ap-southeast-2.console.aws.amazon.com/ec2/home?region=ap-southeast-2',
+      { waitUntil: 'domcontentloaded' }
+    );
+    await expect(pageB.locator('[data-service-id]').first()).toBeVisible({ timeout: 15_000 });
+    console.log('✅ Tab B (EC2 Console) Quickbar initialized.');
+
+    // 3. Open Tab C (Console Home) which re-reads/scrapes Recently Visited items
+    const pageC = await context.newPage();
+    await pageC.goto('https://ap-southeast-2.console.aws.amazon.com/console/home', {
+      waitUntil: 'domcontentloaded'
+    });
+    await expect(pageC.locator('[data-service-id]').first()).toBeVisible({ timeout: 15_000 });
+    console.log('✅ Tab C (Console Home) Quickbar initialized.');
+
+    // 4. Retrieve one of the recent items displayed in Tab C
+    const recentItem = pageC.locator('[data-source="recent"]').first();
+    const count = await recentItem.count();
+    if (count > 0) {
+      const recentServiceId = await recentItem.getAttribute('data-service-id');
+      if (recentServiceId) {
+        console.log(
+          `⏳ Verifying Tab A and Tab B receive recent item "${recentServiceId}" without reload...`
+        );
+        // 5. Verify Tab A and Tab B automatically display this recent item without manual reload
+        await expect(pageA.locator(`[data-service-id="${recentServiceId}"]`)).toBeVisible({
+          timeout: 5_000
+        });
+        console.log(`🎉 Tab A synchronized recent item "${recentServiceId}" in real time!`);
+
+        await expect(pageB.locator(`[data-service-id="${recentServiceId}"]`)).toBeVisible({
+          timeout: 5_000
+        });
+        console.log(`🎉 Tab B synchronized recent item "${recentServiceId}" in real time!`);
+      }
+    }
+
+    await pageC.close();
+    await pageB.close();
+    await pageA.close();
+  });
 });
