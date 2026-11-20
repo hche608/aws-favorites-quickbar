@@ -7,6 +7,7 @@
 
 import { Service } from '../types';
 import defaultIcons from './default-icons.json';
+import { normalizeServiceId } from './service-aliases';
 
 const DEFAULT_ICON_MAP: Record<string, string> = defaultIcons as Record<string, string>;
 
@@ -17,15 +18,19 @@ const KNOWN_SERVICE_NAMES: Record<string, string> = {
   s3: 'S3',
   ec2: 'EC2',
   iam: 'IAM',
+  iamv2: 'IAM',
   rds: 'RDS',
   sns: 'SNS',
   sqs: 'SQS',
   ses: 'SES',
   vpc: 'VPC',
+  vpcconsole: 'VPC',
   eks: 'EKS',
   ecs: 'ECS',
   kms: 'KMS',
   waf: 'WAF',
+  wafv2: 'WAF',
+  'wafv2-pro': 'WAF & Shield',
   dynamodbv2: 'DynamoDB',
   dynamodb: 'DynamoDB',
   route53: 'Route 53',
@@ -37,7 +42,33 @@ const KNOWN_SERVICE_NAMES: Record<string, string> = {
   codebuild: 'CodeBuild',
   codepipeline: 'CodePipeline',
   codecommit: 'CodeCommit',
-  bedrock: 'Amazon Bedrock'
+  bedrock: 'Amazon Bedrock',
+  states: 'Step Functions',
+  stepfunctions: 'Step Functions',
+  aos: 'OpenSearch',
+  opensearch: 'OpenSearch',
+  es: 'OpenSearch',
+  singlesignon: 'IAM Identity Center',
+  identitycenter: 'IAM Identity Center',
+  costmanagement: 'Cost Management',
+  billing: 'Billing',
+  'cost-management': 'Cost Management',
+  acm: 'Certificate Manager',
+  'certificate-manager': 'Certificate Manager',
+  elasticbeanstalk: 'Elastic Beanstalk',
+  beanstalk: 'Elastic Beanstalk',
+  redshift: 'Amazon Redshift',
+  redshiftv2: 'Amazon Redshift',
+  'systems-manager': 'Systems Manager',
+  ssm: 'Systems Manager',
+  events: 'EventBridge',
+  eventbridge: 'EventBridge',
+  docdb: 'DocumentDB',
+  documentdb: 'DocumentDB',
+  qs: 'QuickSight',
+  quicksight: 'QuickSight',
+  appstream2: 'AppStream 2.0',
+  appstream: 'AppStream 2.0'
 };
 
 /**
@@ -54,6 +85,10 @@ export function formatServiceName(id: string): string {
   const known = KNOWN_SERVICE_NAMES[lower];
   if (known !== undefined) {
     return known;
+  }
+  const canonical = normalizeServiceId(lower);
+  if (canonical !== lower && KNOWN_SERVICE_NAMES[canonical] !== undefined) {
+    return KNOWN_SERVICE_NAMES[canonical];
   }
   return id
     .split(/[-_]/)

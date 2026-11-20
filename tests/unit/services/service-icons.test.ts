@@ -21,6 +21,13 @@ describe('service-icons', () => {
       expect(s3Upper).toBe(s3Lower);
     });
 
+    it('should resolve icon for vpcconsole alias to canonical vpc icon', () => {
+      const vpcIcon = getDefaultIconUrl('vpc');
+      const vpcConsoleIcon = getDefaultIconUrl('vpcconsole');
+      expect(vpcConsoleIcon).toBe(vpcIcon);
+      expect(vpcConsoleIcon).toContain('.svg');
+    });
+
     it('should return null for empty or unknown service ID', () => {
       expect(getDefaultIconUrl('')).toBeNull();
       expect(getDefaultIconUrl('non-existent-service-12345')).toBeNull();

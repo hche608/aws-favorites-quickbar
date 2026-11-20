@@ -13,6 +13,8 @@ describe('service-catalog', () => {
       expect(formatServiceName('ec2')).toBe('EC2');
       expect(formatServiceName('iam')).toBe('IAM');
       expect(formatServiceName('rds')).toBe('RDS');
+      expect(formatServiceName('vpc')).toBe('VPC');
+      expect(formatServiceName('vpcconsole')).toBe('VPC');
       expect(formatServiceName('dynamodbv2')).toBe('DynamoDB');
       expect(formatServiceName('bedrock')).toBe('Amazon Bedrock');
     });
