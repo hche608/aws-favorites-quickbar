@@ -234,6 +234,19 @@ describe('DOM Utilities', () => {
       expect(parseServiceIdFromUrl('/codesuite/codepipeline/home')).toBe('codepipeline');
     });
 
+    it('should map console path aliases to canonical service IDs (e.g. vpcconsole -> vpc)', () => {
+      expect(parseServiceIdFromUrl('/vpcconsole/home')).toBe('vpc');
+      expect(parseServiceIdFromUrl('https://console.aws.amazon.com/vpcconsole/home')).toBe('vpc');
+      expect(
+        parseServiceIdFromUrl(
+          'https://us-east-1.console.aws.amazon.com/vpcconsole/home?region=us-east-1'
+        )
+      ).toBe('vpc');
+      expect(
+        parseServiceIdFromUrl('https://us-west-2.console.aws.amazon.com/vpcconsole/home#vpcs:')
+      ).toBe('vpc');
+    });
+
     it('should return null for console home and non-service URLs', () => {
       expect(parseServiceIdFromUrl('/console/home')).toBeNull();
       expect(parseServiceIdFromUrl('/')).toBeNull();

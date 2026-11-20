@@ -37,6 +37,7 @@ import { Service } from './types';
 import { loadSettings, applyVisualMode } from './settings';
 import { resolveServiceIcon } from './services/service-icons';
 import { formatServiceName } from './services/service-catalog';
+import { normalizeServiceId } from './services/service-aliases';
 import { initCodePipelineHover } from './features/codepipeline/hover-detector';
 import { buildUserFavorites, updateIconsInBackground } from './quickbar/content-updater';
 
@@ -129,7 +130,7 @@ async function init(): Promise<void> {
       recentServices = cachedServices.filter(
         (s) =>
           s.source === 'recent' &&
-          !settings.favoriteIds.some((id) => id.toLowerCase() === s.id.toLowerCase())
+          !settings.favoriteIds.some((id) => normalizeServiceId(id) === normalizeServiceId(s.id))
       );
     } else {
       userFavorites = buildUserFavorites(settings.favoriteIds, {}, region);
@@ -137,7 +138,9 @@ async function init(): Promise<void> {
 
     if (
       currentServiceId &&
-      !settings.favoriteIds.some((id) => id.toLowerCase() === currentServiceId)
+      !settings.favoriteIds.some(
+        (id) => normalizeServiceId(id) === normalizeServiceId(currentServiceId)
+      )
     ) {
       let homePath = `${currentServiceId}/home`;
       if (currentServiceId === 'route53' || currentServiceId === 'connect') {
@@ -157,7 +160,9 @@ async function init(): Promise<void> {
 
       recentServices = [
         active,
-        ...recentServices.filter((s) => s.id.toLowerCase() !== currentServiceId)
+        ...recentServices.filter(
+          (s) => normalizeServiceId(s.id) !== normalizeServiceId(currentServiceId)
+        )
       ];
       if (recentServices.length > 50) {
         recentServices = recentServices.slice(0, 50);
@@ -211,7 +216,8 @@ async function syncQuickbarDisplay(cachedServices: Service[]): Promise<void> {
   const userFavorites = buildUserFavorites(favoriteIds, cachedMap, region);
   const recentServices = services.filter(
     (s) =>
-      s.source === 'recent' && !favoriteIds.some((id) => id.toLowerCase() === s.id.toLowerCase())
+      s.source === 'recent' &&
+      !favoriteIds.some((id) => normalizeServiceId(id) === normalizeServiceId(s.id))
   );
 
   let mergedServices = mergeServices(userFavorites, recentServices);

@@ -6,6 +6,7 @@
  */
 
 import { Service } from '../types';
+import { normalizeServiceId } from './service-aliases';
 
 /**
  * Merges user favorites and recently visited services
@@ -17,7 +18,7 @@ import { Service } from '../types';
  * - Excluding recent services that match user favorites
  * - Appending unique recent services after user favorites
  *
- * Service IDs are compared case-insensitively.
+ * Service IDs are compared case-insensitively and canonical aliases are merged.
  *
  * @param userFavorites - User-configured favorite services
  * @param recentServices - Recently visited services
@@ -40,9 +41,9 @@ export function mergeServices(userFavorites: Service[], recentServices: Service[
   const seenUserIds = new Set<string>();
   const dedupedUserFavorites: Service[] = [];
   for (const service of userFavorites) {
-    const lowerId = service.id.toLowerCase();
-    if (!seenUserIds.has(lowerId)) {
-      seenUserIds.add(lowerId);
+    const canonicalId = normalizeServiceId(service.id);
+    if (!seenUserIds.has(canonicalId)) {
+      seenUserIds.add(canonicalId);
       dedupedUserFavorites.push(service);
     }
   }
@@ -51,9 +52,9 @@ export function mergeServices(userFavorites: Service[], recentServices: Service[
   const seenRecentIds = new Set<string>();
   const filteredRecentServices: Service[] = [];
   for (const service of recentServices) {
-    const lowerId = service.id.toLowerCase();
-    if (!seenUserIds.has(lowerId) && !seenRecentIds.has(lowerId)) {
-      seenRecentIds.add(lowerId);
+    const canonicalId = normalizeServiceId(service.id);
+    if (!seenUserIds.has(canonicalId) && !seenRecentIds.has(canonicalId)) {
+      seenRecentIds.add(canonicalId);
       filteredRecentServices.push(service);
     }
   }

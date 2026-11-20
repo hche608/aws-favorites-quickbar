@@ -6,20 +6,26 @@
  */
 
 import defaultIcons from './default-icons.json';
+import { normalizeServiceId } from './service-aliases';
 
 const DEFAULT_ICON_MAP: Record<string, string> = defaultIcons as Record<string, string>;
 
 /**
  * Retrieves the official default CDN SVG icon URL for an AWS service.
  *
- * @param serviceId - Canonical AWS service ID (e.g., 's3', 'ec2', 'dynamodbv2')
+ * Supports canonical alias resolution (e.g. 'stepfunctions' -> 'states', 'opensearch' -> 'aos',
+ * 'dynamodb' -> 'dynamodbv2', 'iamv2' -> 'iam').
+ *
+ * @param serviceId - Canonical or aliased AWS service ID
  * @returns Official AWS CloudFront CDN SVG icon URL, or null if unknown
  */
 export function getDefaultIconUrl(serviceId: string): string | null {
   if (!serviceId) {
     return null;
   }
-  return DEFAULT_ICON_MAP[serviceId.toLowerCase()] || null;
+  const lower = serviceId.toLowerCase();
+  const canonicalId = normalizeServiceId(lower);
+  return DEFAULT_ICON_MAP[canonicalId] || DEFAULT_ICON_MAP[lower] || null;
 }
 
 /**

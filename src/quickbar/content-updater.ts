@@ -4,6 +4,8 @@
 
 import { Service } from '../types';
 import { resolveServiceIcon } from '../services/service-icons';
+import { formatServiceName } from '../services/service-catalog';
+import { normalizeServiceId } from '../services/service-aliases';
 import { extractIconUrlsFromConsole } from '../services/icon-extractor';
 import { isValidIconUrl, updateServiceIcons } from '../services/icon-validator';
 import { mergeServices } from '../services/service-merger';
@@ -24,14 +26,12 @@ export function buildUserFavorites(
   region: string
 ): Service[] {
   return favoriteIds.map((id) => {
-    const existing = availableServices[id.toLowerCase()];
+    const canonical = normalizeServiceId(id);
+    const existing = availableServices[id.toLowerCase()] || availableServices[canonical];
     if (existing) {
       return { ...existing, source: 'user' as const };
     }
-    const displayName = id
-      .split('-')
-      .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-      .join(' ');
+    const displayName = formatServiceName(id);
     return {
       id: id,
       name: displayName,
